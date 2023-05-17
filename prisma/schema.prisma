@@ -10,15 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model user {
   id    Int     @default(autoincrement()) @id
   email String  @unique
   name  String?
   password   String
-  isAdmin   Boolean @default(false)
-  reset_token     String?
+  isadmin   Boolean @default(false)
   google_id       String?     @unique
-  CreatedDate  DateTime @default(now())
-  ModifiedDate DateTime @default(now()) @updatedAt
+  createddate  DateTime @default(now())
+  modifieddate DateTime @default(now()) @updatedAt
 
 }
