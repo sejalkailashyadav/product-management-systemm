@@ -16,19 +16,41 @@ let ProductService = class ProductService {
     constructor(prismaSerivce) {
         this.prismaSerivce = prismaSerivce;
     }
-    create(createProductDto) {
-        return "This action adds a new product";
+    async updatedata() {
+        await this.prismaSerivce.product.update({
+            where: { id: 12 },
+            data: {
+                product_name: "phone",
+                product_description: "Lorem ipsum dolor sit amet consectetur",
+                product_price: "10000",
+                product_image: "image.png",
+                catrgory: {
+                    set: [{ id: 11 }, { id: 12 }],
+                    create: { category_name: "telephone" },
+                },
+            },
+        });
     }
     async findAll() {
         return await this.prismaSerivce.product.findMany({
             include: { catrgory: true },
         });
     }
-    findOne(id) {
-        return `This action returns a #${id} product`;
-    }
-    remove(id) {
-        return `This action removes a #${id} product`;
+    async setprodct_category() {
+        return await this.prismaSerivce.product.create({
+            data: {
+                product_name: "phone",
+                product_description: "Lorem ipsum dolor sit amet consectetur",
+                product_price: "10000",
+                product_image: "image.png",
+                catrgory: {
+                    create: [
+                        { category_name: "electronics" },
+                        { category_name: "communication_device" },
+                    ],
+                },
+            },
+        });
     }
 };
 ProductService = __decorate([

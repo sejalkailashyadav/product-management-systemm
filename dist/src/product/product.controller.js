@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductController = void 0;
 const common_1 = require("@nestjs/common");
@@ -20,37 +17,37 @@ let ProductController = class ProductController {
     constructor(productService) {
         this.productService = productService;
     }
+    upadetcatgo_prod() {
+        return this.productService.updatedata();
+    }
+    createPost() {
+        return this.productService.setprodct_category();
+    }
     findAll() {
         return this.productService.findAll();
-    }
-    findOne(id) {
-        return this.productService.findOne(+id);
-    }
-    remove(id) {
-        return this.productService.remove(+id);
     }
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)('/all'),
+    (0, common_1.Post)("/create-poduct-update"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ProductController.prototype, "upadetcatgo_prod", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Post)("/create-poduct"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ProductController.prototype, "createPost", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)("/all"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "findAll", null);
-__decorate([
-    (0, common_1.Get)(":id"),
-    __param(0, (0, common_1.Param)("id")),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], ProductController.prototype, "findOne", null);
-__decorate([
-    (0, common_1.Delete)(":id"),
-    __param(0, (0, common_1.Param)("id")),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], ProductController.prototype, "remove", null);
 ProductController = __decorate([
     (0, common_1.Controller)("product"),
     __metadata("design:paramtypes", [product_service_1.ProductService])

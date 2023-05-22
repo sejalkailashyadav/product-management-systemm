@@ -13,20 +13,44 @@ export class ProductService {
   //   });
   // }
 
-  create(createProductDto: CreateProductDto) {
-    return "This action adds a new product";
+  async updatedata() {
+    await this.prismaSerivce.product.update({
+      where: { id: 12 },
+      data: {
+        product_name: "phone",
+        product_description: "Lorem ipsum dolor sit amet consectetur",
+        product_price: "10000",
+        product_image: "image.png",
+        catrgory: {
+          set: [{ id: 11 }, { id: 12 }],
+          create: { category_name: "telephone" },
+        },
+      },
+    });
   }
-
+  //select
   async findAll() {
     return await this.prismaSerivce.product.findMany({
       include: { catrgory: true },
     });
   }
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
-  }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  ///insert
+  async setprodct_category() {
+    return await this.prismaSerivce.product.create({
+      data: {
+        product_name: "phone",
+        product_description: "Lorem ipsum dolor sit amet consectetur",
+        product_price: "10000",
+        product_image: "image.png",
+
+        catrgory: {
+          create: [
+            { category_name: "electronics" },
+            { category_name: "communication_device" },
+          ],
+        },
+      },
+    });
   }
 }
