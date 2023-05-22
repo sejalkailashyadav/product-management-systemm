@@ -45,7 +45,18 @@ export class AuthController {
     // Your logic to retrieve data and pass it to the template
     return { msg: 'sejal' };
   }
-
+  // @Public()
+  // @Get('/local/signin')
+  // @Render('signin') // Specify the EJS template file to render
+  // async userPanel(@Request() req, @Response() res) {
+  //   try {
+  //     const users = await this.authService.getAllUser(req, res);
+  //     return { users };
+  //   } catch (error) {
+  //     // Handle the error appropriately
+  //     throw error;
+  //   }
+  // }
   @Public()
   @Post('/local/signin')
   @HttpCode(HttpStatus.OK)
@@ -58,7 +69,7 @@ export class AuthController {
   }
 
   @Public()
-  @Get('reset-password')
+  @Get('change-password')
   @Render('change-password') // Specify the EJS template file to render
   password() {
     // Your logic to retrieve data and pass it to the template
@@ -66,7 +77,7 @@ export class AuthController {
   }
 
   @Public()
-  @Post('reset-password')
+  @Post('change-password')
   @HttpCode(HttpStatus.OK)
   resetPassword(
     @Body('email') email: string,
@@ -86,12 +97,17 @@ export class AuthController {
     return { msg: 'sejal' };
   }
 
-  // @Public()
-  // @Post('forgot-password')
-  // @HttpCode(HttpStatus.OK)
-  // resetPassword(@Body('email') email: string): Promise<void> {
-  //   return this.authService.resetPassword(email);
-  // }
+  @Public()
+  @Post('forgot-password')
+  @Render('change-password')
+  @HttpCode(HttpStatus.OK)
+  forgotPassword(
+    @Body('email') email: string,
+    @Request() req,
+    @Response() res,
+  ): Promise<void> {
+    return this.authService.forgotPassword(email, res, req);
+  }
 
   @Public()
   @Get('logout')
@@ -111,13 +127,6 @@ export class AuthController {
     return this.authService.logout(userId, req, res);
   }
 
-  @Public()
-  @Get('user-panel')
-  @Render('user-panel') // Specify the EJS template file to render
-  panel() {
-    // Your logic to retrieve data and pass it to the template
-    return { msg: 'sejal' };
-  }
   @Public()
   @Get('darshboard')
   @Render('darshboard') // Specify the EJS template file to render

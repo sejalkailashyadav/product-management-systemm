@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, Req, Res } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
@@ -9,6 +9,7 @@ import { AuthDto } from './dto';
 import { JwtPayload, Tokens } from './types';
 import { randomBytes } from 'crypto';
 import * as nodemailer from 'nodemailer';
+import { rmSync } from 'fs';
 
 @Injectable()
 export class AuthService {
@@ -29,7 +30,11 @@ export class AuthService {
     });
   }
 
-  async forgotPassword(email: string): Promise<void> {
+  async forgotPassword(
+    email: string,
+    @Req() req: Request,
+    @Res() res: Response,
+  ): Promise<void> {
     const resetToken = await this.generateSecureToken();
 
     await this.prisma.user.update({
@@ -45,6 +50,8 @@ export class AuthService {
     };
 
     await this.transporter.sendMail(mailOptions);
+    // const redirectUrl = '/auth/change-password'; // Specify the URL of the page you want to redirect to
+    // res.redirect(redirectUrl);
   }
 
   async resetPassword(
@@ -109,10 +116,30 @@ export class AuthService {
     return tokens;
   }
 
+  // async signinLocal(
+  //   dto: AuthDto,
+  //   req: Request,
+  //   res: Response,
+  // ): Promise<Tokens> {
+  //   const user = await this.prisma.user.findUnique({
+  //     where: {
+  //       email: dto.email,
+  //     },
+  //   });
+
+  //   if (!user) throw new ForbiddenException('Access Denied');
+
+  //   const passwordMatches = await argon.verify(user.password, dto.password);
+  //   if (!passwordMatches) throw new ForbiddenException('Access Denied');
+  //   const tokens = await this.getTokens(user.id, user.email);
+  //   await this.updateRtHash(user.id, tokens.refresh_token);
+  //   res.render('user-panel');
+  //   return tokens;
+  // }
   async signinLocal(
     dto: AuthDto,
-    req: Request,
-    res: Response,
+    @Req() req: Request,
+    @Res() res: Response,
   ): Promise<Tokens> {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -124,12 +151,19 @@ export class AuthService {
 
     const passwordMatches = await argon.verify(user.password, dto.password);
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
+
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRtHash(user.id, tokens.refresh_token);
-    res.render('user-panel');
+
+    const users = await this.prisma.user.findMany({
+      select: { id: true, email: true, name: true },
+      where: { isadmin: false },
+    });
+
+    res.render('user-panel', { user, users });
+
     return tokens;
   }
-
   async logout(userId: number, req: Request, res: Response): Promise<boolean> {
     await this.prisma.user.updateMany({
       where: {

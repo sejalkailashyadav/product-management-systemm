@@ -23,7 +23,7 @@ let UserController = class UserController {
     }
     async userPanel(req, res) {
         try {
-            const users = await this.userService.getAllUser(req, res);
+            const users = await this.userService.getAllUser();
             return { users };
         }
         catch (error) {
@@ -32,9 +32,6 @@ let UserController = class UserController {
     }
     insertuser(dto, req, res) {
         return this.userService.create(dto, req, res);
-    }
-    getAllUser(req, res) {
-        return this.userService.getAllUser(req, res);
     }
     async deleteUserById(id, req, res) {
         return this.userService.deleteUserById(Number(id), res, req);
@@ -63,15 +60,6 @@ __decorate([
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto, Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "insertuser", null);
-__decorate([
-    (0, decorators_1.Public)(),
-    (0, common_1.Get)('/select'),
-    __param(0, (0, common_1.Request)()),
-    __param(1, (0, common_1.Response)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", void 0)
-], UserController.prototype, "getAllUser", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Post)('/delete/:id'),

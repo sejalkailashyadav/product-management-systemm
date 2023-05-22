@@ -6,21 +6,12 @@ export declare class UserController {
     constructor(userService: UserService);
     userPanel(req: any, res: any): Promise<{
         users: {
-            users: {
-                name: string;
-                email: string;
-                id: number;
-            }[];
-        };
-    }>;
-    insertuser(dto: CreateUserDto, req: any, res: any): Promise<Tokens>;
-    getAllUser(req: any, res: any): Promise<{
-        users: {
             name: string;
             email: string;
             id: number;
         }[];
     }>;
+    insertuser(dto: CreateUserDto, req: any, res: any): Promise<Tokens>;
     deleteUserById(id: number, req: any, res: any): Promise<void>;
     editUser(id: number, dto: CreateUserDto, req: any, res: any): Promise<void>;
 }

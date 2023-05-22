@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
@@ -16,6 +19,7 @@ const jwt_1 = require("@nestjs/jwt");
 const runtime_1 = require("@prisma/client/runtime");
 const argon = require("argon2");
 const prisma_service_1 = require("../prisma/prisma.service");
+const dto_1 = require("./dto");
 const crypto_1 = require("crypto");
 const nodemailer = require("nodemailer");
 let AuthService = class AuthService {
@@ -31,7 +35,7 @@ let AuthService = class AuthService {
             },
         });
     }
-    async forgotPassword(email) {
+    async forgotPassword(email, req, res) {
         const resetToken = await this.generateSecureToken();
         await this.prisma.user.update({
             where: { email },
@@ -104,7 +108,11 @@ let AuthService = class AuthService {
             throw new common_1.ForbiddenException('Access Denied');
         const tokens = await this.getTokens(user.id, user.email);
         await this.updateRtHash(user.id, tokens.refresh_token);
-        res.render('user-panel');
+        const users = await this.prisma.user.findMany({
+            select: { id: true, email: true, name: true },
+            where: { isadmin: false },
+        });
+        res.render('user-panel', { user, users });
         return tokens;
     }
     async logout(userId, req, res) {
@@ -168,6 +176,20 @@ let AuthService = class AuthService {
         };
     }
 };
+__decorate([
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthService.prototype, "forgotPassword", null);
+__decorate([
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [dto_1.AuthDto, Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthService.prototype, "signinLocal", null);
 AuthService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,

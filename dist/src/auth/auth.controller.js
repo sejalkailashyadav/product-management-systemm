@@ -43,14 +43,14 @@ let AuthController = class AuthController {
     forget() {
         return { msg: 'sejal' };
     }
+    forgotPassword(email, req, res) {
+        return this.authService.forgotPassword(email, res, req);
+    }
     logoutt() {
         return { msg: 'sejal' };
     }
     logout(userId, req, res) {
         return this.authService.logout(userId, req, res);
-    }
-    panel() {
-        return { msg: 'sejal' };
     }
     panell() {
         return { msg: 'sejal' };
@@ -102,7 +102,7 @@ __decorate([
 ], AuthController.prototype, "signinLocal", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)('reset-password'),
+    (0, common_1.Get)('change-password'),
     (0, common_1.Render)('change-password'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -110,7 +110,7 @@ __decorate([
 ], AuthController.prototype, "password", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)('reset-password'),
+    (0, common_1.Post)('change-password'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, common_1.Body)('email')),
     __param(1, (0, common_1.Body)('token')),
@@ -131,6 +131,18 @@ __decorate([
 ], AuthController.prototype, "forget", null);
 __decorate([
     (0, decorators_1.Public)(),
+    (0, common_1.Post)('forgot-password'),
+    (0, common_1.Render)('change-password'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Body)('email')),
+    __param(1, (0, common_1.Request)()),
+    __param(2, (0, common_1.Response)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "forgotPassword", null);
+__decorate([
+    (0, decorators_1.Public)(),
     (0, common_1.Get)('logout'),
     (0, common_1.Render)('logout'),
     __metadata("design:type", Function),
@@ -147,14 +159,6 @@ __decorate([
     __metadata("design:paramtypes", [Number, Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
-__decorate([
-    (0, decorators_1.Public)(),
-    (0, common_1.Get)('user-panel'),
-    (0, common_1.Render)('user-panel'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], AuthController.prototype, "panel", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Get)('darshboard'),
