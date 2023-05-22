@@ -13,11 +13,13 @@ const core_1 = require("@nestjs/core");
 const auth_module_1 = require("./auth/auth.module");
 const guards_1 = require("./common/guards");
 const user_module_1 = require("./user/user.module");
+const product_module_1 = require("./product/product.module");
+const categories_module_1 = require("./categories/categories.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, auth_module_1.AuthModule, user_module_1.UserModule],
+        imports: [prisma_module_1.PrismaModule, auth_module_1.AuthModule, user_module_1.UserModule, product_module_1.ProductModule, categories_module_1.CategoriesModule],
         providers: [
             {
                 provide: core_1.APP_GUARD,
