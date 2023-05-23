@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Users</title>
+  <!-- Add Bootstrap CSS link -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+  
+<body>
+  <h1>Users</h1>
+
+  <!-- Add Category Modal -->
+  <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+       
+        <div class="modal-header">
+          <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="POST">
+            <div class="form-group">
+              <label for="edit-category-name">Category Name</label>
+              <input type="text" class="form-control" id="edit-category-name" name="category_name" placeholder="Enter category name" value="" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Product Modal -->
+  <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="POST">
+            <div class="form-group">
+              <label for="edit-product-name">Product Name</label>
+              <input type="text" class="form-control" id="edit-product-name" name="product_name" placeholder="Enter product name" value="" required>
+            </div>
+            <div class="form-group">
+              <label for="edit-product-description">Product Description</label>
+              <textarea class="form-control" id="edit-product-description" name="product_description" placeholder="Enter product description" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="edit-product-price">Price</label>
+              <input type="number" class="form-control" id="edit-product-price" name="product_price" placeholder="Enter price" value="" required>
+            </div>
+            <div class="form-group">
+              <label for="edit-product-image">Product Image</label>
+              <input type="text" class="form-control" id="edit-product-image" name="product_image" placeholder="Enter image URL" value="" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="mb-2">
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCategoryModal">Add Category</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">Add Product</button>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+        
+          <th scope="col">Product Name</th>
+          <th scope="col">Product Description</th>
+          <th scope="col">Price</th>
+          <th scope="col">Product Image</th>
+          <th scope="col">Categories</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <% for (let i = 0; i < users.length; i++) { %>
+        <tr>
+          <td><%= users[i].product_name %></td>
+          <td><%= users[i].product_description %></td>
+          <td><%= users[i].product_price %></td>
+          <td><img src="<%= users[i].product_image %>" alt="Product Image" style="max-width: 100px;"></td>
+          <td>
+            <ul>
+              <% for (let j = 0; j < users[i].catrgory.length; j++) { %>
+                <li><%= users[i].catrgory[j].category_name %></li>
+              <% } %>
+            </ul>
+          </td>
+          <td>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editCategoryModal<%= users[i].id %>">Edit Category</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProductModal<%= users[i].id %>">Edit Product</button>
+            <a href="/user/delete/<%= users[i].id %>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
+          </td>
+        </tr>
+
+        <!-- Edit Category Modal -->
+        <div class="modal fade" id="editCategoryModal<%= users[i].id %>" tabindex="-1" role="dialog" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="/category/edit/<%= users[i].id %>" method="POST">
+                  <div class="form-group">
+                    <label for="edit-category-name">Category Name</label>
+                    <input type="text" class="form-control" id="edit-category-name" name="category_name" placeholder="Enter category name" value="<%= users[i].category && users[i].category.length > 0 ? users[i].category[0].category_name : '' %>" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit Product Modal -->
+        <div class="modal fade" id="editProductModal<%= users[i].id %>" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="/product/edit/<%= users[i].id %>" method="POST">
+                  <div class="form-group">
+                    <label for="edit-product-name">Product Name</label>
+                    <input type="text" class="form-control" id="edit-product-name" name="product_name" placeholder="Enter product name" value="<%= users[i].product_name %>" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="edit-product-description">Product Description</label>
+                    <textarea class="form-control" id="edit-product-description" name="product_description" placeholder="Enter product description" required><%= users[i].product_description %></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="edit-product-price">Price</label>
+                    <input type="number" class="form-control" id="edit-product-price" name="product_price" placeholder="Enter price" value="<%= users[i].product_price %>" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="edit-product-image">Product Image</label>
+                    <input type="text" class="form-control" id="edit-product-image" name="product_image" placeholder="Enter image URL" value="<%= users[i].product_image %>" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Add Bootstrap JS scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

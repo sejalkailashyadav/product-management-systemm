@@ -90,14 +90,13 @@ let UserService = class UserService {
             refresh_token: rt,
         };
     }
-    async getAllUser(req, res) {
+    async getAllUser() {
         try {
             const users = await this.prisma.user.findMany({
                 select: { id: true, email: true, name: true },
                 where: { isadmin: false },
             });
-            res.render('user-panel', { users });
-            return { users };
+            return users;
         }
         catch (err) {
             throw err;

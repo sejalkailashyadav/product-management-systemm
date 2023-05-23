@@ -10,7 +10,7 @@ export declare class AuthService {
     private config;
     private transporter;
     constructor(prisma: PrismaService, jwtService: JwtService, config: ConfigService);
-    forgotPassword(email: string): Promise<void>;
+    forgotPassword(email: string, req: Request, res: Response): Promise<void>;
     resetPassword(email: string, token: string, newPassword: string, req: Request, res: Response): Promise<void>;
     private generateSecureToken;
     signupLocal(dto: AuthDto, req: Request, res: Response): Promise<Tokens>;
