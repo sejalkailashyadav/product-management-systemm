@@ -1,5 +1,5 @@
-import { faker } from "@faker-js/faker";
-import { PrismaClient } from "@prisma/client";
+import { faker } from '@faker-js/faker';
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 async function createProductwithCat() {
   const cetogryarray = Array(10)
@@ -42,5 +42,5 @@ async function createProductwithCat() {
   prisma.$transaction(productpromise);
 }
 
-console.log("many-to-many");
-console.log(JSON.stringify(createProductwithCat(), null, 2))
+console.log('many-to-many');
+console.log(JSON.stringify(createProductwithCat(), null, 2));
