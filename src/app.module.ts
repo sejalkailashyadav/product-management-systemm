@@ -6,9 +6,10 @@ import { AtGuard } from './common/guards';
 import { UserModule } from './user/user.module';
 import { ProductModule } from './product/product.module';
 import { CategoriesModule } from './categories/categories.module';
+import { RolePermissionsModule } from './role_permissions/role_permissions.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, UserModule, ProductModule, CategoriesModule],
+  imports: [PrismaModule, AuthModule, UserModule, ProductModule, CategoriesModule, RolePermissionsModule],
   providers: [
     {
       provide: APP_GUARD,

@@ -34,7 +34,7 @@ let ProductController = class ProductController {
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Get)("/product"),
-    (0, common_1.Render)('product'),
+    (0, common_1.Render)("product"),
     __param(0, (0, common_1.Request)()),
     __param(1, (0, common_1.Response)()),
     __metadata("design:type", Function),

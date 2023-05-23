@@ -34,8 +34,8 @@ let UserService = class UserService {
         })
             .catch((error) => {
             if (error instanceof runtime_1.PrismaClientKnownRequestError) {
-                if (error.code === 'P2002') {
-                    throw new common_1.ForbiddenException('Credentials incorrect');
+                if (error.code === "P2002") {
+                    throw new common_1.ForbiddenException("Credentials incorrect");
                 }
             }
             throw error;
@@ -51,10 +51,10 @@ let UserService = class UserService {
             },
         });
         if (!user || !user.hashedRt)
-            throw new common_1.ForbiddenException('Access Denied');
+            throw new common_1.ForbiddenException("Access Denied");
         const rtMatches = await argon.verify(user.hashedRt, rt);
         if (!rtMatches)
-            throw new common_1.ForbiddenException('Access Denied');
+            throw new common_1.ForbiddenException("Access Denied");
         const tokens = await this.getTokens(user.id, user.email);
         await this.updateRtHash(user.id, tokens.refresh_token);
         return tokens;
@@ -77,12 +77,12 @@ let UserService = class UserService {
         };
         const [at, rt] = await Promise.all([
             this.jwtService.signAsync(jwtPayload, {
-                secret: 'at-secrect',
-                expiresIn: '15m',
+                secret: "at-secrect",
+                expiresIn: "15m",
             }),
             this.jwtService.signAsync(jwtPayload, {
-                secret: 'rt-secrect',
-                expiresIn: '7d',
+                secret: "rt-secrect",
+                expiresIn: "7d",
             }),
         ]);
         return {

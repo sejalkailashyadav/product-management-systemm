@@ -22,12 +22,12 @@ let UserModule = class UserModule {
 UserModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            passport_1.PassportModule.register({ defaultStrategy: 'jwt' }),
+            passport_1.PassportModule.register({ defaultStrategy: "jwt" }),
             jwt_1.JwtModule.registerAsync({
                 imports: [config_1.ConfigModule],
                 useFactory: async () => ({
-                    secret: 'buybuihbikhkhk',
-                    signOptions: { expiresIn: '15m' },
+                    secret: "buybuihbikhkhk",
+                    signOptions: { expiresIn: "15m" },
                 }),
                 inject: [config_1.ConfigService],
             }),

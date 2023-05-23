@@ -22,9 +22,8 @@ export class AuthController {
 
   @Public()
   @Get("local/signup")
-  @Render("signup") // Specify the EJS template file to render
+  @Render("signup")
   signup() {
-    // Your logic to retrieve data and pass it to the template
     return { msg: "sejal" };
   }
   @Public()
@@ -40,9 +39,8 @@ export class AuthController {
 
   @Public()
   @Get("/local/signin")
-  @Render("signin") // Specify the EJS template file to render
+  @Render("signin")
   getLogin() {
-    // Your logic to retrieve data and pass it to the template
     return { msg: "sejal" };
   }
   // @Public()
@@ -70,9 +68,8 @@ export class AuthController {
 
   @Public()
   @Get("change-password")
-  @Render("change-password") // Specify the EJS template file to render
+  @Render("change-password")
   password() {
-    // Your logic to retrieve data and pass it to the template
     return { msg: "sejal" };
   }
 

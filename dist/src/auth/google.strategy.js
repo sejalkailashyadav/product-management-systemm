@@ -19,8 +19,8 @@ let GoogleStrategy = class GoogleStrategy extends (0, passport_1.PassportStrateg
         super({
             clientID: constants_1.GOOGLE_CLIENT_ID,
             clientSecret: constants_1.GOOGLE_SECRET,
-            callbackURL: 'http://localhost:3333/auth/google/callback',
-            scope: ['email', 'profile'],
+            callbackURL: "http://localhost:3333/auth/google/callback",
+            scope: ["email", "profile"],
         });
     }
     async validate(accessToken, refreshToken, profile, done) {
