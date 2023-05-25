@@ -10,6 +10,14 @@ export class CategoriesService {
       data: dto,
     });
   }
+
+
+
+  async getAllUser() {
+    return await this.prismaSerivce.product.findMany({
+      include: { catrgory: true },
+    });
+  }
   // create(createCategoryDto: CreateCategoryDto) {
   //   return 'This action adds a new category';
   // }

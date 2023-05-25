@@ -1,6 +1,6 @@
-import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { Tokens } from '../auth/types';
+import { UserService } from "./user.service";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { Tokens } from "../auth/types";
 export declare class UserController {
     private readonly userService;
     constructor(userService: UserService);

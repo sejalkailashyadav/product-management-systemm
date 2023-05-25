@@ -1,9 +1,9 @@
-import { CreateUserDto } from './dto/create-user.dto';
-import { Request, Response } from 'express';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from '../prisma/prisma.service';
-import { Tokens } from '../auth/types';
+import { CreateUserDto } from "./dto/create-user.dto";
+import { Request, Response } from "express";
+import { ConfigService } from "@nestjs/config";
+import { JwtService } from "@nestjs/jwt";
+import { PrismaService } from "../prisma/prisma.service";
+import { Tokens } from "../auth/types";
 export declare class UserService {
     private prisma;
     private jwtService;

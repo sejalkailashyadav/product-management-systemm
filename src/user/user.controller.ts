@@ -11,13 +11,13 @@ import {
   Response,
   HttpStatus,
   Res,
-} from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { Public } from 'src/common/decorators';
-import { Tokens } from '../auth/types';
+} from "@nestjs/common";
+import { UserService } from "./user.service";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { Public } from "src/common/decorators";
+import { Tokens } from "../auth/types";
 
-@Controller('user')
+@Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -33,8 +33,8 @@ export class UserController {
   //   return { msg: 'sehal' };
   // }
   @Public()
-  @Get('/user-panel')
-  @Render('user-panel')
+  @Get("/user-panel")
+  @Render("user-panel")
   async userPanel(@Request() req, @Response() res) {
     try {
       const users = await this.userService.getAllUser();
@@ -44,11 +44,11 @@ export class UserController {
     }
   }
   @Public()
-  @Post('/insert')
+  @Post("/insert")
   insertuser(
     @Body() dto: CreateUserDto,
     @Request() req,
-    @Response() res,
+    @Response() res
   ): Promise<Tokens> {
     return this.userService.create(dto, req, res);
   }
@@ -60,21 +60,21 @@ export class UserController {
   // }
 
   @Public()
-  @Post('/delete/:id')
+  @Post("/delete/:id")
   async deleteUserById(
-    @Param('id') id: number,
+    @Param("id") id: number,
     @Request() req,
-    @Response() res,
+    @Response() res
   ) {
     return this.userService.deleteUserById(Number(id), res, req); // Convert the id to a number if necessary
   }
   @Public()
-  @Post('/edit/:id')
+  @Post("/edit/:id")
   async editUser(
-    @Param('id') id: number,
+    @Param("id") id: number,
     @Body() dto: CreateUserDto,
     @Request() req,
-    @Response() res,
+    @Response() res
   ) {
     return this.userService.editUserById(Number(id), dto, res, req);
   }
