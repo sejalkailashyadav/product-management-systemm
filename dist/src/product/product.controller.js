@@ -17,6 +17,9 @@ let ProductController = class ProductController {
     constructor(productService) {
         this.productService = productService;
     }
+    signup() {
+        return { msg: "sejal" };
+    }
     upadetcatgo_prod() {
         return this.productService.updatedata();
     }
@@ -27,6 +30,14 @@ let ProductController = class ProductController {
         return this.productService.findAll();
     }
 };
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)("data"),
+    (0, common_1.Render)("products"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ProductController.prototype, "signup", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Post)("/create-poduct-update"),

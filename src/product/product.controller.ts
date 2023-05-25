@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Render,
+} from "@nestjs/common";
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductService } from "../product/product.service";
 import { Public } from 'src/common/decorators';
@@ -8,7 +17,13 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   //delete
-
+  @Public()
+  @Get("data")
+  @Render("products") // Specify the EJS template file to render
+  signup() {
+    // Your logic to retrieve data and pass it to the template
+    return { msg: "sejal" };
+  }
   //update
   @Public()
   @Post("/create-poduct-update")
