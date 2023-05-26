@@ -11,10 +11,6 @@ export declare class AuthController {
     getuserLogin(): {
         msg: string;
     };
-    getadminLoginn(): {
-        msg: string;
-    };
-    getadminLogin(dto: AuthDto, req: any, res: any): Promise<Tokens>;
     signinLocal(dto: AuthDto, req: any, res: any): Promise<Tokens>;
     password(): {
         msg: string;

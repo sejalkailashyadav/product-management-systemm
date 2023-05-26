@@ -18,7 +18,7 @@ import { AtStrategy, RtStrategy } from "./strategies";
       }),
       inject: [ConfigService],
     }),
-    ConfigModule.forRoot(), // Add this line to import the ConfigModule
+    ConfigModule.forRoot(), 
     PrismaModule,
   ],
   controllers: [AuthController],

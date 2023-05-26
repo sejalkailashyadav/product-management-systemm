@@ -1,38 +1,43 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable,Req, Res  } from "@nestjs/common";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { PrismaService } from "src/prisma/prisma.service";
-
+import { Request, Response } from "express";
 @Injectable()
 export class ProductService {
   constructor(private readonly prismaSerivce: PrismaService) {}
   // createPost(poductDto: CreateProductDto) {
   //   return this.prismaSerivce.post.create({
-  //     data: {
-  //       category_name: poductDto.category_name,
+  //      category_name: poductDto.category_name,
   //     },
   //   });
   // }
 
-  async updatedata() {
-    await this.prismaSerivce.product.update({
-      where: { id: 12 },
-      data: {
-        product_name: "phone",
-        product_description: "Lorem ipsum dolor sit amet consectetur",
-        product_price: "10000",
-        product_image: "image.png",
-        catrgory: {
-          set: [{ id: 11 }, { id: 12 }],
-          create: { category_name: "telephone" },
-        },
-      },
-    });
-  }
+  // async updatedata(
+  //   dto: CreateProductDto,
+  //   req: Request,
+  //   res: Response
+  // ) {
+  //   await this.prismaSerivce.product.update({
+  //     where: { id: 1 },
+  //     data: {
+  //       product_name: dto.product_name,
+  //       product_description: dto.product_description,
+  //       product_price: dto.product_price,
+  //       product_image: dto.product_image,
+  //       catrgory: {
+  //         set: [{ id: 1 }],
+  //         create: [{ category_name: dto.category_name }],
+  //       },
+  //     },
+  //   });
+  // }
   //select
-  async findAll() {
-    return await this.prismaSerivce.product.findMany({
+  async findAll(@Req() req: Request, @Res() res: Response) {
+    const cate_product = await this.prismaSerivce.product.findMany({
       include: { catrgory: true },
     });
+    res.render("user_Panel",  {cate_product });
+    console.log(cate_product)
   }
 
   //select
@@ -41,21 +46,38 @@ export class ProductService {
   //     include: { catrgory: true },
   //   });
   // }
+  //update
 
-  ///insert
-  async setprodct_category() {
+  //update user
+  async deleteUserById(
+    id: number,
+    dto: CreateProductDto,
+    req: Request,
+    res: Response
+  ) {
+    await this.prismaSerivce.product.delete({
+      where: {
+        id: id,
+      },
+    });
+  }
+
+  ///insert prodcu data with category -multer
+  async setprodct_category(
+    dto: CreateProductDto,
+    req: Request,
+    res: Response,
+    file: any
+  ) {
     return await this.prismaSerivce.product.create({
       data: {
-        product_name: "phone",
-        product_description: "Lorem ipsum dolor sit amet consectetur",
-        product_price: "10000",
-        product_image: "image.png",
+        product_name: dto.product_name,
+        product_description: dto.product_description,
+        product_price: dto.product_price,
+        product_image: dto.product_image,
 
         catrgory: {
-          create: [
-            { category_name: "electronics" },
-            { category_name: "communication_device" },
-          ],
+          create: [{ category_name: dto.category_name }],
         },
       },
     });

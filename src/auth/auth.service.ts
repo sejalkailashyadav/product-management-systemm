@@ -116,38 +116,18 @@ export class AuthService {
     return tokens;
   }
 
-  async getadminLogin(
-    dto: AuthDto,
-    req: Request,
-    res: Response
-  ): Promise<Tokens> {
-    const hash = await argon.hash(dto.password);
-
-    const user = await this.prisma.user
-      .create({
-        data: {
-          name: dto.name,
-          email: dto.email,
-          password: hash,
-        },
-      })
-      .catch((error) => {
-        if (error instanceof PrismaClientKnownRequestError) {
-          if (error.code === "P2002") {
-            throw new ForbiddenException("Credentials incorrect");
-          }
-        }
-        throw error;
-      });
-    if (dto.email == "admin@gmail.com" || dto.password == "admin@123") {
-      res.redirect("/auth/local/signup/admin");
-    } else {
-      const tokens = await this.getTokens(user.id, user.email);
-      await this.updateRtHash(user.id, tokens.refresh_token);
-      res.redirect("/auth/local/signup");
-      return tokens;
-    }
-  }
+//   async getadminLogin(
+//     dto: AuthDto,
+//     @Req() req: Request,
+//     @Res() res: Response
+//   ){
+//     const user = await this.prisma.user.findUnique({
+//       where: {
+//         email: "admin@gmail.com",
+//       },
+//     });
+// res.render('user-panel',)
+//   }
 
   // async signinLocal(
   //   dto: AuthDto,
@@ -193,10 +173,41 @@ export class AuthService {
       where: { isadmin: false },
     });
 
-    res.render("user-panel", { user, users });
+    res.render("user_Panel", { user, users });
+    console.log(users);
 
     return tokens;
   }
+
+  // async signinLocal(
+  //   dto: AuthDto,
+  //   @Req() req: Request,
+  //   @Res() res: Response
+  // ): Promise<Tokens> {
+  //   const user = await this.prisma.user.findUnique({
+  //     where: {
+  //       email: dto.email,
+  //     },
+  //   });
+
+  //   if (!user) throw new ForbiddenException("Access Denied");
+
+  //   const passwordMatches = await argon.verify(user.password, dto.password);
+  //   if (!passwordMatches) throw new ForbiddenException("Access Denied");
+
+  //   const tokens = await this.getTokens(user.id, user.email);
+  //   await this.updateRtHash(user.id, tokens.refresh_token);
+
+  //   const users = await this.prisma.user.findMany({
+  //     select: { id: true, email: true, name: true },
+  //     where: { isadmin: false },
+  //   });
+
+  //   res.render("user_Panel", { user, users });
+  //   console.log(users);
+
+  //   return tokens;
+  // }
   async logout(userId: number, req: Request, res: Response): Promise<boolean> {
     await this.prisma.user.updateMany({
       where: {

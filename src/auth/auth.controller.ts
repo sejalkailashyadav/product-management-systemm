@@ -44,23 +44,23 @@ export class AuthController {
     return { msg: "sejal" };
   }
 
-  @Public()
-  @Get("/local/signin/admin")
-  @Render("admin_signin")
-  getadminLoginn() {
-    return { msg: "sejal" };
-  }
-  @Public()
-  @Post("/local/signin/admin")
-  @HttpCode(HttpStatus.OK)
-  getadminLogin(
-    @Body() dto: AuthDto,
-    @Request() req,
-    @Response() res
-  ): Promise<Tokens> {
-    return this.authService.getadminLogin(dto, req, res);
-  }
   // @Public()
+  // @Get("/local/signin/admin")
+  // @Render("admin_signin")
+  // getadminLoginn() {
+  //   return { msg: "sejal" };
+  // }
+  // @Public()
+  // @Post("/local/signin/admin")
+  // @HttpCode(HttpStatus.OK)
+  // getadminLogin(
+  //   @Body() dto: AuthDto,
+  //   @Request() req,
+  //   @Response() res
+  // ): Promise<Tokens> {
+  //   return this.authService.getadminLogin(dto, req, res);
+  // }
+  // // @Public()
   // @Get('/local/signin')
   // @Render('signin') // Specify the EJS template file to render
   // async userPanel(@Request() req, @Response() res) {

@@ -1,10 +1,10 @@
+import { CreateProductDto } from "./dto/create-product.dto";
 import { PrismaService } from "src/prisma/prisma.service";
+import { Request, Response } from "express";
 export declare class ProductService {
     private readonly prismaSerivce;
     constructor(prismaSerivce: PrismaService);
-    updatedata(): Promise<void>;
-    findAll(): Promise<(import(".prisma/client").Product & {
-        catrgory: import(".prisma/client").Category[];
-    })[]>;
-    setprodct_category(): Promise<import(".prisma/client").Product>;
+    findAll(req: Request, res: Response): Promise<void>;
+    deleteUserById(id: number, dto: CreateProductDto, req: Request, res: Response): Promise<void>;
+    setprodct_category(dto: CreateProductDto, req: Request, res: Response, file: any): Promise<import(".prisma/client").Product>;
 }

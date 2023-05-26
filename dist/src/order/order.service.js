@@ -18,7 +18,8 @@ let OrderService = class OrderService {
         this.prisma = prisma;
     }
     async create() {
-        const user = await this.prisma.order.create({
+        const user = await this.prisma.order
+            .create({
             data: {
                 price: "10",
                 quantity: "1",
@@ -33,6 +34,24 @@ let OrderService = class OrderService {
                 }
             }
             throw error;
+        });
+        return user;
+    }
+    async getAllUser() {
+        try {
+            const users = await this.prisma.user.findMany({
+                select: { id: true, email: true, name: true },
+                where: { isadmin: false },
+            });
+            return users;
+        }
+        catch (err) {
+            throw err;
+        }
+    }
+    async findAll() {
+        return await this.prisma.product.findMany({
+            include: { catrgory: true },
         });
     }
 };

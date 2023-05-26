@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderController = void 0;
 const common_1 = require("@nestjs/common");
@@ -17,10 +20,75 @@ let OrderController = class OrderController {
     constructor(orderService) {
         this.orderService = orderService;
     }
+    async user_Panel(req, res) {
+        try {
+            return { msg: "users" };
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    async findAll() {
+        return await this.orderService.findAll();
+    }
+    async user_order(req, res) {
+        try {
+            return { msg: "order" };
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    async user_cart(req, res) {
+        try {
+            return { msg: "cart" };
+        }
+        catch (error) {
+            throw error;
+        }
+    }
     insertuser() {
         return this.orderService.create();
     }
 };
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)("/user_panel"),
+    (0, common_1.Render)("user_Panel"),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Response)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "user_Panel", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)("/product"),
+    (0, common_1.Render)("product"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "findAll", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)("/order"),
+    (0, common_1.Render)("order"),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Response)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "user_order", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)("/cart"),
+    (0, common_1.Render)("cart"),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Response)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], OrderController.prototype, "user_cart", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Post)("/insert"),
@@ -29,7 +97,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrderController.prototype, "insertuser", null);
 OrderController = __decorate([
-    (0, common_1.Controller)("order"),
+    (0, common_1.Controller)("user-order"),
     __metadata("design:paramtypes", [order_service_1.OrderService])
 ], OrderController);
 exports.OrderController = OrderController;
