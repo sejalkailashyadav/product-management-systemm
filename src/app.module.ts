@@ -7,9 +7,20 @@ import { UserModule } from './user/user.module';
 import { ProductModule } from './product/product.module';
 import { CategoriesModule } from './categories/categories.module';
 import { RolePermissionsModule } from './role_permissions/role_permissions.module';
+import { MulterModule } from "@nestjs/platform-express";
 
 @Module({
-  imports: [PrismaModule, AuthModule, UserModule, ProductModule, CategoriesModule, RolePermissionsModule],
+  imports: [
+    PrismaModule,
+    AuthModule,
+    UserModule,
+    ProductModule,
+    CategoriesModule,
+    RolePermissionsModule,
+    MulterModule.register({
+      dest: "./files",
+    }),
+  ],
   providers: [
     {
       provide: APP_GUARD,

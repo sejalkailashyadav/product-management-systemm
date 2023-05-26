@@ -35,6 +35,13 @@ export class ProductService {
     });
   }
 
+  //select
+  // async uploadimages() {
+  //   return await this.prismaSerivce.product.uploadSingle({
+  //     include: { catrgory: true },
+  //   });
+  // }
+
   ///insert
   async setprodct_category() {
     return await this.prismaSerivce.product.create({
