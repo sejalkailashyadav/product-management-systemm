@@ -1,9 +1,9 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Order History</title>
+    <title>Cart</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+   
 </head>
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -29,18 +29,13 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <h2>Order History</h2>
-                <!-- Display previous orders -->
-                <div class="order-section">
-                    <div class="card">
-                        <div class="card-body">
-                            <p>Order ID: 12345</p>
-                            <p>Order Date: May 26, 2023</p>
-                            <p>Order Total: $100</p>
-                        </div>
-                    </div>
+                <h2>Cart</h2>
+                <div class="cart">
+                    <!-- Display cart items -->
+                    <p>Product Name - Category - $10</p>
+                    <h4>Total: $50</h4>
                 </div>
-            
+                <a href="/cart/remove-all" class="btn btn-danger">Remove </a>
             </div>
         </div>
     </div>
