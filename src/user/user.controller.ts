@@ -44,6 +44,12 @@ export class UserController {
     }
   }
   @Public()
+  @Get("/admin-panel")
+  @Render("admin_panel")
+  async adminPanel() {
+  }
+  
+  @Public()
   @Post("/insert")
   insertuser(
     @Body() dto: CreateUserDto,

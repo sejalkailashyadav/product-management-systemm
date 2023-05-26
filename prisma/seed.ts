@@ -1,46 +1,28 @@
-import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
+import * as bcrypt from "bcrypt";
 const prisma = new PrismaClient();
-async function createProductwithCat() {
-  const cetogryarray = Array(10)
-    .fill(null)
-    .map(() => {
-      return prisma.category.create({
-        data: {
-          category_name: faker.commerce.productAdjective(),
-        },
-      });
-    });
-  const categiroes = await prisma.$transaction(cetogryarray);
-  const productpromise = Array(10)
-    .fill(null)
-    .map(() => {
-      return prisma.product.create({
-        data: {
-          product_name: faker.commerce.productName(),
-          product_description: faker.commerce.productDescription(),
-          product_price: faker.phone.imei(),
-          product_image: faker.image.avatar(),
-          catrgory: {
-            connect: [
-              {
-                id: categiroes[Math.floor(Math.random() * categiroes.length)]
-                  .id,
-              },
-              {
-                id: categiroes[Math.floor(Math.random() * categiroes.length)]
-                  .id,
-              },
-            ],
-          },
-        },
-        include: {
-          catrgory: true,
-        },
-      });
-    });
-  prisma.$transaction(productpromise);
-}
 
-console.log("many-to-many");
-console.log(JSON.stringify(createProductwithCat(), null, 2))
+async function main() {
+  const plainPassword = "admin@123";
+  const hashedPassword = await bcrypt.hash(plainPassword, 10); // Hash the password with salt rounds of 10
+
+  await prisma.user.create({
+    data: {
+      name: "admin",
+      email: "adminmain@gmail.com",
+      password: hashedPassword,
+      googleid: null,
+      hashedRt: null,
+      isadmin: true,
+    },
+  });
+}
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });

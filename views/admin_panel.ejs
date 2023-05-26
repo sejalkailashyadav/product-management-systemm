@@ -4,82 +4,112 @@
   <title>Admin Panel</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f1f1f1;
-    }
-    
-    .container {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 20px;
-      background-color: #ffffff;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    h1 {
-      text-align: center;
-      color: #333333;
-      margin-bottom: 20px;
-    }
-    
-    .table-container {
-      margin-top: 20px;
-    }
-    
-    .table-container table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    
-    .table-container th, .table-container td {
-      padding: 10px;
-      text-align: center;
-    }
-    
-    .table-container th {
-      background-color: #f2f2f2;
-      color: #333333;
-    }
-    
-    .table-container td {
-      background-color: #ffffff;
-      color: #333333;
-    }
-    
-    .btn {
-      margin-right: 5px;
-    }
+    h1 { color: #000000; font-size: 48px; font-family: 'Signika', sans-serif; padding-bottom: 10px; }
   </style>
 </head>
 <body>
   <%- include("darshboard") -%>
   <div class="container">
-    <h1>Admin Panel</h1>
+    <br>
+    <h1>User Management Module</h1>
+    <br>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add User</button>
+    <br><br>
     <div class="table-container">
-      <table class="table">
+      <table class="table table-dark table-hover">
         <thead>
           <tr>
+            <th>Id</th>
             <th>Name</th>
             <th>Email</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          
-            <tr>
-              <td></td>
-              <td></td>
-              <td>
-                <a href="" class="btn btn-primary">Edit</a>
-                <a href="" class="btn btn-danger">Delete</a>
-              </td>
-            </tr>
-         
+          <% users.forEach(function(user) { %>
+          <tr>
+            <th><%= user.id %></th>
+            <td><%= user.name %></td>
+            <td><%= user.email %></td>
+            <td>
+              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editModal<%= user.id %>">Edit</a>
+              <form action="/user/delete/<%= user.id %>" method="POST">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </td>
+          </tr>
+          <% }) %>
         </tbody>
       </table>
     </div>
   </div>
+
+  <!-- Add User Modal -->
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">Add User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/user/insert"  method="POST">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% users.forEach(function(user) { %>
+    <!-- Edit User Modal -->
+    <div class="modal fade" id="editModal<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">Edit User</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/user/edit/<%= user.id %>" method="POST">
+              <div class="form-group">
+                <label for="edit-name">Name</label>
+                <input type="text" class="form-control" id="edit-name" name="name" placeholder="Enter name" value="<%= user.name %>" required>
+              </div>
+              <div class="form-group">
+                <label for="edit-email">Email</label>
+                <input type="email" class="form-control" id="edit-email" name="email" placeholder="Enter email" value="<%= user.email %>" required>
+              </div>
+              <div class="form-group">
+                <label for="edit-email">Password</label>
+                <input type="Password" class="form-control" id="edit-password" name="password" placeholder="Enter password" value="<%= user.password %>" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

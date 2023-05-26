@@ -30,6 +30,8 @@ let UserController = class UserController {
             throw error;
         }
     }
+    async adminPanel() {
+    }
     insertuser(dto, req, res) {
         return this.userService.create(dto, req, res);
     }
@@ -50,6 +52,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "userPanel", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)("/admin-panel"),
+    (0, common_1.Render)("admin_panel"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "adminPanel", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Post)("/insert"),

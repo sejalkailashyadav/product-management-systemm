@@ -8,9 +8,13 @@ export declare class AuthController {
         msg: string;
     };
     signupLocal(dto: AuthDto, req: any, res: any): Promise<Tokens>;
-    getLogin(): {
+    getuserLogin(): {
         msg: string;
     };
+    getadminLoginn(): {
+        msg: string;
+    };
+    getadminLogin(dto: AuthDto, req: any, res: any): Promise<Tokens>;
     signinLocal(dto: AuthDto, req: any, res: any): Promise<Tokens>;
     password(): {
         msg: string;

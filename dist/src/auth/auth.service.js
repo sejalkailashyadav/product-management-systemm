@@ -95,6 +95,34 @@ let AuthService = class AuthService {
         res.redirect("/auth/local/signup");
         return tokens;
     }
+    async getadminLogin(dto, req, res) {
+        const hash = await argon.hash(dto.password);
+        const user = await this.prisma.user
+            .create({
+            data: {
+                name: dto.name,
+                email: dto.email,
+                password: hash,
+            },
+        })
+            .catch((error) => {
+            if (error instanceof runtime_1.PrismaClientKnownRequestError) {
+                if (error.code === "P2002") {
+                    throw new common_1.ForbiddenException("Credentials incorrect");
+                }
+            }
+            throw error;
+        });
+        if (dto.email == "admin@gmail.com" || dto.password == "admin@123") {
+            res.redirect("/auth/local/signup/admin");
+        }
+        else {
+            const tokens = await this.getTokens(user.id, user.email);
+            await this.updateRtHash(user.id, tokens.refresh_token);
+            res.redirect("/auth/local/signup");
+            return tokens;
+        }
+    }
     async signinLocal(dto, req, res) {
         const user = await this.prisma.user.findUnique({
             where: {

@@ -40,8 +40,25 @@ export class AuthController {
   @Public()
   @Get("/local/signin")
   @Render("signin")
-  getLogin() {
+  getuserLogin() {
     return { msg: "sejal" };
+  }
+
+  @Public()
+  @Get("/local/signin/admin")
+  @Render("admin_signin")
+  getadminLoginn() {
+    return { msg: "sejal" };
+  }
+  @Public()
+  @Post("/local/signin/admin")
+  @HttpCode(HttpStatus.OK)
+  getadminLogin(
+    @Body() dto: AuthDto,
+    @Request() req,
+    @Response() res
+  ): Promise<Tokens> {
+    return this.authService.getadminLogin(dto, req, res);
   }
   // @Public()
   // @Get('/local/signin')

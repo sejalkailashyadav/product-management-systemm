@@ -28,8 +28,14 @@ let AuthController = class AuthController {
     signupLocal(dto, req, res) {
         return this.authService.signupLocal(dto, req, res);
     }
-    getLogin() {
+    getuserLogin() {
         return { msg: "sejal" };
+    }
+    getadminLoginn() {
+        return { msg: "sejal" };
+    }
+    getadminLogin(dto, req, res) {
+        return this.authService.getadminLogin(dto, req, res);
     }
     signinLocal(dto, req, res) {
         return this.authService.signinLocal(dto, req, res);
@@ -88,7 +94,26 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], AuthController.prototype, "getLogin", null);
+], AuthController.prototype, "getuserLogin", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)("/local/signin/admin"),
+    (0, common_1.Render)("admin_signin"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "getadminLoginn", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Post)("/local/signin/admin"),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Request)()),
+    __param(2, (0, common_1.Response)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [dto_1.AuthDto, Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "getadminLogin", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Post)("/local/signin"),
