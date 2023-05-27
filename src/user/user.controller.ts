@@ -12,12 +12,15 @@ import {
   HttpStatus,
   Res,
 } from "@nestjs/common";
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { Public } from "src/common/decorators";
 import { Tokens } from "../auth/types";
+import { Op } from "sequelize";
 
-@Controller("user")
+@Controller("/")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -33,28 +36,26 @@ export class UserController {
   //   return { msg: 'sehal' };
   // }
   @Public()
-  @Get("/user-panel")
-  @Render("user-panel")
+  @Get('/')
+  @Render('user-panel')
+  async userPanelll() {}
+
+  @Public()
+  @Get('/users')
   async userPanel(@Request() req, @Response() res) {
-    try {
-      const users = await this.userService.getAllUser();
-      return { users };
-    } catch (error) {
-      throw error;
-    }
+    return this.userService.getAllUser(req, res);
   }
   @Public()
-  @Get("/admin-panel")
-  @Render("admin_panel")
-  async adminPanel() {
-  }
-  
+  @Get('/admin-panel')
+  @Render('admin_panel')
+  async adminPanel() {}
+
   @Public()
-  @Post("/insert")
+  @Post('/insert')
   insertuser(
     @Body() dto: CreateUserDto,
     @Request() req,
-    @Response() res
+    @Response() res,
   ): Promise<Tokens> {
     return this.userService.create(dto, req, res);
   }
@@ -66,21 +67,21 @@ export class UserController {
   // }
 
   @Public()
-  @Post("/delete/:id")
+  @Post('/delete/:id')
   async deleteUserById(
-    @Param("id") id: number,
+    @Param('id') id: number,
     @Request() req,
-    @Response() res
+    @Response() res,
   ) {
     return this.userService.deleteUserById(Number(id), res, req); // Convert the id to a number if necessary
   }
   @Public()
-  @Post("/edit/:id")
+  @Post('/edit/:id')
   async editUser(
-    @Param("id") id: number,
+    @Param('id') id: number,
     @Body() dto: CreateUserDto,
     @Request() req,
-    @Response() res
+    @Response() res,
   ) {
     return this.userService.editUserById(Number(id), dto, res, req);
   }

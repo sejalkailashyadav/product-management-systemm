@@ -14,6 +14,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
+const client_1 = require("@prisma/client");
+const prisma = new client_1.PrismaClient();
 const user_service_1 = require("./user.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const decorators_1 = require("../common/decorators");
@@ -21,17 +23,11 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
+    async userPanelll() { }
     async userPanel(req, res) {
-        try {
-            const users = await this.userService.getAllUser();
-            return { users };
-        }
-        catch (error) {
-            throw error;
-        }
+        return this.userService.getAllUser(req, res);
     }
-    async adminPanel() {
-    }
+    async adminPanel() { }
     insertuser(dto, req, res) {
         return this.userService.create(dto, req, res);
     }
@@ -44,8 +40,15 @@ let UserController = class UserController {
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/user-panel"),
-    (0, common_1.Render)("user-panel"),
+    (0, common_1.Get)('/'),
+    (0, common_1.Render)('user-panel'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "userPanelll", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)('/users'),
     __param(0, (0, common_1.Request)()),
     __param(1, (0, common_1.Response)()),
     __metadata("design:type", Function),
@@ -54,15 +57,15 @@ __decorate([
 ], UserController.prototype, "userPanel", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/admin-panel"),
-    (0, common_1.Render)("admin_panel"),
+    (0, common_1.Get)('/admin-panel'),
+    (0, common_1.Render)('admin_panel'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "adminPanel", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("/insert"),
+    (0, common_1.Post)('/insert'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
     __param(2, (0, common_1.Response)()),
@@ -72,8 +75,8 @@ __decorate([
 ], UserController.prototype, "insertuser", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("/delete/:id"),
-    __param(0, (0, common_1.Param)("id")),
+    (0, common_1.Post)('/delete/:id'),
+    __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Request)()),
     __param(2, (0, common_1.Response)()),
     __metadata("design:type", Function),
@@ -82,8 +85,8 @@ __decorate([
 ], UserController.prototype, "deleteUserById", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("/edit/:id"),
-    __param(0, (0, common_1.Param)("id")),
+    (0, common_1.Post)('/edit/:id'),
+    __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Request)()),
     __param(3, (0, common_1.Response)()),
@@ -92,7 +95,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "editUser", null);
 UserController = __decorate([
-    (0, common_1.Controller)("user"),
+    (0, common_1.Controller)("/"),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 exports.UserController = UserController;

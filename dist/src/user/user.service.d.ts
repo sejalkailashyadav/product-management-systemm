@@ -13,10 +13,11 @@ export declare class UserService {
     refreshTokens(userId: number, rt: string): Promise<Tokens>;
     updateRtHash(userId: number, rt: string): Promise<void>;
     getTokens(userId: number, email: string): Promise<Tokens>;
-    getAllUser(): Promise<{
-        id: number;
+    getAllUser(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    findAll(): Promise<{
         name: string;
         email: string;
+        id: number;
     }[]>;
     deleteUserById(id: number, req: Request, res: Response): Promise<void>;
     editUserById(id: number, dto: CreateUserDto, req: Request, res: Response): Promise<void>;
