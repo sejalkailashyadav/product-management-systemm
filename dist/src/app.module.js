@@ -28,14 +28,11 @@ AppModule = __decorate([
             user_module_1.UserModule,
             product_module_1.ProductModule,
             categories_module_1.CategoriesModule,
-<<<<<<< HEAD
             role_permissions_module_1.RolePermissionsModule,
             platform_express_1.MulterModule.register({
                 dest: "./files",
             }),
             order_module_1.OrderModule,
-=======
->>>>>>> 7f6cf4b5a4092156894649a9cca8a0d9f9926e9a
         ],
         providers: [
             {

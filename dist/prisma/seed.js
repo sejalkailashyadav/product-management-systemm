@@ -17,7 +17,6 @@ async function main() {
         },
     });
 }
-<<<<<<< HEAD
 main()
     .then(async () => {
     await prisma.$disconnect();
@@ -27,8 +26,4 @@ main()
     await prisma.$disconnect();
     process.exit(1);
 });
-=======
-console.log('many-to-many');
-console.log(JSON.stringify(createProductwithCat(), null, 2));
->>>>>>> 7f6cf4b5a4092156894649a9cca8a0d9f9926e9a
 //# sourceMappingURL=seed.js.map
