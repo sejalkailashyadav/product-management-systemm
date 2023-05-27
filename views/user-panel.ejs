@@ -23,20 +23,21 @@
   
 </head>
 <body>
-
-    <div class="container">
-      <h1 class="text-center text-primary mt-3 mb-3">DataTable</h1>
-
-      <div class="card">
-        <div class="card-header">Customer Data</div>
-        <div class="card-body">
-          <div class="table-responsive">
+ <%- include("darshboard") -%>
+  <div class="container">
+    <br>
+    <h1>Admin Panel</h1>
+    <br>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add User</button>
+       
+    <br><br>
             <table id="customer_data" class="table table-bordered">
               <thead>
                 <tr>
                    <th>Id</th>
                    <th>Name</th>
                    <th>Email</th>
+                   
                 </tr>
               </thead>
               <tbody></tbody>
@@ -45,8 +46,38 @@
         </div>
       </div>
     </div>
+<!-- Add User Modal -->
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">Add User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form >
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
- 
+   
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

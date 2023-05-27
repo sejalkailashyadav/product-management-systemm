@@ -15,9 +15,9 @@ export declare class UserService {
     getTokens(userId: number, email: string): Promise<Tokens>;
     getAllUser(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
     findAll(): Promise<{
+        id: number;
         name: string;
         email: string;
-        id: number;
     }[]>;
     deleteUserById(id: number, req: Request, res: Response): Promise<void>;
     editUserById(id: number, dto: CreateUserDto, req: Request, res: Response): Promise<void>;
