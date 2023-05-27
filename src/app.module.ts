@@ -17,11 +17,14 @@ import { OrderModule } from './order/order.module';
     UserModule,
     ProductModule,
     CategoriesModule,
+<<<<<<< HEAD
     RolePermissionsModule,
     MulterModule.register({
       dest: "./files",
     }),
     OrderModule,
+=======
+>>>>>>> 7f6cf4b5a4092156894649a9cca8a0d9f9926e9a
   ],
   providers: [
     {
