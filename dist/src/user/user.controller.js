@@ -21,14 +21,9 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
+    async userPanelll() { }
     async userPanel(req, res) {
-        try {
-            const users = await this.userService.getAllUser();
-            return { users };
-        }
-        catch (error) {
-            throw error;
-        }
+        return this.userService.getAllUser(req, res);
     }
     async adminPanel() {
     }
@@ -44,8 +39,15 @@ let UserController = class UserController {
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/user-panel"),
-    (0, common_1.Render)("user-panel"),
+    (0, common_1.Get)('/'),
+    (0, common_1.Render)('user-panel'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "userPanelll", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)('/users'),
     __param(0, (0, common_1.Request)()),
     __param(1, (0, common_1.Response)()),
     __metadata("design:type", Function),
@@ -92,7 +94,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "editUser", null);
 UserController = __decorate([
-    (0, common_1.Controller)("user"),
+    (0, common_1.Controller)(),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 exports.UserController = UserController;

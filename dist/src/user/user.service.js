@@ -22,6 +22,23 @@ let UserService = class UserService {
         this.jwtService = jwtService;
         this.config = config;
     }
+    async getAllUser(req, res) {
+        const { draw, search, order } = req.query;
+        const columns = ['id', 'name', 'email'];
+        const query = {
+            where: {},
+            select: {
+                id: true,
+                name: true,
+                email: true,
+            },
+        };
+        const data = await this.prisma.user.findMany(query);
+        return res.json({
+            draw: draw,
+            data: data,
+        });
+    }
     async create(dto, req, res) {
         const hash = await argon.hash(dto.password);
         const user = await this.prisma.user
@@ -89,18 +106,6 @@ let UserService = class UserService {
             access_token: at,
             refresh_token: rt,
         };
-    }
-    async getAllUser() {
-        try {
-            const users = await this.prisma.user.findMany({
-                select: { id: true, email: true, name: true },
-                where: { isadmin: false },
-            });
-            return users;
-        }
-        catch (err) {
-            throw err;
-        }
     }
     async deleteUserById(id, req, res) {
         await this.prisma.user.delete({

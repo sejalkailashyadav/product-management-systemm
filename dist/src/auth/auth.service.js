@@ -106,10 +106,10 @@ let AuthService = class AuthService {
         const passwordMatches = await argon.verify(user.password, dto.password);
         if (!passwordMatches)
             throw new common_1.ForbiddenException('Access Denied');
+        if (user.isadmin) {
+            res.render('user-panel');
+        }
         const tokens = await this.getTokens(user.id, user.email);
-        console.log('data');
-        console.log(tokens);
-        console.log(user.id, user.email);
         res.cookie('jwt_payload', tokens.access_token, { httpOnly: true });
         const users = await this.prisma.user.findMany({
             select: { id: true, email: true, name: true },

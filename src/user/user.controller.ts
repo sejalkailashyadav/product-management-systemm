@@ -17,7 +17,7 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { Public } from "src/common/decorators";
 import { Tokens } from "../auth/types";
 
-@Controller("user")
+@Controller()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -32,16 +32,27 @@ export class UserController {
   // async userPanell(@Request() req, @Response() res) {
   //   return { msg: 'sehal' };
   // }
+  // @Public()
+  // @Get("/user-panel")
+  // @Render("user-panel")
+  // async userPanel(@Request() req, @Response() res) {
+  //   try {
+  //     const users = await this.userService.getAllUser();
+  //     return { users };
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+
   @Public()
-  @Get("/user-panel")
-  @Render("user-panel")
+  @Get('/')
+  @Render('user-panel')
+  async userPanelll() {}
+
+  @Public()
+  @Get('/users')
   async userPanel(@Request() req, @Response() res) {
-    try {
-      const users = await this.userService.getAllUser();
-      return { users };
-    } catch (error) {
-      throw error;
-    }
+    return this.userService.getAllUser(req, res);
   }
   @Public()
   @Get("/admin-panel")

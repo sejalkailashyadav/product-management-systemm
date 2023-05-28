@@ -16,6 +16,45 @@ export class UserService {
     private config: ConfigService
   ) { }
 
+  //show
+  async getAllUser(req: Request, res: Response) {
+    const { draw, search, order } = req.query;
+    // const offset = req.query.start || 0;
+    // const limit = req.query.length || 10;
+
+    // console.log('offset', typeof offset);
+
+    const columns = ['id', 'name', 'email'];
+    // const { dir, column } = order[0];
+    // const columnOrder = columns[column];
+    // const orderDirection = dir.toUpperCase();
+
+    const query = {
+      where: {},
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+      // offset: +offset,
+      // limit: +limit,
+      // order: [[columnOrder, orderDirection]],
+    };
+
+    // if (search.value) {
+    //   query.where[Op.or] = columns.map((column) => ({
+    //     [column]: { [Op.like]: `%${search.value}%` },
+    //   }));
+    // }
+
+    const data = await this.prisma.user.findMany(query);
+
+    return res.json({
+      draw: draw,
+      data: data,
+    });
+  }
+ 
   //insert
   async create(
     dto: CreateUserDto,
@@ -97,17 +136,17 @@ export class UserService {
       refresh_token: rt,
     };
   }
-  async getAllUser() {
-    try {
-      const users = await this.prisma.user.findMany({
-        select: { id: true, email: true, name: true },
-        where: { isadmin: false },
-      });
-      return users;
-    } catch (err) {
-      throw err;
-    }
-  }
+  // async getAllUser() {
+  //   try {
+  //     const users = await this.prisma.user.findMany({
+  //       select: { id: true, email: true, name: true },
+  //       where: { isadmin: false },
+  //     });
+  //     return users;
+  //   } catch (err) {
+  //     throw err;
+  //   }
+  // }
   //delete user
   async deleteUserById(id: number, req: Request, res: Response) {
     await this.prisma.user.delete({
