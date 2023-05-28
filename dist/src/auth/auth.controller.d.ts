@@ -1,6 +1,6 @@
-import { AuthService } from "./auth.service";
-import { AuthDto } from "./dto";
-import { Tokens } from "./types";
+import { AuthService } from './auth.service';
+import { AuthDto } from './dto';
+import { Tokens } from './types';
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
@@ -20,14 +20,11 @@ export declare class AuthController {
         msg: string;
     };
     forgotPassword(email: string, req: any, res: any): Promise<void>;
-    logoutt(): {
-        msg: string;
-    };
     logout(userId: number, req: any, res: any): Promise<boolean>;
     panell(): {
         msg: string;
     };
-    refreshTokens(userId: number, refreshToken: string): Promise<Tokens>;
+    refreshTokens(userId: number, refreshToken: string, res: any): Promise<Tokens>;
     verification(): {
         msg: string;
     };

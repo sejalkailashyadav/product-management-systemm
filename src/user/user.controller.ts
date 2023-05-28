@@ -18,11 +18,10 @@ import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { Public } from "src/common/decorators";
 import { Tokens } from "../auth/types";
-import { Op } from "sequelize";
 
 @Controller("/")
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   // @Public()
   // @Post()
@@ -38,7 +37,7 @@ export class UserController {
   @Public()
   @Get('/')
   @Render('user-panel')
-  async userPanelll() {}
+  async userPanelll() { }
 
   @Public()
   @Get('/users')
@@ -48,7 +47,7 @@ export class UserController {
   @Public()
   @Get('/admin-panel')
   @Render('admin_panel')
-  async adminPanel() {}
+  async adminPanel() { }
 
   @Public()
   @Post('/insert')

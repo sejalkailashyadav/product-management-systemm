@@ -37,7 +37,10 @@
             </form> -->
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item bg-light p-2 rounded-pill">
-                    <a class="nav-link" href="/dashboard/logout">Log-Out</a>
+                    <form action="/auth/local/logout" method="post">
+                        <a class="nav-link" href="/auth/local/logout">Log-Out</a>
+                    </form>
+                
                 </li>
             </ul>
         </div>

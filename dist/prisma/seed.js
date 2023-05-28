@@ -1,16 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
-const bcrypt = require("bcrypt");
 const prisma = new client_1.PrismaClient();
+const argon = require("argon2");
 async function main() {
-    const plainPassword = "admin@123";
-    const hashedPassword = await bcrypt.hash(plainPassword, 10);
+    const plainPassword = 'admin@123';
+    const hash = await argon.hash(plainPassword);
     await prisma.user.create({
         data: {
-            name: "admin",
-            email: "adminmain@gmail.com",
-            password: hashedPassword,
+            name: 'admin',
+            email: 'admin@gmail.com',
+            password: hash,
             googleid: null,
             hashedRt: null,
             isadmin: true,

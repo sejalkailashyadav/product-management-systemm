@@ -1,9 +1,9 @@
-import { CreateUserDto } from "./dto/create-user.dto";
-import { Request, Response } from "express";
-import { ConfigService } from "@nestjs/config";
-import { JwtService } from "@nestjs/jwt";
-import { PrismaService } from "../prisma/prisma.service";
-import { Tokens } from "../auth/types";
+import { CreateUserDto } from './dto/create-user.dto';
+import { Request, Response } from 'express';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from '../prisma/prisma.service';
+import { Tokens } from '../auth/types';
 export declare class UserService {
     private prisma;
     private jwtService;
@@ -15,9 +15,9 @@ export declare class UserService {
     getTokens(userId: number, email: string): Promise<Tokens>;
     getAllUser(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
     findAll(): Promise<{
-        id: number;
         name: string;
         email: string;
+        id: number;
     }[]>;
     deleteUserById(id: number, req: Request, res: Response): Promise<void>;
     editUserById(id: number, dto: CreateUserDto, req: Request, res: Response): Promise<void>;

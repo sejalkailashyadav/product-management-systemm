@@ -1,10 +1,35 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { JwtPayload } from '../../auth/types';
 
+// export const GetCurrentUserId = createParamDecorator(
+//   (_: undefined, context: ExecutionContext): number => {
+//     const request = context.switchToHttp().getRequest();
+//     console.log('jwtpallllllllllllllllllllllllllll');
+//     //console.log(request);
+//     const { jwt_payload } = request.cookies;
+//     console.log(jwt_payload);
+
+//     //console.log(request.jwt_payload);
+//     // console.log(request.cookie);
+//     const user = jwt_payload as JwtPayload;
+//     console.log(user);
+//     console.log(user.sub, user.email);
+//     return user.sub;
+//   },
+// );
+
 export const GetCurrentUserId = createParamDecorator(
-  (_: undefined, context: ExecutionContext): number => {
+  (_, context: ExecutionContext): number => {
     const request = context.switchToHttp().getRequest();
-    const user = request.user as JwtPayload;
+    const { jwt_payload } = request.cookies;
+
+    const user: JwtPayload = JSON.parse(
+      Buffer.from(jwt_payload.split('.')[1], 'base64').toString('utf-8'),
+    );
+    console.log('kllllllllllreoijrgoijgoijrgoijrgoijriogjrtg');
+
+    console.log(user.sub, user.email);
+
     return user.sub;
   },
 );
