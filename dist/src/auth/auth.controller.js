@@ -46,17 +46,14 @@ let AuthController = class AuthController {
     forgotPassword(email, req, res) {
         return this.authService.forgotPassword(email, res, req);
     }
-    logoutt() {
-        return { msg: 'sejal' };
-    }
     logout(userId, req, res) {
         return this.authService.logout(userId, req, res);
     }
     panell() {
         return { msg: 'sejal' };
     }
-    refreshTokens(userId, refreshToken) {
-        return this.authService.refreshTokens(userId, refreshToken);
+    refreshTokens(userId, refreshToken, res) {
+        return this.authService.refreshTokens(userId, refreshToken, res);
     }
     verification() {
         return { msg: 'sejal' };
@@ -75,8 +72,8 @@ __decorate([
     (0, common_1.Post)('local/signup'),
     (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Req)()),
-    __param(2, (0, common_1.Res)()),
+    __param(1, (0, common_1.Request)()),
+    __param(2, (0, common_1.Response)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [dto_1.AuthDto, Object, Object]),
     __metadata("design:returntype", Promise)
@@ -94,8 +91,8 @@ __decorate([
     (0, common_1.Post)('/local/signin'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Req)()),
-    __param(2, (0, common_1.Res)()),
+    __param(1, (0, common_1.Request)()),
+    __param(2, (0, common_1.Response)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [dto_1.AuthDto, Object, Object]),
     __metadata("design:returntype", Promise)
@@ -115,8 +112,8 @@ __decorate([
     __param(0, (0, common_1.Body)('email')),
     __param(1, (0, common_1.Body)('token')),
     __param(2, (0, common_1.Body)('newPassword')),
-    __param(3, (0, common_1.Req)()),
-    __param(4, (0, common_1.Res)()),
+    __param(3, (0, common_1.Request)()),
+    __param(4, (0, common_1.Response)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String, Object, Object]),
     __metadata("design:returntype", Promise)
@@ -135,26 +132,19 @@ __decorate([
     (0, common_1.Render)('change-password'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, common_1.Body)('email')),
-    __param(1, (0, common_1.Req)()),
-    __param(2, (0, common_1.Res)()),
+    __param(1, (0, common_1.Request)()),
+    __param(2, (0, common_1.Response)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "forgotPassword", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)('logout'),
-    (0, common_1.Render)('logout'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], AuthController.prototype, "logoutt", null);
-__decorate([
-    (0, common_1.Post)('logout'),
+    (0, common_1.Get)('/logout'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, decorators_1.GetCurrentUserId)()),
-    __param(1, (0, common_1.Req)()),
-    __param(2, (0, common_1.Res)()),
+    __param(1, (0, common_1.Request)()),
+    __param(2, (0, common_1.Response)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Object, Object]),
     __metadata("design:returntype", Promise)
@@ -174,8 +164,9 @@ __decorate([
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, decorators_1.GetCurrentUserId)()),
     __param(1, (0, decorators_1.GetCurrentUser)('refreshToken')),
+    __param(2, (0, common_1.Response)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String]),
+    __metadata("design:paramtypes", [Number, String, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "refreshTokens", null);
 __decorate([
