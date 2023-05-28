@@ -23,146 +23,146 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     signup() {
-        return { msg: "sejal" };
+        return { msg: 'sejal' };
     }
     signupLocal(dto, req, res) {
         return this.authService.signupLocal(dto, req, res);
     }
     getuserLogin() {
-        return { msg: "sejal" };
+        return { msg: 'sejal' };
     }
     signinLocal(dto, req, res) {
         return this.authService.signinLocal(dto, req, res);
     }
     password() {
-        return { msg: "sejal" };
+        return { msg: 'sejal' };
     }
     resetPassword(email, token, newPassword, req, res) {
         return this.authService.resetPassword(email, token, newPassword, req, res);
     }
     forget() {
-        return { msg: "sejal" };
+        return { msg: 'sejal' };
     }
     forgotPassword(email, req, res) {
         return this.authService.forgotPassword(email, res, req);
     }
     logoutt() {
-        return { msg: "sejal" };
+        return { msg: 'sejal' };
     }
     logout(userId, req, res) {
         return this.authService.logout(userId, req, res);
     }
     panell() {
-        return { msg: "sejal" };
+        return { msg: 'sejal' };
     }
     refreshTokens(userId, refreshToken) {
         return this.authService.refreshTokens(userId, refreshToken);
     }
     verification() {
-        return { msg: "sejal" };
+        return { msg: 'sejal' };
     }
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("local/signup"),
-    (0, common_1.Render)("signup"),
+    (0, common_1.Get)('local/signup'),
+    (0, common_1.Render)('signup'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signup", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("local/signup"),
+    (0, common_1.Post)('local/signup'),
     (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Request)()),
-    __param(2, (0, common_1.Response)()),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [dto_1.AuthDto, Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signupLocal", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/local/signin"),
-    (0, common_1.Render)("signin"),
+    (0, common_1.Get)('/local/signin'),
+    (0, common_1.Render)('signin'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "getuserLogin", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("/local/signin"),
+    (0, common_1.Post)('/local/signin'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Request)()),
-    __param(2, (0, common_1.Response)()),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [dto_1.AuthDto, Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signinLocal", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("change-password"),
-    (0, common_1.Render)("change-password"),
+    (0, common_1.Get)('change-password'),
+    (0, common_1.Render)('change-password'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "password", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("change-password"),
+    (0, common_1.Post)('change-password'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    __param(0, (0, common_1.Body)("email")),
-    __param(1, (0, common_1.Body)("token")),
-    __param(2, (0, common_1.Body)("newPassword")),
-    __param(3, (0, common_1.Request)()),
-    __param(4, (0, common_1.Response)()),
+    __param(0, (0, common_1.Body)('email')),
+    __param(1, (0, common_1.Body)('token')),
+    __param(2, (0, common_1.Body)('newPassword')),
+    __param(3, (0, common_1.Req)()),
+    __param(4, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String, Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "resetPassword", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("forget-password"),
-    (0, common_1.Render)("forget-password"),
+    (0, common_1.Get)('forget-password'),
+    (0, common_1.Render)('forget-password'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "forget", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("forgot-password"),
-    (0, common_1.Render)("change-password"),
+    (0, common_1.Post)('forgot-password'),
+    (0, common_1.Render)('change-password'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    __param(0, (0, common_1.Body)("email")),
-    __param(1, (0, common_1.Request)()),
-    __param(2, (0, common_1.Response)()),
+    __param(0, (0, common_1.Body)('email')),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "forgotPassword", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("logout"),
-    (0, common_1.Render)("logout"),
+    (0, common_1.Get)('logout'),
+    (0, common_1.Render)('logout'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "logoutt", null);
 __decorate([
-    (0, common_1.Post)("logout"),
+    (0, common_1.Post)('logout'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, decorators_1.GetCurrentUserId)()),
-    __param(1, (0, common_1.Request)()),
-    __param(2, (0, common_1.Response)()),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("darshboard"),
-    (0, common_1.Render)("darshboard"),
+    (0, common_1.Get)('darshboard'),
+    (0, common_1.Render)('darshboard'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
@@ -170,24 +170,24 @@ __decorate([
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.UseGuards)(guards_1.RtGuard),
-    (0, common_1.Post)("refresh"),
+    (0, common_1.Post)('refresh'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, decorators_1.GetCurrentUserId)()),
-    __param(1, (0, decorators_1.GetCurrentUser)("refreshToken")),
+    __param(1, (0, decorators_1.GetCurrentUser)('refreshToken')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, String]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "refreshTokens", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("email-verification"),
-    (0, common_1.Render)("email-verification"),
+    (0, common_1.Get)('email-verification'),
+    (0, common_1.Render)('email-verification'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "verification", null);
 AuthController = __decorate([
-    (0, common_1.Controller)("auth"),
+    (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
 exports.AuthController = AuthController;

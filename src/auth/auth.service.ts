@@ -112,7 +112,7 @@ export class AuthService {
 
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRtHash(user.id, tokens.refresh_token);
-    res.redirect("/auth/local/signup");
+   res.redirect("/auth/local/signup");
     return tokens;
   }
 
