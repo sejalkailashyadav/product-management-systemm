@@ -141,9 +141,7 @@ export class AuthService {
     const passwordMatches = await argon.verify(user.password, dto.password);
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
   
-    if (user.isadmin) {
-      res.render('user-panel');
-    }
+    
   
     const tokens = await this.getTokens(user.id, user.email);
   
@@ -154,8 +152,14 @@ export class AuthService {
       select: { id: true, email: true, name: true },
       where: { isadmin: false },
     });
-  
+  if (user.isadmin) {
+    // res.render("user-panel");
+    res.render("user-panel", { user, users });
+  }
+  else{
     res.render('user_Panel', { user, users });
+  }
+    
   
     return tokens;
   }

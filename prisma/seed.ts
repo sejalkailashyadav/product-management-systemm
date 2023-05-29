@@ -1,16 +1,16 @@
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcrypt";
 const prisma = new PrismaClient();
-
+import * as argon from "argon2";
 async function main() {
   const plainPassword = "admin@123";
-  const hashedPassword = await bcrypt.hash(plainPassword, 10); // Hash the password with salt rounds of 10
-
+  //   const hashedPassword = await bcrypt.hash(plainPassword, 10); // Hash the password with salt rounds of 10
+  const hash = await argon.hash(plainPassword);
   await prisma.user.create({
     data: {
       name: "admin",
-      email: "adminmain@gmail.com",
-      password: hashedPassword,
+      email: "admin@gmail.com",
+      password: hash,
       googleid: null,
       hashedRt: null,
       isadmin: true,
