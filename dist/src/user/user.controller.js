@@ -25,8 +25,7 @@ let UserController = class UserController {
     async userPanel(req, res) {
         return this.userService.getAllUser(req, res);
     }
-    async adminPanel() {
-    }
+    async adminPanel() { }
     insertuser(dto, req, res) {
         return this.userService.create(dto, req, res);
     }
@@ -34,20 +33,20 @@ let UserController = class UserController {
         return this.userService.deleteUserById(Number(id), res, req);
     }
     async editUser(id, dto, req, res) {
-        return this.userService.editUserById(Number(id), dto, res, req);
+        return this.userService.editUserById(id, dto, res, req);
     }
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)('/'),
-    (0, common_1.Render)('user-panel'),
+    (0, common_1.Get)("/"),
+    (0, common_1.Render)("user-panel"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "userPanelll", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)('/users'),
+    (0, common_1.Get)("/users"),
     __param(0, (0, common_1.Request)()),
     __param(1, (0, common_1.Response)()),
     __metadata("design:type", Function),
@@ -84,8 +83,8 @@ __decorate([
 ], UserController.prototype, "deleteUserById", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("/edit/:id"),
-    __param(0, (0, common_1.Param)("id")),
+    (0, common_1.Post)("/edit/userId"),
+    __param(0, (0, common_1.Query)("userId")),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Request)()),
     __param(3, (0, common_1.Response)()),

@@ -5,13 +5,15 @@ import { PrismaService } from "src/prisma/prisma.service";
 @Injectable()
 export class CategoriesService {
   constructor(private readonly prismaSerivce: PrismaService) {}
-  async createUser(dto: CreateCategoryDto) {
-    return this.prismaSerivce.user.create({
-      data: dto,
+  async createcategory(dto: CreateCategoryDto) {
+    return this.prismaSerivce.category.create({
+      data: {
+        category_name: dto.category_name,
+      },
     });
   }
 
-
+  
 
   async getAllUser() {
     return await this.prismaSerivce.product.findMany({
@@ -27,7 +29,6 @@ export class CategoriesService {
   //     include: { tags: true },
   //   });
   // }
-
 
   findOne(id: number) {
     return `This action returns a #${id} category`;

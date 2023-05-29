@@ -17,6 +17,6 @@ async function bootstrap() {
   //  console.log(cwd);
     console.log(cwd + '/public');
 
-  await app.listen(1111);
+  await app.listen(8000);
 }
 bootstrap();

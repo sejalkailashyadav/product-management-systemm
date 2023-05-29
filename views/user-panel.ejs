@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
   <title>Admin Panel</title>
   <meta charset="utf-8" />
@@ -69,34 +68,67 @@
           </div>
         </div>
       </div>
-      <div class="container">
-        <div class="card">
-          <div class="card-header">User-module</div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table id="customer_data" class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
+
+      <!--Edit User Modal -->
+       <div class="modal fade" id="addEditUserModal" data-target="#addEditUserModal" tabindex="-1" <div class="modal-dialog">
+         <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addEditUserModalLabel">Edit User</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Add user form fields here -->
+            <form id="addEditUserForm" action="/edit" method="post">
+              <input type="hidden" id="userId" />
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter name">
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter email">
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>  
+  
+     
+    </div>
+  
+
+
+
+    <div class="container">
+      <div class="card">
+        <div class="card-header"></div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="customer_data" class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
           </div>
         </div>
       </div>
+    </div>
 
 
-      <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-      <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-      <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
 </body>
 
 </html>
@@ -113,11 +145,31 @@
         { data: 'id' },
         { data: 'name' },
         { data: 'email' },
-      ],
+        {
+          data: null,
+          render: function (data, type, row) {
+            return `
+<button class="btn btn-primary btn-sm" onclick="editUser(${data.id}, '${data.name}',
+'${data.email}')">Edit</button>
+<button class="btn btn-danger btn-sm"
+onclick="deleteUser(${data.id})">Delete</button>
+`;
+          }
+        }
+      ]
+
     });
   });
 
+  function editUser(userId, name, email) {
+    $('#userId').val(userId);
+    $('#name').val(name);
+    $('#email').val(email);
+    $('#addEditUserModal').modal('show');
+   
+  }
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

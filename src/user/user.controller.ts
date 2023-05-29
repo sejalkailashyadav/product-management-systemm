@@ -11,6 +11,7 @@ import {
   Response,
   HttpStatus,
   Res,
+  Query,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -45,21 +46,20 @@ export class UserController {
   // }
 
   @Public()
-  @Get('/')
-  @Render('user-panel')
+  @Get("/")
+  @Render("user-panel")
   async userPanelll() {}
 
   @Public()
-  @Get('/users')
+  @Get("/users")
   async userPanel(@Request() req, @Response() res) {
     return this.userService.getAllUser(req, res);
   }
   @Public()
   @Get("/admin-panel")
   @Render("admin_panel")
-  async adminPanel() {
-  }
-  
+  async adminPanel() {}
+
   @Public()
   @Post("/insert")
   insertuser(
@@ -86,13 +86,13 @@ export class UserController {
     return this.userService.deleteUserById(Number(id), res, req); // Convert the id to a number if necessary
   }
   @Public()
-  @Post("/edit/:id")
+  @Post("/edit/userId")
   async editUser(
-    @Param("id") id: number,
+    @Query("userId") id: number,
     @Body() dto: CreateUserDto,
     @Request() req,
     @Response() res
   ) {
-    return this.userService.editUserById(Number(id), dto, res, req);
+    return this.userService.editUserById(id, dto, res, req);
   }
 }

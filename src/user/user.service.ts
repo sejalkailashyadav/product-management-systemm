@@ -14,7 +14,7 @@ export class UserService {
     private prisma: PrismaService,
     private jwtService: JwtService,
     private config: ConfigService
-  ) { }
+  ) {}
 
   //show
   async getAllUser(req: Request, res: Response) {
@@ -24,7 +24,7 @@ export class UserService {
 
     // console.log('offset', typeof offset);
 
-    const columns = ['id', 'name', 'email'];
+    const columns = ["id", "name", "email"];
     // const { dir, column } = order[0];
     // const columnOrder = columns[column];
     // const orderDirection = dir.toUpperCase();
@@ -54,7 +54,7 @@ export class UserService {
       data: data,
     });
   }
- 
+
   //insert
   async create(
     dto: CreateUserDto,
@@ -157,19 +157,18 @@ export class UserService {
   }
   //update user
   async editUserById(
-    id: number,
+    userId: number,
     dto: CreateUserDto,
     req: Request,
     res: Response
   ) {
     await this.prisma.user.update({
       where: {
-        id: id,
+        id: userId,
       },
       data: {
         name: dto.name,
         email: dto.email,
-        password: dto.password,
       },
     });
   }

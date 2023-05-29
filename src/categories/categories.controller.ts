@@ -4,13 +4,13 @@ import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { Public } from 'src/common/decorators';
 
-@Controller("categories")
+@Controller()
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Public()
-  @Get('/catgory')
-  @Render('catgory')
+  @Get("/product_category")
+  @Render("product")
   async userPanel(@Request() req, @Response() res) {
     try {
       const users = await this.categoriesService.getAllUser();
@@ -19,8 +19,11 @@ export class CategoriesController {
       throw error;
     }
   }
+
+  //create caregory
+  @Public()
   @Post("/craeate-categories")
-  createnewUser(@Body() dto: CreateCategoryDto) {
+  createnewcategory(@Body() dto: CreateCategoryDto) {
     try {
       return this.categoriesService.createUser(dto);
     } catch (error) {

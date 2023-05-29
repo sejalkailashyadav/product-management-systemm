@@ -24,7 +24,7 @@ let UserService = class UserService {
     }
     async getAllUser(req, res) {
         const { draw, search, order } = req.query;
-        const columns = ['id', 'name', 'email'];
+        const columns = ["id", "name", "email"];
         const query = {
             where: {},
             select: {
@@ -114,15 +114,14 @@ let UserService = class UserService {
             },
         });
     }
-    async editUserById(id, dto, req, res) {
+    async editUserById(userId, dto, req, res) {
         await this.prisma.user.update({
             where: {
-                id: id,
+                id: userId,
             },
             data: {
                 name: dto.name,
                 email: dto.email,
-                password: dto.password,
             },
         });
     }

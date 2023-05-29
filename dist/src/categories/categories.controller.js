@@ -30,7 +30,7 @@ let CategoriesController = class CategoriesController {
             throw error;
         }
     }
-    createnewUser(dto) {
+    createnewcategory(dto) {
         try {
             return this.categoriesService.createUser(dto);
         }
@@ -47,8 +47,8 @@ let CategoriesController = class CategoriesController {
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)('/catgory'),
-    (0, common_1.Render)('catgory'),
+    (0, common_1.Get)("/product_category"),
+    (0, common_1.Render)("product"),
     __param(0, (0, common_1.Request)()),
     __param(1, (0, common_1.Response)()),
     __metadata("design:type", Function),
@@ -56,12 +56,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CategoriesController.prototype, "userPanel", null);
 __decorate([
+    (0, decorators_1.Public)(),
     (0, common_1.Post)("/craeate-categories"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_category_dto_1.CreateCategoryDto]),
     __metadata("design:returntype", void 0)
-], CategoriesController.prototype, "createnewUser", null);
+], CategoriesController.prototype, "createnewcategory", null);
 __decorate([
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),
@@ -77,7 +78,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CategoriesController.prototype, "remove", null);
 CategoriesController = __decorate([
-    (0, common_1.Controller)("categories"),
+    (0, common_1.Controller)(),
     __metadata("design:paramtypes", [categories_service_1.CategoriesService])
 ], CategoriesController);
 exports.CategoriesController = CategoriesController;
