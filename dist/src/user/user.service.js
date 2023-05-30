@@ -24,13 +24,14 @@ let UserService = class UserService {
     }
     async getAllUser(req, res) {
         const { draw, search, order } = req.query;
-        const columns = ["id", "name", "email"];
+        const columns = ["id", "name", "email", "isadmin"];
         const query = {
             where: {},
             select: {
                 id: true,
                 name: true,
                 email: true,
+                isadmin: true,
             },
         };
         const data = await this.prisma.user.findMany(query);
@@ -114,10 +115,10 @@ let UserService = class UserService {
             },
         });
     }
-    async editUserById(userId, dto, req, res) {
+    async editUserById(id, dto, req, res) {
         await this.prisma.user.update({
             where: {
-                id: userId,
+                id: id,
             },
             data: {
                 name: dto.name,

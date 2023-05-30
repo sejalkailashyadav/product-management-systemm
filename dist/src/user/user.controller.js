@@ -33,7 +33,7 @@ let UserController = class UserController {
         return this.userService.deleteUserById(Number(id), res, req);
     }
     async editUser(id, dto, req, res) {
-        return this.userService.editUserById(id, dto, res, req);
+        return this.userService.editUserById(Number(id), dto, res, req);
     }
 };
 __decorate([
@@ -83,8 +83,8 @@ __decorate([
 ], UserController.prototype, "deleteUserById", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("/edit/userId"),
-    __param(0, (0, common_1.Query)("userId")),
+    (0, common_1.Post)("/edit/:id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Request)()),
     __param(3, (0, common_1.Response)()),
@@ -93,7 +93,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "editUser", null);
 UserController = __decorate([
-    (0, common_1.Controller)(),
+    (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 exports.UserController = UserController;

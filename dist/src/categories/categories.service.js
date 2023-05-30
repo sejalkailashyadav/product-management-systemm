@@ -16,11 +16,11 @@ let CategoriesService = class CategoriesService {
     constructor(prismaSerivce) {
         this.prismaSerivce = prismaSerivce;
     }
-    async createUser(dto) {
+    async createcategory(dto) {
         return this.prismaSerivce.category.create({
             data: {
                 category_name: dto.category_name,
-            }
+            },
         });
     }
     async getAllUser() {

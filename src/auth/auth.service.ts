@@ -149,7 +149,7 @@ export class AuthService {
     res.cookie('jwt_payload', tokens.access_token, { httpOnly: true });
   
     const users = await this.prisma.user.findMany({
-      select: { id: true, email: true, name: true },
+      select: { id: true, email: true, name: true ,isadmin:true},
       where: { isadmin: false },
     });
   if (user.isadmin) {

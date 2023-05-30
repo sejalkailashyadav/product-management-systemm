@@ -1,177 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>Admin Panel</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet" />
-
-  <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
-
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Listing</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
-  <style>
-    h1 {
-      color: #000000;
-      font-size: 48px;
-      font-family: 'Signika', sans-serif;
-      padding-bottom: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#myTable').DataTable();
+    });
+  </script>
 </head>
 
 <body>
   <%- include("darshboard") -%>
-    <div class="container">
-      <br>
-      <h1>User Management Module</h1>
-      <br>
-      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add User</button>
-      <br><br>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add User</button>
+    <table id="myTable" class="display">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>name</th>
+          <th>email</th>
+          <th>Role</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% users.forEach(d=> { %>
+          <tr>
+            <td>
+              <%= d.id %>
+            </td>
+            <td>
+              <%= d.name %>
+            </td>
+            <td>
+              <%= d.email %>
+            </td>
+            <td>
+              <%= d.isadmin===1 ? "Admin" : "User" %>
+            </td>
+            <td>
+              <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editModal<%= d.id %>">Edit</a>
+              <form action="/user/delete/<%= d.id %>" method="POST">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </td>
+          </tr>
+          <% }); %>
+      </tbody>
+    </table>
 
 
-      <!-- Add User Modal -->
-      <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addModalLabel">Add User</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/user/insert" method="POST">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password"
+                  required>
+              </div>
+              <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% users.forEach(function(user) { %>
+      <!-- Edit User Modal -->
+      <div class="modal fade" id="editModal<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="addModalLabel">Add User</h5>
+              <h5 class="modal-title" id="editModalLabel">Edit User</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <form action="/insert" method="POST">
+              <form action="/user/edit/<%= user.id %>" method="POST">
                 <div class="form-group">
-                  <label for="name">Name</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
+                  <label for="edit-name">Name</label>
+                  <input type="text" class="form-control" id="edit-name" name="name" placeholder="Enter name"
+                    value="<%= user.name %>" required>
                 </div>
                 <div class="form-group">
-                  <label for="email">Email</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+                  <label for="edit-email">Email</label>
+                  <input type="email" class="form-control" id="edit-email" name="email" placeholder="Enter email"
+                    value="<%= user.email %>" required>
                 </div>
                 <div class="form-group">
-                  <label for="password">Password</label>
-                  <input type="password" class="form-control" id="password" name="password" placeholder="Enter password"
-                    required>
+                  <label for="edit-email">Password</label>
+                  <input type="Password" class="form-control" id="edit-password" name="password"
+                    placeholder="Enter password" value="<%= user.password %>" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="submit" class="btn btn-primary">Update</button>
               </form>
             </div>
           </div>
         </div>
       </div>
-
-      <!--Edit User Modal -->
-       <div class="modal fade" id="addEditUserModal" data-target="#addEditUserModal" tabindex="-1" <div class="modal-dialog">
-         <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addEditUserModalLabel">Edit User</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <!-- Add user form fields here -->
-            <form id="addEditUserForm" action="/edit" method="post">
-              <input type="hidden" id="userId" />
-              <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" placeholder="Enter name">
-              </div>
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email">
-              </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-          </div>
-        </div>
-      </div>  
-  
-     
-    </div>
-  
-
-
-
-    <div class="container">
-      <div class="card">
-        <div class="card-header"></div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table id="customer_data" class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+      <% }) %>
 </body>
 
-</html>
-<script>
-
-  $(document).ready(function () {
-    $('#customer_data').DataTable({
-      ajax: {
-        url: '/users',
-        dataSrc: 'data',
-      },
-      aaSorting: [],
-      columns: [
-        { data: 'id' },
-        { data: 'name' },
-        { data: 'email' },
-        {
-          data: null,
-          render: function (data, type, row) {
-            return `
-<button class="btn btn-primary btn-sm" onclick="editUser(${data.id}, '${data.name}',
-'${data.email}')">Edit</button>
-<button class="btn btn-danger btn-sm"
-onclick="deleteUser(${data.id})">Delete</button>
-`;
-          }
-        }
-      ]
-
-    });
-  });
-
-  function editUser(userId, name, email) {
-    $('#userId').val(userId);
-    $('#name').val(name);
-    $('#email').val(email);
-    $('#addEditUserModal').modal('show');
-   
-  }
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
 
 </html>

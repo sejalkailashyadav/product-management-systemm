@@ -18,7 +18,7 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { Public } from "src/common/decorators";
 import { Tokens } from "../auth/types";
 
-@Controller()
+@Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -85,14 +85,15 @@ export class UserController {
   ) {
     return this.userService.deleteUserById(Number(id), res, req); // Convert the id to a number if necessary
   }
+
   @Public()
-  @Post("/edit/userId")
+  @Post("/edit/:id")
   async editUser(
-    @Query("userId") id: number,
+    @Param("id") id: number,
     @Body() dto: CreateUserDto,
     @Request() req,
     @Response() res
   ) {
-    return this.userService.editUserById(id, dto, res, req);
+    return this.userService.editUserById(Number(id), dto, res, req);
   }
 }

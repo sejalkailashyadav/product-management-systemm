@@ -8,7 +8,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { RolePermissionsModule } from './role_permissions/role_permissions.module';
 import { MulterModule } from "@nestjs/platform-express";
 import { OrderModule } from './order/order.module';
-import { ProductModule } from './product/product.module';
+
 
 @Module({
   imports: [
@@ -21,7 +21,6 @@ import { ProductModule } from './product/product.module';
       dest: "./files",
     }),
     OrderModule,
-    ProductModule,
   ],
   providers: [
     {

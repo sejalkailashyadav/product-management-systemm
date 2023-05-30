@@ -32,7 +32,7 @@ let CategoriesController = class CategoriesController {
     }
     createnewcategory(dto) {
         try {
-            return this.categoriesService.createUser(dto);
+            return this.categoriesService.createcategory(dto);
         }
         catch (error) {
             throw error;

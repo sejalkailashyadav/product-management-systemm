@@ -25,7 +25,7 @@ export class CategoriesController {
   @Post("/craeate-categories")
   createnewcategory(@Body() dto: CreateCategoryDto) {
     try {
-      return this.categoriesService.createUser(dto);
+      return this.categoriesService.createcategory(dto);
     } catch (error) {
       throw error;
     }

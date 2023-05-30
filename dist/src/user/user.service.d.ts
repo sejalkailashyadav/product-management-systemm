@@ -15,5 +15,5 @@ export declare class UserService {
     updateRtHash(userId: number, rt: string): Promise<void>;
     getTokens(userId: number, email: string): Promise<Tokens>;
     deleteUserById(id: number, req: Request, res: Response): Promise<void>;
-    editUserById(userId: number, dto: CreateUserDto, req: Request, res: Response): Promise<void>;
+    editUserById(id: number, dto: CreateUserDto, req: Request, res: Response): Promise<void>;
 }

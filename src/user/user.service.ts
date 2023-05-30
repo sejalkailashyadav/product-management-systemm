@@ -1,4 +1,4 @@
-import { Injectable, ForbiddenException ,Req,Res} from "@nestjs/common";
+import { Injectable, ForbiddenException, Req, Res } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { Request, Response } from "express";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
@@ -24,7 +24,7 @@ export class UserService {
 
     // console.log('offset', typeof offset);
 
-    const columns = ["id", "name", "email"];
+    const columns = ["id", "name", "email", "isadmin"];
     // const { dir, column } = order[0];
     // const columnOrder = columns[column];
     // const orderDirection = dir.toUpperCase();
@@ -35,6 +35,7 @@ export class UserService {
         id: true,
         name: true,
         email: true,
+        isadmin: true,
       },
       // offset: +offset,
       // limit: +limit,
@@ -136,17 +137,7 @@ export class UserService {
       refresh_token: rt,
     };
   }
-  // async getAllUser() {
-  //   try {
-  //     const users = await this.prisma.user.findMany({
-  //       select: { id: true, email: true, name: true },
-  //       where: { isadmin: false },
-  //     });
-  //     return users;
-  //   } catch (err) {
-  //     throw err;
-  //   }
-  // }
+
   //delete user
   async deleteUserById(id: number, req: Request, res: Response) {
     await this.prisma.user.delete({
@@ -155,16 +146,17 @@ export class UserService {
       },
     });
   }
+
   //update user
   async editUserById(
-    userId: number,
+    id: number,
     dto: CreateUserDto,
     req: Request,
     res: Response
   ) {
     await this.prisma.user.update({
       where: {
-        id: userId,
+        id: id,
       },
       data: {
         name: dto.name,
@@ -173,3 +165,14 @@ export class UserService {
     });
   }
 }
+// async getAllUser() {
+//   try {
+//     const users = await this.prisma.user.findMany({
+//       select: { id: true, email: true, name: true },
+//       where: { isadmin: false },
+//     });
+//     return users;
+//   } catch (err) {
+//     throw err;
+//   }
+// }
