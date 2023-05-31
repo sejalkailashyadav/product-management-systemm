@@ -2,9 +2,6 @@ import { OrderService } from './order.service';
 export declare class OrderController {
     private readonly orderService;
     constructor(orderService: OrderService);
-    user_Panel(req: any, res: any): Promise<{
-        msg: string;
-    }>;
     findAll(): Promise<(import(".prisma/client").Product & {
         catrgory: import(".prisma/client").Category[];
     })[]>;
@@ -15,4 +12,5 @@ export declare class OrderController {
         msg: string;
     }>;
     insertuser(): Promise<import(".prisma/client").Order>;
+    refreshTokens(userId: number, refreshToken: string, res: any): Promise<void>;
 }

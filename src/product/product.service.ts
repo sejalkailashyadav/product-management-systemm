@@ -64,8 +64,8 @@ export class ProductService {
   //       product_price: "10000",
   //       product_image: "image.png",
   //       catrgory: {
-  //         set: [{ id: 11 }, { id: 12 }],
-  //         create: { category_name: "telephone" },
+  //         set: { id: 11 },
+  
   //       },
   //     },
   //   });

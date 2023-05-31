@@ -4,7 +4,7 @@ import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { Public } from 'src/common/decorators';
 
-@Controller("/get")
+@Controller()
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
@@ -77,5 +77,11 @@ export class CategoriesController {
   ) {
     return this.categoriesService.deletecategoryById(Number(id), res, req); // Convert the id to a number if necessary
   }
-
+  //get current userr
+  // @Get("test")
+  // @GetCurrentUserId(())
+  // testRoute(@CurrentUser() user: User) {
+  //   console.log("Current User: ", user);
+  //   return { user };
+  // }
 }

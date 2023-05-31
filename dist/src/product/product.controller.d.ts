@@ -6,6 +6,12 @@ export declare class ProductController {
     private readonly categoriesService;
     constructor(productService: ProductService, categoriesService: CategoriesService);
     createPost(categoryId: number, dto: CreateProductDto, req: any, res: any): Promise<import(".prisma/client").Product>;
+    userPanel(): Promise<{
+        products: (import(".prisma/client").Product & {
+            catrgory: import(".prisma/client").Category[];
+        })[];
+        categories: import(".prisma/client").Category[];
+    }>;
     userPanell(): Promise<{
         products: (import(".prisma/client").Product & {
             catrgory: import(".prisma/client").Category[];

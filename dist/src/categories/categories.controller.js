@@ -78,7 +78,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CategoriesController.prototype, "deleteUserById", null);
 CategoriesController = __decorate([
-    (0, common_1.Controller)("/get"),
+    (0, common_1.Controller)(),
     __metadata("design:paramtypes", [categories_service_1.CategoriesService])
 ], CategoriesController);
 exports.CategoriesController = CategoriesController;

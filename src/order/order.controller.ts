@@ -9,33 +9,34 @@ import {
   Render,
   Request,
   Response,
+  UseGuards,
 } from "@nestjs/common";
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Public, GetCurrentUserId, GetCurrentUser } from "../common/decorators";
+import { RtGuard } from "../common/guards";
 
 @Controller("/dashboard")
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
+  // @Public()
+  // @Get("/user_panel")
+  // @Render("user_Panel")
+  // async user_Panel(@Request() req, @Response() res) {
+  //   try {
+  //     // const users = await this.orderService.getAllUser();
+  //     return { msg: "users" };
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
   @Public()
-  @Get("/user_panel")
-  @Render("user_Panel")
-  async user_Panel(@Request() req, @Response() res) {
-    try {
-      // const users = await this.orderService.getAllUser();
-      return { msg: "users" };
-    } catch (error) {
-      throw error;
-    }
-  }
-      @Public()
   @Get("/product")
-   @Render("product")
+  @Render("product")
   async findAll() {
-     return await this.orderService.findAll();
-   
+    return await this.orderService.findAll();
   }
   @Public()
   @Get("/order")
@@ -66,6 +67,19 @@ export class OrderController {
   insertuser() {
     return this.orderService.create();
   }
+
+  // @Public()
+  // @UseGuards(RtGuard)
+  // @Post("")
+  // refreshTokens(
+  //   @GetCurrentUserId() userId: number,
+  //   @GetCurrentUser("refreshToken") refreshToken: string,
+  //   @Response() res,
+  //   @Body() dto:CreateOrderDto,
+  // ): Promise<void> {
+  //   return this.orderService.addtocart(userId, refreshToken, res);
+  // }
+
 
   // @Get()
   // findAll() {

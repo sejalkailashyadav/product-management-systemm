@@ -1,6 +1,7 @@
 import { IsEmpty, IsString } from "class-validator";
 
 export class CreateOrderDto {
-  price: string;
+  user_id: number;
+  product_id: number;
   quantity: string;
 }

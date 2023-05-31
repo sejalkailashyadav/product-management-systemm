@@ -286,6 +286,9 @@ export class AuthService {
     };
   }
 
+
+
+  
   async validateUser(jwtPayload: JwtPayload): Promise<any> {
     if (!jwtPayload || !jwtPayload.sub) {
       throw new UnauthorizedException('Invalid token payload');
