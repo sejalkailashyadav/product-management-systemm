@@ -27,7 +27,6 @@ export class AuthService {
     private config: ConfigService,
   ) {
     this.transporter = nodemailer.createTransport({
-      // Configure your email service provider details here
       service: 'gmail',
       auth: {
         user: 'codebackup122@gmail.com',
@@ -56,7 +55,7 @@ export class AuthService {
     };
 
     await this.transporter.sendMail(mailOptions);
-    // const redirectUrl = '/auth/change-password'; // Specify the URL of the page you want to redirect to
+    // const redirectUrl = '/auth/change-password'; 
     // res.redirect(redirectUrl);
   }
 
@@ -125,6 +124,7 @@ export class AuthService {
     res.redirect('/auth/local/signup');
     return tokens;
   }
+
   async signinLocal(
     dto: AuthDto,
     @Req() req: Request,
@@ -225,6 +225,7 @@ export class AuthService {
     res.clearCookie('refresh_token');
     return true;
   }
+
   async refreshTokens(
     userId: number,
     rt: string,
@@ -284,6 +285,7 @@ export class AuthService {
       refresh_token: rt,
     };
   }
+
   async validateUser(jwtPayload: JwtPayload): Promise<any> {
     if (!jwtPayload || !jwtPayload.sub) {
       throw new UnauthorizedException('Invalid token payload');
@@ -292,6 +294,3 @@ export class AuthService {
     return this.prisma.user.findUnique({ where: { id: jwtPayload.sub } });
   }
 }
-// async validateUser(jwtPayload: JwtPayload): Promise<any> {
-//   return this.prisma.user.findUnique({ where: { email: jwtPayload.email } });
-// }

@@ -13,13 +13,16 @@ export class CategoriesService {
     });
   }
 
-  
-
-  async getAllUser() {
-    return await this.prismaSerivce.product.findMany({
-      include: { catrgory: true },
-    });
+  async getAllCategories(){
+    return this.prismaSerivce.category.findMany();
   }
+
+
+  // async getAllUser() {
+  //   return await this.prismaSerivce.product.findMany({
+  //     include: { catrgory: true },
+  //   });
+  // }
   // create(createCategoryDto: CreateCategoryDto) {
   //   return 'This action adds a new category';
   // }

@@ -46,7 +46,8 @@ __decorate([
 ], UserController.prototype, "userPanelll", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/users"),
+    (0, common_1.Get)("/user-panel"),
+    (0, common_1.Render)("user-panel"),
     __param(0, (0, common_1.Request)()),
     __param(1, (0, common_1.Response)()),
     __metadata("design:type", Function),
@@ -93,7 +94,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "editUser", null);
 UserController = __decorate([
-    (0, common_1.Controller)('user'),
+    (0, common_1.Controller)("user"),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 exports.UserController = UserController;

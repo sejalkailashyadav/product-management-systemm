@@ -23,10 +23,8 @@ let CategoriesService = class CategoriesService {
             },
         });
     }
-    async getAllUser() {
-        return await this.prismaSerivce.product.findMany({
-            include: { catrgory: true },
-        });
+    async getAllCategories() {
+        return this.prismaSerivce.category.findMany();
     }
     findOne(id) {
         return `This action returns a #${id} category`;

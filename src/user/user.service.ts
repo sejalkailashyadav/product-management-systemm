@@ -16,7 +16,7 @@ export class UserService {
     private config: ConfigService
   ) {}
 
-  //show
+  //Show Users
   async getAllUser(req: Request, res: Response) {
     const { draw, search, order } = req.query;
     // const offset = req.query.start || 0;
@@ -56,7 +56,7 @@ export class UserService {
     });
   }
 
-  //insert
+  // Insert Users
   async create(
     dto: CreateUserDto,
     req: Request,
@@ -86,6 +86,7 @@ export class UserService {
     return tokens;
   }
 
+  //(optional) refresh-Token
   async refreshTokens(userId: number, rt: string): Promise<Tokens> {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -103,6 +104,7 @@ export class UserService {
     return tokens;
   }
 
+  //(optional) Update-Hash
   async updateRtHash(userId: number, rt: string): Promise<void> {
     const hash = await argon.hash(rt);
     await this.prisma.user.update({
@@ -115,6 +117,7 @@ export class UserService {
     });
   }
 
+  //Generate Token
   async getTokens(userId: number, email: string): Promise<Tokens> {
     const jwtPayload: JwtPayload = {
       sub: userId,
@@ -138,22 +141,29 @@ export class UserService {
     };
   }
 
-  //delete user
+  //Delete User
   async deleteUserById(id: number, req: Request, res: Response) {
     await this.prisma.user.delete({
       where: {
-        id: id, // Pass the id as a number directly
+        id: id,
       },
     });
   }
 
-  //update user
+  //Update User
   async editUserById(
     id: number,
     dto: CreateUserDto,
     req: Request,
     res: Response
   ) {
+    // Convert the admin status to a boolean
+    let isAdmin = false;
+    if (typeof dto.isadmin === "string") {
+      isAdmin = dto.isadmin.toLowerCase() === "admin";
+    } else if (typeof dto.isadmin === "boolean") {
+      isAdmin = dto.isadmin;
+    }
     await this.prisma.user.update({
       where: {
         id: id,
@@ -161,18 +171,8 @@ export class UserService {
       data: {
         name: dto.name,
         email: dto.email,
+        isadmin: isAdmin,
       },
     });
   }
 }
-// async getAllUser() {
-//   try {
-//     const users = await this.prisma.user.findMany({
-//       select: { id: true, email: true, name: true },
-//       where: { isadmin: false },
-//     });
-//     return users;
-//   } catch (err) {
-//     throw err;
-//   }
-// }

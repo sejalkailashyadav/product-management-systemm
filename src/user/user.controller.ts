@@ -22,39 +22,18 @@ import { Tokens } from "../auth/types";
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  // @Public()
-  // @Post()
-  // create(@Body() createUserDto: CreateUserDto) {
-  //   return this.userService.create(createUserDto);
-  // }
-  // @Public()
-  // @Get('/user/user-listing')
-  // @Render('/user/user-listing')
-  // async userPanell(@Request() req, @Response() res) {
-  //   return { msg: 'sehal' };
-  // }
-  // @Public()
-  // @Get("/user-panel")
-  // @Render("user-panel")
-  // async userPanel(@Request() req, @Response() res) {
-  //   try {
-  //     const users = await this.userService.getAllUser();
-  //     return { users };
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
-
   @Public()
   @Get("/")
   @Render("user-panel")
   async userPanelll() {}
 
   @Public()
-  @Get("/users")
+  @Get("/user-panel")
+  @Render("user-panel")
   async userPanel(@Request() req, @Response() res) {
     return this.userService.getAllUser(req, res);
   }
+
   @Public()
   @Get("/admin-panel")
   @Render("admin_panel")

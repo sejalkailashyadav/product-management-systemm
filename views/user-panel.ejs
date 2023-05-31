@@ -19,8 +19,9 @@
 
 <body>
   <%- include("darshboard") -%>
+  <br>
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add User</button>
-    <table id="myTable" class="display">
+  <br>  <br> <table id="myTable" class="display" style="width:90%">
       <thead>
         <tr>
           <th>id</th>
@@ -116,9 +117,9 @@
                     value="<%= user.email %>" required>
                 </div>
                 <div class="form-group">
-                  <label for="edit-email">Password</label>
-                  <input type="Password" class="form-control" id="edit-password" name="password"
-                    placeholder="Enter password" value="<%= user.password %>" required>
+                  <label for="edit-email">Role</label>
+                  <input type="text" class="form-control" id="edit-password" name="isadmin"
+                    placeholder="Enter role" value="<%= user.isadmin ===1 ? "Admin" : "User" %>" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Update</button>
               </form>

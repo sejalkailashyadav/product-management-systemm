@@ -116,6 +116,13 @@ let UserService = class UserService {
         });
     }
     async editUserById(id, dto, req, res) {
+        let isAdmin = false;
+        if (typeof dto.isadmin === "string") {
+            isAdmin = dto.isadmin.toLowerCase() === "admin";
+        }
+        else if (typeof dto.isadmin === "boolean") {
+            isAdmin = dto.isadmin;
+        }
         await this.prisma.user.update({
             where: {
                 id: id,
@@ -123,6 +130,7 @@ let UserService = class UserService {
             data: {
                 name: dto.name,
                 email: dto.email,
+                isadmin: isAdmin,
             },
         });
     }

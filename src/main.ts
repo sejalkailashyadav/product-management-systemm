@@ -13,6 +13,7 @@ async function bootstrap() {
   app.enableCors();
   const cwd = process.cwd();
   app.useStaticAssets(cwd + "/public");
+  app.use(express.static("public"));
   //  console.log(path.join(__dirname,"../../uploads/"));
   //  console.log(cwd);
     console.log(cwd + '/public');

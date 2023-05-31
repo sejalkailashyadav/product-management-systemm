@@ -8,18 +8,36 @@ import { Public } from 'src/common/decorators';
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
-  @Public()
-  @Get("/product_category")
-  @Render("product")
-  async userPanel(@Request() req, @Response() res) {
-    try {
-      const users = await this.categoriesService.getAllUser();
-      return { users };
-    } catch (error) {
-      throw error;
-    }
-  }
+  // @Public()
+  // @Get("/product_category")
+  // @Render("product")
+  // async userPanel(@Request() req, @Response() res) {
+  //   try {
+  //     const users = await this.categoriesService.getAllUser();
+  //     return { users };
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 
+  // @Public()
+  // @Get("/getallcetgeory")
+  // @Render("Category_add")
+  // async userPanel() {
+  //   try {
+  //    await this.categoriesService.getAllUser();
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+  @Public()
+  @Get("/getallcetgeory")
+  @Render("Category_add")
+  async getAllCategories() {
+    const categories = await this.categoriesService.getAllCategories();
+    return { categories }; 
+  }
+ 
   //create caregory
   @Public()
   @Post("/craeate-categories")

@@ -21,14 +21,9 @@ let CategoriesController = class CategoriesController {
     constructor(categoriesService) {
         this.categoriesService = categoriesService;
     }
-    async userPanel(req, res) {
-        try {
-            const users = await this.categoriesService.getAllUser();
-            return { users };
-        }
-        catch (error) {
-            throw error;
-        }
+    async getAllCategories() {
+        const categories = await this.categoriesService.getAllCategories();
+        return { categories };
     }
     createnewcategory(dto) {
         try {
@@ -47,14 +42,12 @@ let CategoriesController = class CategoriesController {
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/product_category"),
-    (0, common_1.Render)("product"),
-    __param(0, (0, common_1.Request)()),
-    __param(1, (0, common_1.Response)()),
+    (0, common_1.Get)("/getallcetgeory"),
+    (0, common_1.Render)("Category_add"),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], CategoriesController.prototype, "userPanel", null);
+], CategoriesController.prototype, "getAllCategories", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Post)("/craeate-categories"),

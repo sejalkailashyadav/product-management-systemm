@@ -17,6 +17,7 @@ const categories_module_1 = require("./categories/categories.module");
 const role_permissions_module_1 = require("./role_permissions/role_permissions.module");
 const platform_express_1 = require("@nestjs/platform-express");
 const order_module_1 = require("./order/order.module");
+const product_module_1 = require("./product/product.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -31,6 +32,7 @@ AppModule = __decorate([
                 dest: "./files",
             }),
             order_module_1.OrderModule,
+            product_module_1.ProductModule,
         ],
         providers: [
             {
