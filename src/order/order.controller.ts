@@ -15,7 +15,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Public, GetCurrentUserId, GetCurrentUser } from "../common/decorators";
 
-@Controller("user-order")
+@Controller("/dashboard")
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 

@@ -32,6 +32,23 @@ let CategoriesService = class CategoriesService {
     remove(id) {
         return `This action removes a #${id} category`;
     }
+    async editcategoryById(id, dto, req, res) {
+        await this.prismaSerivce.category.update({
+            where: {
+                id: id,
+            },
+            data: {
+                category_name: dto.category_name,
+            },
+        });
+    }
+    async deletecategoryById(id, req, res) {
+        await this.prismaSerivce.category.delete({
+            where: {
+                id: id,
+            },
+        });
+    }
 };
 CategoriesService = __decorate([
     (0, common_1.Injectable)(),

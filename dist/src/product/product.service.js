@@ -36,16 +36,23 @@ let ProductService = class ProductService {
     remove(id) {
         return `This action removes a #${id} product`;
     }
-    async setprodct_category(categoryId, dto, req, res, file) {
+    async setprodct_category(categoryId, dto, req, res) {
         return await this.prismaSerivce.product.create({
             data: {
                 product_name: dto.product_name,
                 product_description: dto.product_description,
                 product_price: dto.product_price,
-                product_image: file.path,
+                product_image: dto.product_image,
                 catrgory: {
                     connect: { id: categoryId },
                 },
+            },
+        });
+    }
+    async deleteproductById(id, dto, req, res) {
+        await this.prismaSerivce.product.delete({
+            where: {
+                id: id,
             },
         });
     }

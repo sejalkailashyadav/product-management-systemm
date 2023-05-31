@@ -151,7 +151,7 @@ __decorate([
 ], AuthController.prototype, "logout", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("darshboard"),
+    (0, common_1.Get)("/dashboard"),
     (0, common_1.Render)("darshboard"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

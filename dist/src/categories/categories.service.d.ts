@@ -7,4 +7,6 @@ export declare class CategoriesService {
     getAllCategories(): Promise<import(".prisma/client").Category[]>;
     findOne(id: number): string;
     remove(id: number): string;
+    editcategoryById(id: number, dto: CreateCategoryDto, req: Request, res: Response): Promise<void>;
+    deletecategoryById(id: number, req: Request, res: Response): Promise<void>;
 }

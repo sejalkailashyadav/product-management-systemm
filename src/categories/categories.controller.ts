@@ -4,7 +4,7 @@ import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { Public } from 'src/common/decorators';
 
-@Controller()
+@Controller("/get")
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
@@ -35,9 +35,9 @@ export class CategoriesController {
   @Render("Category_add")
   async getAllCategories() {
     const categories = await this.categoriesService.getAllCategories();
-    return { categories }; 
+    return { categories };
   }
- 
+
   //create caregory
   @Public()
   @Post("/craeate-categories")
@@ -48,6 +48,17 @@ export class CategoriesController {
       throw error;
     }
   }
+
+  @Public()
+  @Post("/edit/:id")
+  async editUser(
+    @Param("id") id: number,
+    @Body() dto: CreateCategoryDto,
+    @Request() req,
+    @Response() res
+  ) {
+    return this.categoriesService.editcategoryById(Number(id), dto, res, req);
+  }
   // @Post()
   // create(@Body() createCategoryDto: CreateCategoryDto) {
   //   return this.categoriesService.create(createCategoryDto);
@@ -57,14 +68,14 @@ export class CategoriesController {
   // findAll() {
   //   return this.categoriesService.findAll();
   // }
-
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.categoriesService.findOne(+id);
+  @Public()
+  @Post("/delete/:id")
+  async deleteUserById(
+    @Param("id") id: number,
+    @Request() req,
+    @Response() res
+  ) {
+    return this.categoriesService.deletecategoryById(Number(id), res, req); // Convert the id to a number if necessary
   }
 
-  @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.categoriesService.remove(+id);
-  }
 }

@@ -97,7 +97,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrderController.prototype, "insertuser", null);
 OrderController = __decorate([
-    (0, common_1.Controller)("user-order"),
+    (0, common_1.Controller)("/dashboard"),
     __metadata("design:paramtypes", [order_service_1.OrderService])
 ], OrderController);
 exports.OrderController = OrderController;

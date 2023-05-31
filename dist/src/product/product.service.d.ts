@@ -13,5 +13,6 @@ export declare class ProductService {
     findOne(id: number): string;
     update(id: number, updateProductDto: UpdateProductDto): string;
     remove(id: number): string;
-    setprodct_category(categoryId: number, dto: CreateProductDto, req: Request, res: Response, file: any): Promise<import(".prisma/client").Product>;
+    setprodct_category(categoryId: number, dto: CreateProductDto, req: Request, res: Response): Promise<import(".prisma/client").Product>;
+    deleteproductById(id: number, dto: CreateProductDto, req: Request, res: Response): Promise<void>;
 }

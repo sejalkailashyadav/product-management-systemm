@@ -7,6 +7,6 @@ export declare class CategoriesController {
         categories: import(".prisma/client").Category[];
     }>;
     createnewcategory(dto: CreateCategoryDto): Promise<import(".prisma/client").Category>;
-    findOne(id: string): string;
-    remove(id: string): string;
+    editUser(id: number, dto: CreateCategoryDto, req: any, res: any): Promise<void>;
+    deleteUserById(id: number, req: any, res: any): Promise<void>;
 }

@@ -14,21 +14,29 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductController = void 0;
 const common_1 = require("@nestjs/common");
-const multer_1 = require("multer");
 const create_product_dto_1 = require("./dto/create-product.dto");
 const product_service_1 = require("../product/product.service");
 const decorators_1 = require("../common/decorators");
 const categories_service_1 = require("../categories/categories.service");
-const platform_express_1 = require("@nestjs/platform-express");
 let ProductController = class ProductController {
     constructor(productService, categoriesService) {
         this.productService = productService;
         this.categoriesService = categoriesService;
     }
-    createPost(categoryId, dto, req, res, file) {
-        return this.productService.setprodct_category(Number(categoryId), dto, req, res, file);
+    createPost(categoryId, dto, req, res) {
+        return this.productService.setprodct_category(Number(categoryId), dto, req, res);
     }
     async userPanel() {
+        try {
+            const products = await this.productService.getAllprodcut();
+            const categories = await this.categoriesService.getAllCategories();
+            return { products, categories };
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    async userPanell() {
         try {
             const products = await this.productService.getAllprodcut();
             const categories = await this.categoriesService.getAllCategories();
@@ -41,28 +49,23 @@ let ProductController = class ProductController {
     findOne(id) {
         return this.productService.findOne(+id);
     }
+    async deleteproduct_category(id, dto, req, res) {
+        return this.productService.deleteproductById(Number(id), dto, res, req);
+    }
     remove(id) {
         return this.productService.remove(+id);
     }
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)(":categoryId/products"),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)("product_image", {
-        storage: (0, multer_1.diskStorage)({
-            destination: "./public",
-            filename(req, file, callback) {
-                callback(null, `${file.originalname}`);
-            },
-        }),
-    })),
+    (0, common_1.Post)("products/:categoryId"),
+    (0, decorators_1.Public)(),
     __param(0, (0, common_1.Param)("categoryId")),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Request)()),
     __param(3, (0, common_1.Response)()),
-    __param(4, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, create_product_dto_1.CreateProductDto, Object, Object, Object]),
+    __metadata("design:paramtypes", [Number, create_product_dto_1.CreateProductDto, Object, Object]),
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "createPost", null);
 __decorate([
@@ -74,12 +77,31 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "userPanel", null);
 __decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)("/home"),
+    (0, common_1.Render)("user_Panel"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "userPanell", null);
+__decorate([
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "findOne", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Post)("/delete/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Request)()),
+    __param(3, (0, common_1.Response)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, create_product_dto_1.CreateProductDto, Object, Object]),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "deleteproduct_category", null);
 __decorate([
     (0, common_1.Delete)(":id"),
     __param(0, (0, common_1.Param)("id")),
@@ -88,8 +110,9 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "remove", null);
 ProductController = __decorate([
-    (0, common_1.Controller)(),
-    __metadata("design:paramtypes", [product_service_1.ProductService, categories_service_1.CategoriesService])
+    (0, common_1.Controller)("/"),
+    __metadata("design:paramtypes", [product_service_1.ProductService,
+        categories_service_1.CategoriesService])
 ], ProductController);
 exports.ProductController = ProductController;
 //# sourceMappingURL=product.controller.js.map

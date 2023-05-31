@@ -13,10 +13,9 @@ export class CategoriesService {
     });
   }
 
-  async getAllCategories(){
+  async getAllCategories() {
     return this.prismaSerivce.category.findMany();
   }
-
 
   // async getAllUser() {
   //   return await this.prismaSerivce.product.findMany({
@@ -39,6 +38,31 @@ export class CategoriesService {
 
   remove(id: number) {
     return `This action removes a #${id} category`;
+  }
+  //Update User
+  async editcategoryById(
+    id: number,
+    dto: CreateCategoryDto,
+    req: Request,
+    res: Response
+  ) {
+    await this.prismaSerivce.category.update({
+      where: {
+        id: id,
+      },
+      data: {
+        category_name: dto.category_name,
+      },
+    });
+  }
+
+  //Delete User
+  async deletecategoryById(id: number, req: Request, res: Response) {
+    await this.prismaSerivce.category.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 }
 

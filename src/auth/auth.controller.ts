@@ -106,7 +106,7 @@ export class AuthController {
     return this.authService.logout(userId, req, res);
   }
   @Public()
-  @Get("darshboard")
+  @Get("/dashboard")
   @Render("darshboard") // Specify the EJS template file to render
   panell() {
     // Your logic to retrieve data and pass it to the template

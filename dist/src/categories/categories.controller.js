@@ -33,11 +33,11 @@ let CategoriesController = class CategoriesController {
             throw error;
         }
     }
-    findOne(id) {
-        return this.categoriesService.findOne(+id);
+    async editUser(id, dto, req, res) {
+        return this.categoriesService.editcategoryById(Number(id), dto, res, req);
     }
-    remove(id) {
-        return this.categoriesService.remove(+id);
+    async deleteUserById(id, req, res) {
+        return this.categoriesService.deletecategoryById(Number(id), res, req);
     }
 };
 __decorate([
@@ -57,21 +57,28 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CategoriesController.prototype, "createnewcategory", null);
 __decorate([
-    (0, common_1.Get)(":id"),
+    (0, decorators_1.Public)(),
+    (0, common_1.Post)("/edit/:id"),
     __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Request)()),
+    __param(3, (0, common_1.Response)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], CategoriesController.prototype, "findOne", null);
+    __metadata("design:paramtypes", [Number, create_category_dto_1.CreateCategoryDto, Object, Object]),
+    __metadata("design:returntype", Promise)
+], CategoriesController.prototype, "editUser", null);
 __decorate([
-    (0, common_1.Delete)(":id"),
+    (0, decorators_1.Public)(),
+    (0, common_1.Post)("/delete/:id"),
     __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Request)()),
+    __param(2, (0, common_1.Response)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], CategoriesController.prototype, "remove", null);
+    __metadata("design:paramtypes", [Number, Object, Object]),
+    __metadata("design:returntype", Promise)
+], CategoriesController.prototype, "deleteUserById", null);
 CategoriesController = __decorate([
-    (0, common_1.Controller)(),
+    (0, common_1.Controller)("/get"),
     __metadata("design:paramtypes", [categories_service_1.CategoriesService])
 ], CategoriesController);
 exports.CategoriesController = CategoriesController;

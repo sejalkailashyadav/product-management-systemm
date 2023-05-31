@@ -24,9 +24,12 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { get } from "http";
 import { extname } from "path";
 
-@Controller()
+@Controller("/")
 export class ProductController {
-  constructor(private readonly productService: ProductService,private readonly categoriesService: CategoriesService) {}
+  constructor(
+    private readonly productService: ProductService,
+    private readonly categoriesService: CategoriesService
+  ) {}
 
   // @Post()
   // create(@Body() createProductDto: CreateProductDto) {
@@ -34,30 +37,29 @@ export class ProductController {
   // }
 
   @Public()
-  @Post(":categoryId/products")
-  @UseInterceptors(
-    FileInterceptor("product_image", {
-      storage: diskStorage({
-        destination: "./public",
-        filename(req, file, callback) {
-          callback(null, `${file.originalname}`);
-        },
-      }),
-    })
-  )
+  @Post("products/:categoryId")
+  // @UseInterceptors(
+  //   FileInterceptor("product_image", {
+  //     storage: diskStorage({
+  //       destination: "./public",
+  //       filename(req, file, callback) {
+  //         callback(null, `${file.originalname}`);
+  //       },
+  //     }),
+  //   })
+  // )
+  @Public()
   createPost(
     @Param("categoryId") categoryId: number,
     @Body() dto: CreateProductDto,
     @Request() req,
-    @Response() res,
-    @UploadedFile() file: any
+    @Response() res
   ) {
     return this.productService.setprodct_category(
       Number(categoryId),
       dto,
       req,
-      res,
-      file
+      res
     );
   }
 
@@ -93,15 +95,39 @@ export class ProductController {
     try {
       const products = await this.productService.getAllprodcut();
       const categories = await this.categoriesService.getAllCategories();
-      return { products,categories }; // Pass the products data to the view
+      return { products, categories }; // Pass the products data to the view
     } catch (error) {
       throw error;
     }
   }
- 
-   @Get(":id")
+
+  @Public()
+  @Get("/home")
+  @Render("user_Panel")
+  async userPanell() {
+    try {
+      const products = await this.productService.getAllprodcut();
+      const categories = await this.categoriesService.getAllCategories();
+      return { products, categories }; // Pass the products data to the view
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Get(":id")
   findOne(@Param("id") id: string) {
     return this.productService.findOne(+id);
+  }
+  //delete  user by id
+  @Public()
+  @Post("/delete/:id")
+  async deleteproduct_category(
+    @Param("id") id: number,
+    @Body() dto: CreateProductDto,
+    @Request() req,
+    @Response() res
+  ) {
+    return this.productService.deleteproductById(Number(id), dto, res, req);
   }
 
   // @Patch(":id")

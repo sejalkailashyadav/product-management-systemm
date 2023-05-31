@@ -1,116 +1,134 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Product List</title>
-  <style>
-    /* CSS for modal */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 50%;
-    }
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <h1>Product List</h1>
+  <head>
+    <title>Product List</title>
+    <style>
+      /* CSS for modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+      }
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Product List</h1>
 
-  <!-- Button to open the modal -->
-  <button onclick="openModal()">Add Product</button>
+    <!-- Button to open the modal -->
+    <button onclick="openModal()">Add Product</button>
 
-  <!-- The Modal -->
-  <div id="myModal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <h2>Add Product</h2>
-      <form action="/admin/products/add" method="POST">
-        <label for="productName">Product Name:</label>
-        <input type="text" id="productName" name="productName" required>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Add Product</h2>
 
-        <label for="productDescription">Product Description:</label>
-        <textarea id="productDescription" name="productDescription" required></textarea>
+        <% categories.forEach(function(category) { %>
 
-        <label for="productPrice">Product Price:</label>
-        <input type="text" id="productPrice" name="productPrice" required>
-
-        <label for="product_image">Product Image</label>
-        <input type="file" name="product_image"> <!-- File input for uploading an image -->
-
-        <label for="categoryId">Category:</label>
-        <select id="categoryId" name="categoryId">
-          <% categories.forEach(category => { %>
-            <option value="<%= category.id %>"><%= category.category_name %></option>
+        <form action="products/<%= category.id %>" method="POST">
           <% }); %>
-        </select>
+          <label for="productName">Product Name:</label>
+          <input type="text" id="productName" name="product_name" />
 
-        <button type="submit">Add Product</button>
-      </form>
+          <label for="productDescription">Product Description:</label>
+          <textarea
+            id="productDescription"
+            name="product_description"
+            required></textarea>
+
+          <label for="productPrice">Product Price:</label>
+          <input type="text" id="productPrice" name="product_price" required />
+
+          <label for="product_image">Product Image</label>
+          <input type="file" name="product_image" />
+          <!-- File input for uploading an image -->
+
+          <label for="categoryId">Category:</label>
+          <select id="categoryId" name="categoryId">
+            <% categories.forEach(function(category) { %>
+            <option value="<%= category.id %>">
+              <%= category.category_name %>
+            </option>
+            <% }); %>
+          </select>
+
+          <button type="submit">Add Product</button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Product Name</th>
-        <th>Product Description</th>
-        <th>Product Price</th>
-        <th>Product Image</th>
-        <th>Category</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% products.forEach(product => { %>
+    <table>
+      <thead>
         <tr>
-          <td><%= product.product_name %></td>
-          <td><%= product.product_description %></td>
-          <td><%= product.product_price %></td>
-          <td><img src="/home/pc1/Music/project/product-managementt-system/public/a.jpeg"/></td>
+          <th>Product Name</th>
+          <th>Product Description</th>
+          <th>Product Price</th>
+
+          <th>Category</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let i = 0; i < products.length; i++) { %>
+        <tr>
+          <td><%= products[i].product_name %></td>
+          <td><%= products[i].product_description %></td>
+          <td><%= products[i].product_price %></td>
           <td>
-            <a href="/admin/products/edit/<%= product.id %>">Edit</a>
-            <form action="/admin/products/delete/<%= product.id %>" method="POST" style="display: inline-block;">
+                  <% for (let j = 0; j < products[i].catrgory.length; j++) { %>
+                  <li><%= products[i].catrgory[j].category_name %></li>
+                  <% } %>
+               
+          </td>
+          <td>
+        
+            <form
+              action="/get/delete/<%= products[i].id %>"
+              method="POST"
+              style="display: inline-block">
               <button type="submit">Delete</button>
             </form>
           </td>
         </tr>
-      <% }); %>
-    </tbody>
-  </table>
+        <% } %> 
+      </tbody>
+    </table>
 
-  <script>
-    // JavaScript functions to handle modal behavior
-    function openModal() {
-      document.getElementById("myModal").style.display = "block";
-    }
+    <script>
+      // JavaScript functions to handle modal behavior
+      function openModal() {
+        document.getElementById("myModal").style.display = "block";
+      }
 
-    function closeModal() {
-      document.getElementById("myModal").style.display = "none";
-    }
-  </script>
-</body>
+      function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+      }
+    </script>
+  </body>
 </html>
