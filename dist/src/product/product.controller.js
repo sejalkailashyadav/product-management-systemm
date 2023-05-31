@@ -26,16 +26,6 @@ let ProductController = class ProductController {
     createPost(categoryId, dto, req, res) {
         return this.productService.setprodct_category(Number(categoryId), dto, req, res);
     }
-    async userPanel() {
-        try {
-            const products = await this.productService.getAllprodcut();
-            const categories = await this.categoriesService.getAllCategories();
-            return { products, categories };
-        }
-        catch (error) {
-            throw error;
-        }
-    }
     async userPanell() {
         try {
             const products = await this.productService.getAllprodcut();
@@ -70,14 +60,6 @@ __decorate([
 ], ProductController.prototype, "createPost", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/getallproduct"),
-    (0, common_1.Render)("product_add"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], ProductController.prototype, "userPanel", null);
-__decorate([
-    (0, decorators_1.Public)(),
     (0, common_1.Get)("/home"),
     (0, common_1.Render)("user_Panel"),
     __metadata("design:type", Function),
@@ -110,7 +92,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "remove", null);
 ProductController = __decorate([
-    (0, common_1.Controller)("/"),
+    (0, common_1.Controller)("/get"),
     __metadata("design:paramtypes", [product_service_1.ProductService,
         categories_service_1.CategoriesService])
 ], ProductController);

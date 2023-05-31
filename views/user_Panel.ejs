@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>User Panel</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Product Management System</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search Products" aria-label="Search">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search Products"
+                            aria-label="Search">
                         <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </li>
@@ -35,33 +39,46 @@
         <div class="row">
             <div class="col-md-8">
                 <h2>Product Management System</h2>
-                
+
                 <form>
-                    <% for (let i = 0; i < products.length; i++) { %>
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title"><%= products[i].product_name %></h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Product Category</h6>
-                            <p class="card-text"><%= products[i].product_price %></p>
-                            <p class="card-text"><%= products[i].product_description %></p>
-                            <a href="/cart/add/product-id" class="btn btn-primary">Add to Cart</a>
+                    <% for (let i=0; i < products.length; i++) { %>
+                        <div class="card" style="width: 20rem;">
+                            <div class="card" style="width: 20rem;">
+                                <img src="/a.jpeg" class="card-img-top" height="30%" width="30%">
+                                <div class="card-body">
+                                    <%= products[i].product_name %>
+                                        </h5>
+                                        <% for (let j=0; j < products[i].catrgory.length; j++) { %>
+                                            <h6 class="card-subtitle mb-2 text-muted">
+                                                <%= products[i].catrgory[j].category_name %>
+                                            </h6>
+                                            <% } %>
+                                                <p class="card-text">
+                                                    <%= products[i].product_price %>
+                                                </p>
+                                                <p class="card-text">
+                                                    <%= products[i].product_description %>
+                                                </p>
+                                                <a href="/cart/add/product-id" class="btn btn-primary">Add to Cart</a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <% } %> 
+                        <% } %> 
+                        
                 </form>
             </div>
-               <% users.forEach(d=> { %>
             <div class="col-md-4">
                 <h2>User Panel</h2>
                 <ul class="list-group">
-                    <li class="list-group-item">Username:   <%= d.name %></li>
-                    <li class="list-group-item">Email:   <%= d.email %></li>
-                    <li class="list-group-item">Role: <%= d.isadmin===1 ? "Admin" : "User" %></li>
+                    <li class="list-group-item">Username: John Doe</li>
+                    <li class="list-group-item">Email: john.doe@example.com</li>
+                    <li class="list-group-item">Role: Admin</li>
                 </ul>
             </div>
-              <% }) %> 
         </div>
+        <br><br>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

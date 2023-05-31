@@ -24,7 +24,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { get } from "http";
 import { extname } from "path";
 
-@Controller("/")
+@Controller("/get")
 export class ProductController {
   constructor(
     private readonly productService: ProductService,
@@ -88,18 +88,18 @@ export class ProductController {
   //   }
   // }
 
-  @Public()
-  @Get("/getallproduct")
-  @Render("product_add")
-  async userPanel() {
-    try {
-      const products = await this.productService.getAllprodcut();
-      const categories = await this.categoriesService.getAllCategories();
-      return { products, categories }; // Pass the products data to the view
-    } catch (error) {
-      throw error;
-    }
-  }
+  // @Public()
+  // @Get("/getallproduct")
+  // @Render("product_add")
+  // async userPanel() {
+  //   try {
+  //     const products = await this.productService.getAllprodcut();
+  //     const categories = await this.categoriesService.getAllCategories();
+  //     return { products, categories }; // Pass the products data to the view
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 
   @Public()
   @Get("/home")
