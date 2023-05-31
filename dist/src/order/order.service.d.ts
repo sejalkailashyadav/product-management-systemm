@@ -1,4 +1,3 @@
-import { Response } from "express";
 import { PrismaService } from "../prisma/prisma.service";
 export declare class OrderService {
     private prisma;
@@ -12,5 +11,4 @@ export declare class OrderService {
     findAll(): Promise<(import(".prisma/client").Product & {
         catrgory: import(".prisma/client").Category[];
     })[]>;
-    addtocart(userId: number, rt: string, res: Response): Promise<void>;
 }

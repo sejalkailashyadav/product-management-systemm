@@ -16,7 +16,6 @@ exports.OrderController = void 0;
 const common_1 = require("@nestjs/common");
 const order_service_1 = require("./order.service");
 const decorators_1 = require("../common/decorators");
-const guards_1 = require("../common/guards");
 let OrderController = class OrderController {
     constructor(orderService) {
         this.orderService = orderService;
@@ -42,9 +41,6 @@ let OrderController = class OrderController {
     }
     insertuser() {
         return this.orderService.create();
-    }
-    refreshTokens(userId, refreshToken, res) {
-        return this.orderService.addtocart(userId, refreshToken, res);
     }
 };
 __decorate([
@@ -82,17 +78,6 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], OrderController.prototype, "insertuser", null);
-__decorate([
-    (0, decorators_1.Public)(),
-    (0, common_1.UseGuards)(guards_1.RtGuard),
-    (0, common_1.Post)(""),
-    __param(0, (0, decorators_1.GetCurrentUserId)()),
-    __param(1, (0, decorators_1.GetCurrentUser)("refreshToken")),
-    __param(2, (0, common_1.Response)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String, Object]),
-    __metadata("design:returntype", Promise)
-], OrderController.prototype, "refreshTokens", null);
 OrderController = __decorate([
     (0, common_1.Controller)("/dashboard"),
     __metadata("design:paramtypes", [order_service_1.OrderService])

@@ -10,21 +10,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GoogleStrategy = void 0;
-const common_1 = require("@nestjs/common");
 const passport_1 = require("@nestjs/passport");
 const passport_google_oauth20_1 = require("passport-google-oauth20");
-const constants_1 = require("../constants");
-let GoogleStrategy = class GoogleStrategy extends (0, passport_1.PassportStrategy)(passport_google_oauth20_1.Strategy) {
+const dotenv_1 = require("dotenv");
+const common_1 = require("@nestjs/common");
+(0, dotenv_1.config)();
+let GoogleStrategy = class GoogleStrategy extends (0, passport_1.PassportStrategy)(passport_google_oauth20_1.Strategy, "google") {
     constructor() {
         super({
-            clientID: constants_1.GOOGLE_CLIENT_ID,
-            clientSecret: constants_1.GOOGLE_SECRET,
-            callbackURL: "http://localhost:3333/auth/google/callback",
+            clientID: "420861903648-mbguhfe3ohdhcj7va7hmnt6lfffcssin.apps.googleusercontent.com",
+            clientSecret: "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",
+            callbackURL: "http://localhost:8000/google/redirect",
             scope: ["email", "profile"],
         });
     }
     async validate(accessToken, refreshToken, profile, done) {
-        done(null, profile);
+        const { name, emails, photos } = profile;
+        const user = {
+            email: emails[0].value,
+            firstName: name.givenName,
+            lastName: name.familyName,
+            picture: photos[0].value,
+            accessToken,
+        };
+        done(null, user);
     }
 };
 GoogleStrategy = __decorate([

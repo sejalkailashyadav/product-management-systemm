@@ -7,7 +7,7 @@ import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { AtStrategy, RtStrategy } from "./strategies";
 import { ProductModule } from "../product/product.module";
-
+import { GoogleStrategy } from "./google.strategy";
 
 @Module({
   imports: [
@@ -25,6 +25,6 @@ import { ProductModule } from "../product/product.module";
     ProductModule
   ],
   controllers: [AuthController,],
-  providers: [AuthService, AtStrategy, RtStrategy],
+  providers: [AuthService, AtStrategy, RtStrategy,GoogleStrategy],
 })
 export class AuthModule {}

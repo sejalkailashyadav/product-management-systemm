@@ -18,6 +18,7 @@ const decorators_1 = require("../common/decorators");
 const guards_1 = require("../common/guards");
 const auth_service_1 = require("./auth.service");
 const dto_1 = require("./dto");
+const passport_1 = require("@nestjs/passport");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -57,6 +58,10 @@ let AuthController = class AuthController {
     }
     verification() {
         return { msg: "sejal" };
+    }
+    async googleAuth(req) { }
+    googleAuthRedirect(req) {
+        return this.authService.googleLogin(req);
     }
 };
 __decorate([
@@ -177,6 +182,24 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "verification", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)(),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("google")),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "googleAuth", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)("redirect"),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("google")),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "googleAuthRedirect", null);
 AuthController = __decorate([
     (0, common_1.Controller)("auth"),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

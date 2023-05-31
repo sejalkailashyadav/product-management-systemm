@@ -12,5 +12,4 @@ export declare class OrderController {
         msg: string;
     }>;
     insertuser(): Promise<import(".prisma/client").Order>;
-    refreshTokens(userId: number, refreshToken: string, res: any): Promise<void>;
 }

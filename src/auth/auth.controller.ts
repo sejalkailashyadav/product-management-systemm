@@ -9,13 +9,14 @@ import {
   Get,
   Request,
   Response,
+  Req
 } from "@nestjs/common";
 import { Public, GetCurrentUserId, GetCurrentUser } from "../common/decorators";
 import { RtGuard } from "../common/guards";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto";
 import { Tokens } from "./types";
-
+import { AuthGuard } from "@nestjs/passport";
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -131,5 +132,16 @@ export class AuthController {
   verification() {
     // Your logic to retrieve data and pass it to the template
     return { msg: "sejal" };
+  }
+  @Public()
+  @Get()
+  @UseGuards(AuthGuard("google"))
+  async googleAuth(@Req() req) {}
+  
+  @Public()
+  @Get("redirect")
+  @UseGuards(AuthGuard("google"))
+  googleAuthRedirect(@Req() req) {
+    return this.authService.googleLogin(req);
   }
 }

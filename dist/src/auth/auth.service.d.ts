@@ -20,4 +20,8 @@ export declare class AuthService {
     updateRtHash(userId: number, rt: string, res: Response): Promise<void>;
     getTokens(userId: number, email: string): Promise<Tokens>;
     validateUser(jwtPayload: JwtPayload): Promise<any>;
+    googleLogin(req: any): "No user from google" | {
+        message: string;
+        user: any;
+    };
 }
