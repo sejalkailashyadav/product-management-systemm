@@ -83,8 +83,8 @@ __decorate([
 ], ProductController.prototype, "userPanel", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/home"),
-    (0, common_1.Render)("user_Panel"),
+    (0, common_1.Get)('/Home'),
+    (0, common_1.Render)("prodcut_categorye"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)

@@ -19,7 +19,6 @@ import { CreateProductDto } from "./dto/create-product.dto";
 import { ProductService } from "../product/product.service";
 import { GetCurrentUserId, Public } from "src/common/decorators";
 import { Express } from "express";
-import { JwtPayload } from '../auth/types';
 import { CategoriesService } from '../categories/categories.service';
 import { CreateCategoryDto } from '../categories/dto/create-category.dto';
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -40,6 +39,11 @@ export class ProductController {
   // create(@Body() createProductDto: CreateProductDto) {
   //   return this.productService.create(createProductDto);
   // }
+
+
+
+
+
 
   @Public()
   @Post("products/:categoryId")
@@ -109,14 +113,14 @@ export class ProductController {
   }
 
   @Public()
-  @Get("/home")
-  @Render("user_Panel")
+  @Get('/Home')
+  @Render("prodcut_categorye")
   async userPanell() {
     try {
       const products = await this.productService.getAllprodcut();
       const categories = await this.categoriesService.getAllCategories();
       const cart = {};
-      return { products, categories ,cart}; // Pass the products data to the view
+      return {products,categories,cart}; // Pass the products data to the view
     } catch (error) {
       throw error;
     }
