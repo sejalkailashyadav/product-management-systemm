@@ -42,7 +42,7 @@ let CategoriesController = class CategoriesController {
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/getallcetgeory"),
+    (0, common_1.Get)("/Categories"),
     (0, common_1.Render)("Category_add"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -78,7 +78,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CategoriesController.prototype, "deleteUserById", null);
 CategoriesController = __decorate([
-    (0, common_1.Controller)(),
+    (0, decorators_1.Public)(),
+    (0, common_1.Controller)("/Category"),
     __metadata("design:paramtypes", [categories_service_1.CategoriesService])
 ], CategoriesController);
 exports.CategoriesController = CategoriesController;

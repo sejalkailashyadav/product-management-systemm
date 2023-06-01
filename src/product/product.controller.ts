@@ -13,22 +13,27 @@ import {
   Request,
   Response,
 } from "@nestjs/common";
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { diskStorage } from "multer";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { ProductService } from "../product/product.service";
-import { Public } from "src/common/decorators";
+import { GetCurrentUserId, Public } from "src/common/decorators";
 import { Express } from "express";
+import { JwtPayload } from '../auth/types';
 import { CategoriesService } from '../categories/categories.service';
 import { CreateCategoryDto } from '../categories/dto/create-category.dto';
 import { FileInterceptor } from "@nestjs/platform-express";
-import { get } from "http";
+import { get, request } from "http";
 import { extname } from "path";
-
-@Controller("/get")
+import { CartService } from "src/cart/cart.service";
+import { Cart } from '@prisma/client';
+@Controller("/Product")
 export class ProductController {
   constructor(
     private readonly productService: ProductService,
-    private readonly categoriesService: CategoriesService
+    private readonly categoriesService: CategoriesService,
+    private readonly cartService: CartService,
+
   ) {}
 
   // @Post()
@@ -61,6 +66,8 @@ export class ProductController {
       req,
       res
     );
+
+    return res.redirect('/product_add');
   }
 
   // @Post(':categoryId/products')
@@ -89,7 +96,7 @@ export class ProductController {
   // }
 
   @Public()
-  @Get("/getallproduct")
+  @Get("/products")
   @Render("product_add")
   async userPanel() {
     try {
@@ -108,7 +115,8 @@ export class ProductController {
     try {
       const products = await this.productService.getAllprodcut();
       const categories = await this.categoriesService.getAllCategories();
-      return { products, categories }; // Pass the products data to the view
+      const cart = {};
+      return { products, categories ,cart}; // Pass the products data to the view
     } catch (error) {
       throw error;
     }
@@ -135,8 +143,24 @@ export class ProductController {
   //   return this.productService.update(+id, updateProductDto);
   // }
 
-  @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.productService.remove(+id);
-  }
+  @Public()
+  @Post(':id/add-to-cart') 
+  async addToCartt(
+  @GetCurrentUserId() userId: number,
+  @Request() req,
+  @Body('quantity') quantity: number,
+    @Param('id') id: number,
+  
+  ) {
+    
+   console.log(userId);
+   
+  //const { user } = request.;
+  // const userId = user.id;
+  return this.cartService.addToCart(userId, id, quantity);
+
+
+}
+
+  
 }

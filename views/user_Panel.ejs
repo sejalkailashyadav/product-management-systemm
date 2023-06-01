@@ -4,6 +4,19 @@
 <head>
     <title>User Panel</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .page-heading {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .sub-heading {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -38,41 +51,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <h2>Product Management System</h2>
-
-                <form>
-                    <% for (let i=0; i < products.length; i++) { %>
-                        <div class="card" style="width: 20rem;">
-                            <div class="card" style="width: 20rem;">
-                                <img src="/a.jpeg" class="card-img-top" height="30%" width="30%">
-                                <div class="card-body">
-                                    <%= products[i].product_name %>
-                                        </h5>
-                                        <% for (let j=0; j < products[i].catrgory.length; j++) { %>
-                                            <h6 class="card-subtitle mb-2 text-muted">
-                                                <%= products[i].catrgory[j].category_name %>
-                                            </h6>
-                                            <% } %>
-                                                <p class="card-text">
-                                                    <%= products[i].product_price %>
-                                                </p>
-                                                <p class="card-text">
-                                                    <%= products[i].product_description %>
-                                                </p>
-                                                <a href="/cart/add/product-id" class="btn btn-primary">Add to Cart</a>
-                                </div>
-                            </div>
-                        </div>
-                        <% } %> 
-                        
-                </form>
+                <h2 class="page-heading">Product Management System</h2>
             </div>
             <div class="col-md-4">
-                <h2>User Panel</h2>
+                <h2 class="page-heading">User Panel</h2>
                 <ul class="list-group">
-                    <li class="list-group-item">Username: John Doe</li>
-                    <li class="list-group-item">Email: john.doe@example.com</li>
-                    <li class="list-group-item">Role: Admin</li>
+                    <li class="list-group-item sub-heading">Username: John Doe</li>
+                    <li class="list-group-item sub-heading">Email: john.doe@example.com</li>
+                    <li class="list-group-item sub-heading">Role: Admin</li>
                 </ul>
             </div>
         </div>
@@ -83,4 +69,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
+
 </html>

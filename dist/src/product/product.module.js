@@ -5,6 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var ProductModule_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductModule = void 0;
 const common_1 = require("@nestjs/common");
@@ -13,13 +14,16 @@ const product_service_1 = require("./product.service");
 const categories_service_1 = require("../categories/categories.service");
 const categories_controller_1 = require("../categories/categories.controller");
 const prisma_module_1 = require("../prisma/prisma.module");
-let ProductModule = class ProductModule {
+const cart_module_1 = require("../cart/cart.module");
+const cart_service_1 = require("../cart/cart.service");
+const cart_controller_1 = require("../cart/cart.controller");
+let ProductModule = ProductModule_1 = class ProductModule {
 };
-ProductModule = __decorate([
+ProductModule = ProductModule_1 = __decorate([
     (0, common_1.Module)({
-        controllers: [product_controller_1.ProductController, categories_controller_1.CategoriesController],
-        providers: [product_service_1.ProductService, categories_service_1.CategoriesService],
-        imports: [prisma_module_1.PrismaModule],
+        controllers: [product_controller_1.ProductController, categories_controller_1.CategoriesController, cart_controller_1.CartController],
+        providers: [product_service_1.ProductService, categories_service_1.CategoriesService, cart_service_1.CartService],
+        imports: [prisma_module_1.PrismaModule, cart_module_1.CartModule, ProductModule_1],
     })
 ], ProductModule);
 exports.ProductModule = ProductModule;

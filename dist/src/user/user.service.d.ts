@@ -9,7 +9,7 @@ export declare class UserService {
     private jwtService;
     private config;
     constructor(prisma: PrismaService, jwtService: JwtService, config: ConfigService);
-    getAllUser(req: Request, res: Response): Promise<Response<any, Record<string, any>>>;
+    getAllUser(): Promise<import(".prisma/client").User[]>;
     create(dto: CreateUserDto, req: Request, res: Response): Promise<Tokens>;
     refreshTokens(userId: number, rt: string): Promise<Tokens>;
     updateRtHash(userId: number, rt: string): Promise<void>;

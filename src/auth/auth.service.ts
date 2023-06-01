@@ -121,7 +121,7 @@ export class AuthService {
     // Set JWT payload as a cookie
     res.cookie("jwt_payload", tokens.access_token, { httpOnly: true });
 
-    res.redirect("/auth/local/signup");
+    res.redirect("/auth/signup");
     return tokens;
   }
 
@@ -150,14 +150,24 @@ export class AuthService {
       select: { id: true, email: true, name: true, isadmin: true },
       where: { isadmin: false },
     });
+
     if (user.isadmin) {
-      // res.render("user-panel");
-      res.render("user-panel", { user, users });
+      res.render("darshboard");
+      // res.redirect('/user/users')
+      // res.render("user-panel", { user, users });
     } else {
-      res.render("user_Panel", { user, users });
+      res.render("user_Panel");
     }
 
     return tokens;
+  }
+  async getAllprodcut() {
+    return await this.prisma.product.findMany({
+      include: { catrgory: true },
+    });
+  }
+  async getAllCategories() {
+    return this.prisma.category.findMany();
   }
 
   // async signinLocal(
@@ -233,21 +243,21 @@ export class AuthService {
       },
     });
     if (!user || !user.hashedRt) throw new ForbiddenException("Access Denied");
-
+  
     const rtMatches = await argon.verify(user.hashedRt, rt);
     if (!rtMatches) throw new ForbiddenException("Access Denied");
-
+  
     const tokens = await this.getTokens(user.id, user.email);
     // await this.updateRtHash(user.id, tokens.refresh_token, res);
-
+  
     // Set JWT payload as a cookie
     // Set JWT payload and refresh token as cookies
-    res.cookie("jwt_payload", tokens.access_token, { httpOnly: true });
-    res.cookie("refresh_token", tokens.refresh_token, { httpOnly: true });
-
+    (res as any).cookie("jwt_payload", tokens.access_token, { httpOnly: true });
+    (res as any).cookie("refresh_token", tokens.refresh_token, { httpOnly: true });
+  
     return tokens;
   }
-
+  
   async updateRtHash(userId: number, rt: string, res: Response): Promise<void> {
     const hash = await argon.hash(rt);
     await this.prisma.user.update({

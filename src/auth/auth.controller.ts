@@ -9,26 +9,29 @@ import {
   Get,
   Request,
   Response,
-  Req
+  Req,
+  Res
 } from "@nestjs/common";
+import * as cookieParser from 'cookie-parser';
 import { Public, GetCurrentUserId, GetCurrentUser } from "../common/decorators";
 import { RtGuard } from "../common/guards";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto";
 import { Tokens } from "./types";
 import { AuthGuard } from "@nestjs/passport";
+import { request } from "http";
 @Controller("auth")
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Public()
-  @Get("local/signup")
+  @Get("/signup")
   @Render("signup")
   signup() {
     return { msg: "sejal" };
   }
   @Public()
-  @Post("local/signup")
+  @Post("/signup")
   @HttpCode(HttpStatus.CREATED)
   signupLocal(
     @Body() dto: AuthDto,
@@ -39,14 +42,14 @@ export class AuthController {
   }
 
   @Public()
-  @Get("/local/signin")
+  @Get("/signin")
   @Render("signin")
   getuserLogin() {
     return { msg: "sejal" };
   }
 
   @Public()
-  @Post("/local/signin")
+  @Post("/signin")
   @HttpCode(HttpStatus.OK)
   signinLocal(
     @Body() dto: AuthDto,
@@ -97,15 +100,15 @@ export class AuthController {
   }
 
   @Public()
-  @Get("/logout")
-  @HttpCode(HttpStatus.OK)
-  logout(
-    @GetCurrentUserId() userId: number,
-    @Request() req,
-    @Response() res
-  ): Promise<boolean> {
-    return this.authService.logout(userId, req, res);
-  }
+  // @Get("/logout")
+  // @HttpCode(HttpStatus.OK)
+  // logout(
+  //   @GetCurrentUserId() userId: number,
+  //   @Request() req,
+  //   @Response() res
+  // ): Promise<boolean> {
+  //   return this.authService.logout(userId, req, res);
+  // }
   @Public()
   @Get("/dashboard")
   @Render("darshboard") // Specify the EJS template file to render
@@ -144,4 +147,34 @@ export class AuthController {
   googleAuthRedirect(@Req() req) {
     return this.authService.googleLogin(req);
   }
+
+  @Public()
+  @Get("/logout")
+  @HttpCode(HttpStatus.OK)
+  async logout(
+    @GetCurrentUserId() userId: number,
+    @Req() req,
+    @Res() res,
+  ): Promise<boolean> {
+    res.clearCookie("jwt_payload", { path: "/" });
+    res.clearCookie("refresh_token", { path: "/" });
+  
+    // Optionally, you can also clear the cookies on the client-side using JavaScript
+    // res.send(`
+    //   <script>
+    //     document.cookie = 'jwt_payload=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;'; 
+    //     document.cookie = 'refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+    //     window.location.href = '/'; // Redirect to the home page or any desired location
+    //   </script>
+    // `);
+  
+    return true;
+  }
+  
+
+
+
+
+
+
 }

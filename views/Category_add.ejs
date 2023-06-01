@@ -39,7 +39,7 @@
            
             <td>
               <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editModal">Edit</a>
-              <form action="/get/delete/<%= category.id %>" method="POST">
+              <form action="/delete/<%= category.id %>" method="POST">
                 <button type="submit" class="btn btn-danger">Delete</button>
               </form>
             </td>
@@ -61,7 +61,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="/get/craeate-categories" method="post">
+            <form action="/craeate-categories" method="post">
               <div class="form-group">
                 <label for="name">Catgeory Name</label>
                 <input type="text" class="form-control" id="category_name" name="category_name" placeholder="Enter name" required>
@@ -86,7 +86,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="/get/edit/<%= category.id %>" method="POST">
+              <form action="/edit/<%= category.id %>" method="POST">
                 <div class="form-group">
                   <label for="edit-name">Catgeory Name</label>
                   <input type="text" class="form-control" id="edit-name" name="category_name" placeholder="Enter category name"

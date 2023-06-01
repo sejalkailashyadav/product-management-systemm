@@ -15,6 +15,10 @@ export declare class AuthService {
     private generateSecureToken;
     signupLocal(dto: AuthDto, req: Request, res: Response): Promise<Tokens>;
     signinLocal(dto: AuthDto, req: Request, res: Response): Promise<Tokens>;
+    getAllprodcut(): Promise<(import(".prisma/client").Product & {
+        catrgory: import(".prisma/client").Category[];
+    })[]>;
+    getAllCategories(): Promise<import(".prisma/client").Category[]>;
     logout(userId: number, req: Request, res: Response): Promise<boolean>;
     refreshTokens(userId: number, rt: string, res: Response): Promise<Tokens>;
     updateRtHash(userId: number, rt: string, res: Response): Promise<void>;

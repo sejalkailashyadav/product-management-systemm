@@ -3,8 +3,8 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { Public } from 'src/common/decorators';
-
-@Controller()
+@Public()
+@Controller("/Category")
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
@@ -31,7 +31,7 @@ export class CategoriesController {
   //   }
   // }
   @Public()
-  @Get("/getallcetgeory")
+  @Get("/Categories")
   @Render("Category_add")
   async getAllCategories() {
     const categories = await this.categoriesService.getAllCategories();

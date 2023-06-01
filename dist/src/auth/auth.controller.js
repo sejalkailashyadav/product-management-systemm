@@ -47,9 +47,6 @@ let AuthController = class AuthController {
     forgotPassword(email, req, res) {
         return this.authService.forgotPassword(email, res, req);
     }
-    logout(userId, req, res) {
-        return this.authService.logout(userId, req, res);
-    }
     panell() {
         return { msg: "sejal" };
     }
@@ -63,10 +60,15 @@ let AuthController = class AuthController {
     googleAuthRedirect(req) {
         return this.authService.googleLogin(req);
     }
+    async logout(userId, req, res) {
+        res.clearCookie("jwt_payload", { path: "/" });
+        res.clearCookie("refresh_token", { path: "/" });
+        return true;
+    }
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("local/signup"),
+    (0, common_1.Get)("/signup"),
     (0, common_1.Render)("signup"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -74,7 +76,7 @@ __decorate([
 ], AuthController.prototype, "signup", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("local/signup"),
+    (0, common_1.Post)("/signup"),
     (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
@@ -85,7 +87,7 @@ __decorate([
 ], AuthController.prototype, "signupLocal", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/local/signin"),
+    (0, common_1.Get)("/signin"),
     (0, common_1.Render)("signin"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -93,7 +95,7 @@ __decorate([
 ], AuthController.prototype, "getuserLogin", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("/local/signin"),
+    (0, common_1.Post)("/signin"),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
@@ -145,16 +147,6 @@ __decorate([
 ], AuthController.prototype, "forgotPassword", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/logout"),
-    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    __param(0, (0, decorators_1.GetCurrentUserId)()),
-    __param(1, (0, common_1.Request)()),
-    __param(2, (0, common_1.Response)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object, Object]),
-    __metadata("design:returntype", Promise)
-], AuthController.prototype, "logout", null);
-__decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Get)("/dashboard"),
     (0, common_1.Render)("darshboard"),
@@ -200,6 +192,17 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "googleAuthRedirect", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)("/logout"),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, decorators_1.GetCurrentUserId)()),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "logout", null);
 AuthController = __decorate([
     (0, common_1.Controller)("auth"),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

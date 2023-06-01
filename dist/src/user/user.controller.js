@@ -21,11 +21,10 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    async userPanelll() { }
-    async userPanel(req, res) {
-        return this.userService.getAllUser(req, res);
+    async userPanel() {
+        const users = await this.userService.getAllUser();
+        return { users };
     }
-    async adminPanel() { }
     insertuser(dto, req, res) {
         return this.userService.create(dto, req, res);
     }
@@ -38,30 +37,12 @@ let UserController = class UserController {
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/"),
+    (0, common_1.Get)("/users"),
     (0, common_1.Render)("user-panel"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], UserController.prototype, "userPanelll", null);
-__decorate([
-    (0, decorators_1.Public)(),
-    (0, common_1.Get)("/user-panel"),
-    (0, common_1.Render)("user-panel"),
-    __param(0, (0, common_1.Request)()),
-    __param(1, (0, common_1.Response)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "userPanel", null);
-__decorate([
-    (0, decorators_1.Public)(),
-    (0, common_1.Get)("/admin-panel"),
-    (0, common_1.Render)("admin_panel"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], UserController.prototype, "adminPanel", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Post)("/insert"),
@@ -70,7 +51,7 @@ __decorate([
     __param(2, (0, common_1.Response)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto, Object, Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], UserController.prototype, "insertuser", null);
 __decorate([
     (0, decorators_1.Public)(),
@@ -94,7 +75,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "editUser", null);
 UserController = __decorate([
-    (0, common_1.Controller)("user"),
+    (0, decorators_1.Public)(),
+    (0, common_1.Controller)("/user"),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 exports.UserController = UserController;

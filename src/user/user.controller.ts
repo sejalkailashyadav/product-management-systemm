@@ -16,28 +16,24 @@ import {
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { Public } from "src/common/decorators";
-import { Tokens } from "../auth/types";
 
-@Controller("user")
+@Public()
+@Controller("/user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Public()
-  @Get("/")
+  @Get("/users")
   @Render("user-panel")
-  async userPanelll() {}
-
-  @Public()
-  @Get("/user-panel")
-  @Render("user-panel")
-  async userPanel(@Request() req, @Response() res) {
-    return this.userService.getAllUser(req, res);
+  async userPanel() {
+  const users =await this.userService.getAllUser();
+    return {users}
   }
 
-  @Public()
-  @Get("/admin-panel")
-  @Render("admin_panel")
-  async adminPanel() {}
+  // @Public()
+  // @Get("/admin-panel")
+  // @Render("admin_panel")
+  // async adminPanel() {}
 
   @Public()
   @Post("/insert")
@@ -45,7 +41,7 @@ export class UserController {
     @Body() dto: CreateUserDto,
     @Request() req,
     @Response() res
-  ): Promise<Tokens> {
+  ) {
     return this.userService.create(dto, req, res);
   }
 

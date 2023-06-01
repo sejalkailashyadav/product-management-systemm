@@ -17,8 +17,8 @@ export class UserService {
   ) {}
 
   //Show Users
-  async getAllUser(req: Request, res: Response) {
-    const { draw, search, order } = req.query;
+  async getAllUser() {
+    // const { draw, search, order } = req.query;
     // const offset = req.query.start || 0;
     // const limit = req.query.length || 10;
 
@@ -48,12 +48,12 @@ export class UserService {
     //   }));
     // }
 
-    const data = await this.prisma.user.findMany(query);
+    return await this.prisma.user.findMany();
 
-    return res.json({
-      draw: draw,
-      data: data,
-    });
+    // return res.json({
+    //   draw: draw,
+    //   data: data,
+    // });
   }
 
   // Insert Users

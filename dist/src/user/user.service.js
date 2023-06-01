@@ -22,8 +22,7 @@ let UserService = class UserService {
         this.jwtService = jwtService;
         this.config = config;
     }
-    async getAllUser(req, res) {
-        const { draw, search, order } = req.query;
+    async getAllUser() {
         const columns = ["id", "name", "email", "isadmin"];
         const query = {
             where: {},
@@ -34,11 +33,7 @@ let UserService = class UserService {
                 isadmin: true,
             },
         };
-        const data = await this.prisma.user.findMany(query);
-        return res.json({
-            draw: draw,
-            data: data,
-        });
+        return await this.prisma.user.findMany();
     }
     async create(dto, req, res) {
         const hash = await argon.hash(dto.password);

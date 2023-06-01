@@ -1,4 +1,4 @@
-import { Injectable,Req, Res } from '@nestjs/common';
+import { Injectable,Req, Res ,NotFoundException} from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from "src/prisma/prisma.service";
@@ -7,7 +7,7 @@ import { Request, Response } from "express";
 
 @Injectable()
 export class ProductService {
-  constructor(private readonly prismaSerivce: PrismaService) {}
+  constructor(private readonly prismaSerivce: PrismaService) { }
   create(createProductDto: CreateProductDto) {
     return "This action adds a new product";
   }
@@ -117,6 +117,8 @@ export class ProductService {
     });
   }
 
+
+}
   // async addProduct(categoryId: number, productData: CreateProductDto, productImage: FileUpload) {
   //   const { product_name, product_description, product_price } = productData;
 
@@ -138,4 +140,4 @@ export class ProductService {
   //     },
   //   });
   // }
-}
+

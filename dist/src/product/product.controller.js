@@ -18,13 +18,16 @@ const create_product_dto_1 = require("./dto/create-product.dto");
 const product_service_1 = require("../product/product.service");
 const decorators_1 = require("../common/decorators");
 const categories_service_1 = require("../categories/categories.service");
+const cart_service_1 = require("../cart/cart.service");
 let ProductController = class ProductController {
-    constructor(productService, categoriesService) {
+    constructor(productService, categoriesService, cartService) {
         this.productService = productService;
         this.categoriesService = categoriesService;
+        this.cartService = cartService;
     }
     createPost(categoryId, dto, req, res) {
         return this.productService.setprodct_category(Number(categoryId), dto, req, res);
+        return res.redirect('/product_add');
     }
     async userPanel() {
         try {
@@ -40,7 +43,8 @@ let ProductController = class ProductController {
         try {
             const products = await this.productService.getAllprodcut();
             const categories = await this.categoriesService.getAllCategories();
-            return { products, categories };
+            const cart = {};
+            return { products, categories, cart };
         }
         catch (error) {
             throw error;
@@ -52,8 +56,9 @@ let ProductController = class ProductController {
     async deleteproduct_category(id, dto, req, res) {
         return this.productService.deleteproductById(Number(id), dto, res, req);
     }
-    remove(id) {
-        return this.productService.remove(+id);
+    async addToCartt(userId, req, quantity, id) {
+        console.log(userId);
+        return this.cartService.addToCart(userId, id, quantity);
     }
 };
 __decorate([
@@ -70,7 +75,7 @@ __decorate([
 ], ProductController.prototype, "createPost", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/getallproduct"),
+    (0, common_1.Get)("/products"),
     (0, common_1.Render)("product_add"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -103,16 +108,21 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "deleteproduct_category", null);
 __decorate([
-    (0, common_1.Delete)(":id"),
-    __param(0, (0, common_1.Param)("id")),
+    (0, decorators_1.Public)(),
+    (0, common_1.Post)(':id/add-to-cart'),
+    __param(0, (0, decorators_1.GetCurrentUserId)()),
+    __param(1, (0, common_1.Request)()),
+    __param(2, (0, common_1.Body)('quantity')),
+    __param(3, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], ProductController.prototype, "remove", null);
+    __metadata("design:paramtypes", [Number, Object, Number, Number]),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "addToCartt", null);
 ProductController = __decorate([
-    (0, common_1.Controller)("/get"),
+    (0, common_1.Controller)("/Product"),
     __metadata("design:paramtypes", [product_service_1.ProductService,
-        categories_service_1.CategoriesService])
+        categories_service_1.CategoriesService,
+        cart_service_1.CartService])
 ], ProductController);
 exports.ProductController = ProductController;
 //# sourceMappingURL=product.controller.js.map
