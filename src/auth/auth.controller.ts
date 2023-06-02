@@ -156,9 +156,12 @@ export class AuthController {
     @Req() req,
     @Res() res,
   ): Promise<boolean> {
-    res.clearCookie("jwt_payload", { path: "/" });
+    console.log(req.cookies);
+    
+    res.clearCookie("jwt_payload");
+    res.redirect("/auth/signin")
     res.clearCookie("refresh_token", { path: "/" });
-  
+  console.log(req.cookies);
     // Optionally, you can also clear the cookies on the client-side using JavaScript
     // res.send(`
     //   <script>

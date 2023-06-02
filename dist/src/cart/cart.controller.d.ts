@@ -1,15 +1,17 @@
-import { CartService } from './cart.service';
-import { AddToCartDto } from '../cart/dto/create-cart.dto';
-import { Response } from 'express';
-import { ProductService } from 'src/product/product.service';
-import { CategoriesService } from 'src/categories/categories.service';
+import { CartService } from "./cart.service";
+import { AddToCartDto } from "../cart/dto/create-cart.dto";
+import { Response } from "express";
+import { JwtService } from "@nestjs/jwt";
 export declare class CartController {
+    private jwtService;
     private readonly cartService;
-    private readonly productService;
-    private readonly categoriesService;
-    constructor(cartService: CartService, productService: ProductService, categoriesService: CategoriesService);
+    constructor(jwtService: JwtService, cartService: CartService);
     create(createCartDto: AddToCartDto): string;
-    findAll(): string;
-    findOne(id: string): string;
-    addToCart(data: any, req: any, res: Response): Promise<void | Response<any, Record<string, any>>>;
+    get(req: any): Promise<any>;
+    doSomethingWithToken(req: any, res: any): Promise<any>;
+    findAll(req: any, res: Response): Promise<(import(".prisma/client").Cart & {
+        product: import(".prisma/client").Product;
+        user: import(".prisma/client").User;
+    })[]>;
+    addToCart(data: any, req: any, res: Response, productId: number): Promise<Response<any, Record<string, any>>>;
 }

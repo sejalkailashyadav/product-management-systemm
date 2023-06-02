@@ -17,13 +17,27 @@ const prisma_module_1 = require("../prisma/prisma.module");
 const cart_module_1 = require("../cart/cart.module");
 const cart_service_1 = require("../cart/cart.service");
 const cart_controller_1 = require("../cart/cart.controller");
+const jwt_1 = require("@nestjs/jwt");
+const config_1 = require("@nestjs/config");
 let ProductModule = ProductModule_1 = class ProductModule {
 };
 ProductModule = ProductModule_1 = __decorate([
     (0, common_1.Module)({
         controllers: [product_controller_1.ProductController, categories_controller_1.CategoriesController, cart_controller_1.CartController],
         providers: [product_service_1.ProductService, categories_service_1.CategoriesService, cart_service_1.CartService],
-        imports: [prisma_module_1.PrismaModule, cart_module_1.CartModule, ProductModule_1],
+        imports: [
+            prisma_module_1.PrismaModule,
+            cart_module_1.CartModule,
+            ProductModule_1,
+            jwt_1.JwtModule.registerAsync({
+                imports: [config_1.ConfigModule],
+                useFactory: async () => ({
+                    secret: "buybuihbikhkhk",
+                    signOptions: { expiresIn: "15m" },
+                }),
+                inject: [config_1.ConfigService],
+            }),
+        ],
     })
 ], ProductModule);
 exports.ProductModule = ProductModule;

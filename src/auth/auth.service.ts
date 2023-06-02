@@ -119,7 +119,7 @@ export class AuthService {
     // await this.updateRtHash(user.id, tokens.refresh_token);
 
     // Set JWT payload as a cookie
-    res.cookie("jwt_payload", tokens.access_token, { httpOnly: true });
+    res.cookie("jwt_payload", tokens.access_token);
 
     res.redirect("/auth/signup");
     return tokens;
@@ -144,19 +144,24 @@ export class AuthService {
     const tokens = await this.getTokens(user.id, user.email);
 
     // Set JWT payload as a cookie
-    res.cookie("jwt_payload", tokens.access_token, { httpOnly: true });
+    res.cookie("jwt_payload", tokens.access_token);
 
     const users = await this.prisma.user.findMany({
       select: { id: true, email: true, name: true, isadmin: true },
       where: { isadmin: false },
     });
-
+      const products=  await this.prisma.product.findMany({
+            include: { catrgory: true },
+          });
+        
+      const categories= this.prisma.category.findMany();
+  
     if (user.isadmin) {
       res.render("darshboard");
       // res.redirect('/user/users')
       // res.render("user-panel", { user, users });
     } else {
-      res.render("user_Panel");
+      res.render("user_Panel", { products, categories });
     }
 
     return tokens;
@@ -169,62 +174,6 @@ export class AuthService {
   async getAllCategories() {
     return this.prisma.category.findMany();
   }
-
-  // async signinLocal(
-  //   dto: AuthDto,
-  //   @Req() req: Request,
-  //   @Res() res: Response,
-  // ): Promise<Tokens> {
-  //   const user = await this.prisma.user.findUnique({
-  //     where: {
-  //       email: dto.email,
-  //     },
-  //   });
-
-  //   if (!user) throw new ForbiddenException('Access Denied');
-
-  //   const passwordMatches = await argon.verify(user.password, dto.password);
-  //   if (!passwordMatches) throw new ForbiddenException('Access Denied');
-
-  //   const tokens = await this.getTokens(user.id, user.email);
-  //   console.log('data');
-
-  //   console.log(tokens);
-  //   console.log(user.id, user.email);
-  //   // await this.updateRtHash(user.id, tokens.refresh_token);
-
-  //   // Set JWT payload as a cookie
-  //   res.cookie('jwt_payload', tokens.access_token, { httpOnly: true });
-
-  //   const users = await this.prisma.user.findMany({
-  //     select: { id: true, email: true, name: true },
-  //     where: { isadmin: false },
-  //   });
-
-  //   res.render('user_Panel', { user, users });
-  //   // console.log(users);
-
-  //   return tokens;
-  // }
-
-  // async logout(userId: number, req: Request, res: Response): Promise<boolean> {
-  //   await this.prisma.user.updateMany({
-  //     where: {
-  //       id: userId,
-  //       hashedRt: {
-  //         not: null,
-  //       },
-  //     },
-  //     data: {
-  //       hashedRt: null,
-  //     },
-  //   });
-
-  //   // Clear JWT payload cookie
-  //   res.clearCookie('jwt_payload');
-
-  //   return true;
-  // }
 
   async logout(userId: number, req: Request, res: Response): Promise<boolean> {
     res.clearCookie("jwt_payload");
@@ -252,8 +201,8 @@ export class AuthService {
   
     // Set JWT payload as a cookie
     // Set JWT payload and refresh token as cookies
-    (res as any).cookie("jwt_payload", tokens.access_token, { httpOnly: true });
-    (res as any).cookie("refresh_token", tokens.refresh_token, { httpOnly: true });
+    (res as any).cookie("jwt_payload", tokens.access_token);
+    (res as any).cookie("refresh_token", tokens.refresh_token);
   
     return tokens;
   }

@@ -120,7 +120,7 @@ export class ProductController {
       const products = await this.productService.getAllprodcut();
       const categories = await this.categoriesService.getAllCategories();
       const cart = {};
-      return {products,categories,cart}; // Pass the products data to the view
+      return { products,categories,cart}; // Pass the products data to the view
     } catch (error) {
       throw error;
     }

@@ -61,8 +61,11 @@ let AuthController = class AuthController {
         return this.authService.googleLogin(req);
     }
     async logout(userId, req, res) {
-        res.clearCookie("jwt_payload", { path: "/" });
+        console.log(req.cookies);
+        res.clearCookie("jwt_payload");
+        res.redirect("/auth/signin");
         res.clearCookie("refresh_token", { path: "/" });
+        console.log(req.cookies);
         return true;
     }
 };
