@@ -25,35 +25,29 @@ let CartService = class CartService {
     findOne(id) {
         return `This action returns a #${id} cart`;
     }
-    update(id, updateCartDto) {
-        return `This action updates a #${id} cart`;
-    }
-    remove(id) {
-        return `This action removes a #${id} cart`;
-    }
     async addToCart(userId, productId, quantity) {
-        const cartItem = await this.prismaSerivce.cart.findFirst({
+        const existingCartItem = await this.prismaSerivce.cart.findFirst({
             where: {
                 user_id: userId,
                 product_id: productId,
             },
         });
-        if (cartItem) {
+        if (existingCartItem) {
             await this.prismaSerivce.cart.update({
                 where: {
-                    id: cartItem.id,
+                    id: existingCartItem.id,
                 },
                 data: {
-                    quantity: cartItem.quantity + quantity,
+                    quantity: existingCartItem.quantity + quantity,
                 },
             });
         }
         else {
             await this.prismaSerivce.cart.create({
                 data: {
-                    user_id: userId,
-                    product_id: productId,
-                    quantity,
+                    user: { connect: { id: userId } },
+                    product: { connect: { id: productId } },
+                    quantity: quantity,
                 },
             });
         }

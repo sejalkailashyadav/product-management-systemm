@@ -15,11 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CartController = void 0;
 const common_1 = require("@nestjs/common");
 const cart_service_1 = require("./cart.service");
-const create_cart_dto_1 = require("./dto/create-cart.dto");
-const update_cart_dto_1 = require("./dto/update-cart.dto");
+const create_cart_dto_1 = require("../cart/dto/create-cart.dto");
+const decorators_1 = require("../common/decorators");
+const product_service_1 = require("../product/product.service");
+const categories_service_1 = require("../categories/categories.service");
 let CartController = class CartController {
-    constructor(cartService) {
+    constructor(cartService, productService, categoriesService) {
         this.cartService = cartService;
+        this.productService = productService;
+        this.categoriesService = categoriesService;
     }
     create(createCartDto) {
         return this.cartService.create(createCartDto);
@@ -30,18 +34,23 @@ let CartController = class CartController {
     findOne(id) {
         return this.cartService.findOne(+id);
     }
-    update(id, updateCartDto) {
-        return this.cartService.update(+id, updateCartDto);
-    }
-    remove(id) {
-        return this.cartService.remove(+id);
+    async addToCart(data, req, res) {
+        try {
+            const { productId, quantity } = data;
+            const userId = req.user.id;
+            await this.cartService.addToCart(userId, productId, quantity);
+            return res.redirect('/cart');
+        }
+        catch (error) {
+            return res.status(500).json({ error: 'Internal server error' });
+        }
     }
 };
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_cart_dto_1.CreateCartDto]),
+    __metadata("design:paramtypes", [create_cart_dto_1.AddToCartDto]),
     __metadata("design:returntype", void 0)
 ], CartController.prototype, "create", null);
 __decorate([
@@ -58,23 +67,20 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CartController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
+    (0, decorators_1.Public)(),
+    (0, common_1.Post)('add'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_cart_dto_1.UpdateCartDto]),
-    __metadata("design:returntype", void 0)
-], CartController.prototype, "update", null);
-__decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], CartController.prototype, "remove", null);
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], CartController.prototype, "addToCart", null);
 CartController = __decorate([
     (0, common_1.Controller)('cart'),
-    __metadata("design:paramtypes", [cart_service_1.CartService])
+    __metadata("design:paramtypes", [cart_service_1.CartService,
+        product_service_1.ProductService,
+        categories_service_1.CategoriesService])
 ], CartController);
 exports.CartController = CartController;
 //# sourceMappingURL=cart.controller.js.map
