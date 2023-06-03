@@ -28,8 +28,8 @@ let UserController = class UserController {
     insertuser(dto, req, res) {
         return this.userService.create(dto, req, res);
     }
-    async deleteUserById(id, req, res) {
-        return this.userService.deleteUserById(Number(id), res, req);
+    async deleteUserById(id) {
+        return await this.userService.deleteUserById(+id);
     }
     async editUser(id, dto, req, res) {
         return this.userService.editUserById(Number(id), dto, res, req);
@@ -55,12 +55,10 @@ __decorate([
 ], UserController.prototype, "insertuser", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("/delete/:id"),
+    (0, common_1.Delete)("delete/:id"),
     __param(0, (0, common_1.Param)("id")),
-    __param(1, (0, common_1.Request)()),
-    __param(2, (0, common_1.Response)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object, Object]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "deleteUserById", null);
 __decorate([
@@ -76,7 +74,7 @@ __decorate([
 ], UserController.prototype, "editUser", null);
 UserController = __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Controller)("/user"),
+    (0, common_1.Controller)("user"),
     __metadata("design:paramtypes", [user_service_1.UserService])
 ], UserController);
 exports.UserController = UserController;

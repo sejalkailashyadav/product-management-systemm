@@ -24,7 +24,6 @@ model User {
 
   carts                  Cart[]
   orders                 Order[]
-  // users user_role[]
 }
 model Product {
   id       Int  @id @default(autoincrement())
@@ -74,3 +73,8 @@ model Order {
 
 }
 
+user name 
+email
+prodct name
+price
+crated at 

@@ -14,6 +14,6 @@ export declare class UserService {
     refreshTokens(userId: number, rt: string): Promise<Tokens>;
     updateRtHash(userId: number, rt: string): Promise<void>;
     getTokens(userId: number, email: string): Promise<Tokens>;
-    deleteUserById(id: number, req: Request, res: Response): Promise<void>;
+    deleteUserById(id: number): Promise<import(".prisma/client").User>;
     editUserById(id: number, dto: CreateUserDto, req: Request, res: Response): Promise<void>;
 }

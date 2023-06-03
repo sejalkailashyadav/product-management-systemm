@@ -6,9 +6,7 @@ export declare class ProductService {
     private readonly prismaSerivce;
     constructor(prismaSerivce: PrismaService);
     create(createProductDto: CreateProductDto): string;
-    getAllprodcut(): Promise<(import(".prisma/client").Product & {
-        catrgory: import(".prisma/client").Category[];
-    })[]>;
+    getAllprodcut(): Promise<void>;
     getAllCategories(): Promise<import(".prisma/client").Category[]>;
     findOne(id: number): string;
     update(id: number, updateProductDto: UpdateProductDto): string;

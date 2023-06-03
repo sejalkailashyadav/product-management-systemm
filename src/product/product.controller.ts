@@ -112,19 +112,19 @@ export class ProductController {
     }
   }
 
-  @Public()
-  @Get('/Home')
-  @Render("prodcut_categorye")
-  async userPanell() {
-    try {
-      const products = await this.productService.getAllprodcut();
-      const categories = await this.categoriesService.getAllCategories();
-      const cart = {};
-      return { products,categories,cart}; // Pass the products data to the view
-    } catch (error) {
-      throw error;
-    }
-  }
+  // @Public()
+  // @Get('/Home')
+  // @Render("prodcut_categorye")
+  // async userPanell() {
+  //   try {
+  //     const products = await this.productService.getAllprodcut();
+  //     const categories = await this.categoriesService.getAllCategories();
+  //     const cart = {};
+  //     return { products,categories,cart}; // Pass the products data to the view
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 
   @Get(":id")
   findOne(@Param("id") id: string) {
@@ -147,24 +147,24 @@ export class ProductController {
   //   return this.productService.update(+id, updateProductDto);
   // }
 
-  @Public()
-  @Post(':id/add-to-cart') 
-  async addToCartt(
-  @GetCurrentUserId() userId: number,
-  @Request() req,
-  @Body('quantity') quantity: number,
-    @Param('id') id: number,
+//   @Public()
+//   @Post(':id/add-to-cart') 
+//   async addToCartt(
+//   @GetCurrentUserId() userId: number,
+//   @Request() req,
+//   @Body('quantity') quantity: number,
+//     @Param('id') id: number,
   
-  ) {
+//   ) {
     
-   console.log(userId);
+//    console.log(userId);
    
-  //const { user } = request.;
-  // const userId = user.id;
-  return this.cartService.addToCart(userId, id, quantity);
+//   //const { user } = request.;
+//   // const userId = user.id;
+//   return this.cartService.addToCart(userId, id, quantity);
 
 
-}
+// }
 
   
 }

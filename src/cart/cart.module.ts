@@ -7,6 +7,8 @@ import { ProductService } from 'src/product/product.service';
 import { CategoriesService } from 'src/categories/categories.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ProductController } from 'src/product/product.controller';
+import { CategoriesController } from 'src/categories/categories.controller';
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
     ConfigModule.forRoot(),
   ], // Import the PrismaModule
-  controllers: [CartController],
-  providers: [CartService],
+  controllers: [CartController,ProductController,CategoriesController],
+  providers: [CartService,ProductService,CategoriesService],
 })
 export class CartModule {}

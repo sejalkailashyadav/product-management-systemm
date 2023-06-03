@@ -18,7 +18,7 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { Public } from "src/common/decorators";
 
 @Public()
-@Controller("/user")
+@Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -52,13 +52,10 @@ export class UserController {
   // }
 
   @Public()
-  @Post("/delete/:id")
-  async deleteUserById(
-    @Param("id") id: number,
-    @Request() req,
-    @Response() res
-  ) {
-    return this.userService.deleteUserById(Number(id), res, req); // Convert the id to a number if necessary
+  @Delete("delete/:id")
+   async deleteUserById(
+    @Param("id") id: number ) {
+    return await this.userService.deleteUserById(+id); // Convert the id to a number if necessary
   }
 
   @Public()

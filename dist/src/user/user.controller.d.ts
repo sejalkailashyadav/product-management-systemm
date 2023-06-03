@@ -7,6 +7,6 @@ export declare class UserController {
         users: import(".prisma/client").User[];
     }>;
     insertuser(dto: CreateUserDto, req: any, res: any): Promise<import("../auth/types").Tokens>;
-    deleteUserById(id: number, req: any, res: any): Promise<void>;
+    deleteUserById(id: number): Promise<import(".prisma/client").User>;
     editUser(id: number, dto: CreateUserDto, req: any, res: any): Promise<void>;
 }

@@ -12,11 +12,13 @@ export class ProductService {
     return "This action adds a new product";
   }
 
+  
   async getAllprodcut() {
-    return await this.prismaSerivce.product.findMany({
+  const categoryProduct = await this.prismaSerivce.product.findMany({
       include: { catrgory: true },
     });
-  }
+    console.log(categoryProduct);
+      }
   async getAllCategories() {
     return this.prismaSerivce.category.findMany();
   }

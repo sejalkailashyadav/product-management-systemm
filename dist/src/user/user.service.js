@@ -103,10 +103,10 @@ let UserService = class UserService {
             refresh_token: rt,
         };
     }
-    async deleteUserById(id, req, res) {
-        await this.prisma.user.delete({
+    async deleteUserById(id) {
+        return await this.prisma.user.delete({
             where: {
-                id: id,
+                id: +id,
             },
         });
     }

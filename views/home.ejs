@@ -37,26 +37,6 @@
 
             height: 100vh;
         }
-        body {
-  background: #ffffff;
-  background: -webkit-linear-gradient(to left, #fffefe, #ffffff);
-  background: linear-gradient(to left, #ffffff, #ffffff);
-  min-height: 100vh;
-}
-        .modal-content {
-    position: relative;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    width: 150%;
-    pointer-events: auto;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid rgba(0,0,0,.2);
-    border-radius: 0.3rem;
-    outline: 0;
-}
     </style>
 </head>
 
@@ -75,12 +55,12 @@
                             aria-label="Search">
                         <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
                     </form>
-                <!-- </li>
-                   <li class="nav-item">
-                    <a class="nav-link" href="/Product/Home">Home</a>
-                </li> -->
+                </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/cart/all">Home</a>
+                    <a class="nav-link" href="/Product/Home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart/all">cart</a>
                 </li>
                 </li>
                 <!-- <li class="nav-item">
@@ -124,8 +104,8 @@
                             <!-- <button class="btn btn-primary" onclick="orderProduct(<%= product.id %>)">Order</button> -->
                             <button class="btn btn-success" onclick="addToCart(<%= product.id %>)">Add to
                                 Cart</button>
-                        Quantity : <span id="quantity<%= product.id %>">0</span>
-                            
+                            Quantity : <span id="quantity<%= product.id %>">0</span>
+
                         </div>
                     </div>
                 </div>
@@ -163,29 +143,19 @@
                                     <td>
                                         <%=carts[i].product.product_price%>
                                     </td>
-                         
-                                        <td><input type="number" value="<%=carts[i].quantity%>" min="1" disabled /></td>
-                                       
+
+                                    <td><input type="number" value="<%=carts[i].quantity%>" min="1" disabled /></td>
+
                                     <td>
                                         <%= carts[i].product.product_price * carts[i].quantity%>
                                     </td>
-                            
+                                    <% } %>
 
-                                        <td>
-                                            <form action="/delete/<%= carts[i].id %>" method="post">
-                                            <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top"
-                                                title="Delete">Remove</i></button>
-                                        </form>
-                                       </td>
-                                           
-                                               
-                                           
-                                  
+                                        </td>
                                 </tr>
-                                        <% } %>
                         </tbody>
                     </table>
-                   
+
 
                 </div>
 
@@ -194,7 +164,7 @@
                     <form action="/checkout" method="POST">
                         <input type="hidden" name="userId" value="">
                         <input type="hidden" name="token" value="">
-                        <button type="submit" class="btn btn-danger" data-dismiss="modal" >Checkout</button>
+                        <button type="submit" class="btn btn-danger" data-dismiss="modal">Checkout</button>
                     </form>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
@@ -214,17 +184,17 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                    <% products.forEach(function(product) { %>
-                        <form action="/cart/add/<%= product.id %>" method="POST">
-                    
-                            <div class="form-group">
-                                <label for="quantity">Quantity</label>
-                                <input type="number" class="form-control" id="quantity" name="quantity" value="1">
-                            </div>
-                            <button type="submit" class="btn btn-success">Add to Cart</button>
-                        </form>
-                    
-                        <% }); %>
+                <% products.forEach(function(product) { %>
+                    <form action="/cart/add/<%= product.id %>" method="POST">
+
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" value="1">
+                        </div>
+                        <button type="submit" class="btn btn-success">Add to Cart</button>
+                    </form>
+
+                    <% }); %>
             </div>
         </div>
     </div>
@@ -307,10 +277,6 @@
             });
 
         });
-        //bosstap for delete button 
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-                });
     </script>
 </body>
 
