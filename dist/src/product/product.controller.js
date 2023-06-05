@@ -18,22 +18,44 @@ const create_product_dto_1 = require("./dto/create-product.dto");
 const product_service_1 = require("../product/product.service");
 const decorators_1 = require("../common/decorators");
 const categories_service_1 = require("../categories/categories.service");
-const cart_service_1 = require("../cart/cart.service");
 let ProductController = class ProductController {
-    constructor(productService, categoriesService, cartService) {
+    constructor(productService, categoriesService) {
         this.productService = productService;
         this.categoriesService = categoriesService;
-        this.cartService = cartService;
+    }
+    userProductPage(req, res) {
+        return this.productService.usersAllProducts(req, res);
+    }
+    showProductInCart(id, req, res) {
+        return this.productService.findProductById(Number(id), req, res);
+    }
+    productDetailPage(req, res) { }
+    productData() {
+        console.log("psss");
+        return this.productService.findAllProducts();
+    }
+    async productByCategory(category_name, res, req) {
+        const products = await this.productService.productByCategory(category_name, res, req);
+        return { products: products };
+    }
+    findProduct(id) {
+        console.log("inside get product");
+        return this.productService.findProduct(id);
+    }
+    async findClickedProduct(id, req, res) {
+        console.log("inside get product by id");
+        return await this.productService.findProductById(Number(id), req, res);
     }
     createPost(categoryId, dto, req, res) {
         return this.productService.setprodct_category(Number(categoryId), dto, req, res);
         return res.redirect('/product_add');
     }
-    async userPanel() {
+    async adminPanel() {
         try {
             const products = await this.productService.getAllprodcut();
             const categories = await this.categoriesService.getAllCategories();
-            return { products, categories };
+            console.log(products, categories);
+            return { products: products, categories: categories };
         }
         catch (error) {
             throw error;
@@ -48,6 +70,72 @@ let ProductController = class ProductController {
 };
 __decorate([
     (0, decorators_1.Public)(),
+    (0, common_1.Get)('/user_product'),
+    (0, common_1.Render)('user_home_page'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], ProductController.prototype, "userProductPage", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)('/cart/:id'),
+    (0, common_1.Render)('product_Details'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object, Object]),
+    __metadata("design:returntype", void 0)
+], ProductController.prototype, "showProductInCart", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)('/product_details'),
+    (0, common_1.Render)('product_Details'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], ProductController.prototype, "productDetailPage", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ProductController.prototype, "productData", null);
+__decorate([
+    (0, common_1.Get)('/product_by_cat/:category_name'),
+    (0, common_1.Render)('user_home_page'),
+    __param(0, (0, common_1.Param)('category_name')),
+    __param(1, (0, common_1.Res)()),
+    __param(2, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "productByCategory", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)('product/edit/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], ProductController.prototype, "findProduct", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)('product/:id'),
+    (0, common_1.Render)('product_Details'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object, Object]),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "findClickedProduct", null);
+__decorate([
+    (0, decorators_1.Public)(),
     (0, common_1.Post)("products/:categoryId"),
     (0, decorators_1.Public)(),
     __param(0, (0, common_1.Param)("categoryId")),
@@ -60,12 +148,12 @@ __decorate([
 ], ProductController.prototype, "createPost", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/products"),
-    (0, common_1.Render)("product_add"),
+    (0, common_1.Get)("/all"),
+    (0, common_1.Render)("product"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], ProductController.prototype, "userPanel", null);
+], ProductController.prototype, "adminPanel", null);
 __decorate([
     (0, common_1.Get)(":id"),
     __param(0, (0, common_1.Param)("id")),
@@ -87,8 +175,7 @@ __decorate([
 ProductController = __decorate([
     (0, common_1.Controller)("/Product"),
     __metadata("design:paramtypes", [product_service_1.ProductService,
-        categories_service_1.CategoriesService,
-        cart_service_1.CartService])
+        categories_service_1.CategoriesService])
 ], ProductController);
 exports.ProductController = ProductController;
 //# sourceMappingURL=product.controller.js.map

@@ -1,52 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete,Render ,Response,Request} from '@nestjs/common';
-import { PrismaService } from "src/prisma/prisma.service";
+import { Controller, Get, Post, Body, Param, Delete, Render, Res, Req ,Response,Request} from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { Public } from 'src/common/decorators';
+
 @Public()
-@Controller("/Category")
+@Controller('Category')
 export class CategoriesController {
-  constructor(private readonly categoriesService: CategoriesService) {}
+  constructor(
+    private readonly categoriesService: CategoriesService,
+    private readonly prismaService: PrismaService
+  ) {}
 
-  // @Public()
-  // @Get("/product_category")
-  // @Render("product")
-  // async userPanel(@Request() req, @Response() res) {
-  //   try {
-  //     const users = await this.categoriesService.getAllUser();
-  //     return { users };
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
-
-  // @Public()
-  // @Get("/getallcetgeory")
-  // @Render("Category_add")
-  // async userPanel() {
-  //   try {
-  //    await this.categoriesService.getAllUser();
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
   @Public()
-  @Get("/Categories")
-  @Render("Category_add")
+  @Get('/Categories')
+  @Render('Category_add')
   async getAllCategories() {
     const categories = await this.categoriesService.getAllCategories();
     return { categories };
   }
 
-  //create caregory
   @Public()
-  @Post("/craeate-categories")
-  createnewcategory(@Body() dto: CreateCategoryDto) {
-    try {
-      return this.categoriesService.createcategory(dto);
-    } catch (error) {
-      throw error;
-    }
+  @Post('/create-categories')
+  async createCategory(@Body() dto: CreateCategoryDto, @Res() res) {
+    const createdCategory = await this.categoriesService.createCategory(dto);
+    const categories = await this.categoriesService.getAllCategories();
+    return res.render('Category_add', { categories });
   }
 
   @Public()
@@ -59,29 +38,13 @@ export class CategoriesController {
   ) {
     return this.categoriesService.editcategoryById(Number(id), dto, res, req);
   }
-  // @Post()
-  // create(@Body() createCategoryDto: CreateCategoryDto) {
-  //   return this.categoriesService.create(createCategoryDto);
-  // }
 
-  // @Get()
-  // findAll() {
-  //   return this.categoriesService.findAll();
-  // }
+  
   @Public()
-  @Post("/delete/:id")
-  async deleteUserById(
-    @Param("id") id: number,
-    @Request() req,
-    @Response() res
-  ) {
-    return this.categoriesService.deletecategoryById(Number(id), res, req); // Convert the id to a number if necessary
+  @Post('/delete/:id')
+  async deleteCategory(@Param('id') id: number, @Res() res) {
+    await this.categoriesService.deleteCategory(id);
+    const categories = await this.categoriesService.getAllCategories();
+    return res.render('Category_add', { categories });
   }
-  //get current userr
-  // @Get("test")
-  // @GetCurrentUserId(())
-  // testRoute(@CurrentUser() user: User) {
-  //   console.log("Current User: ", user);
-  //   return { user };
-  // }
 }

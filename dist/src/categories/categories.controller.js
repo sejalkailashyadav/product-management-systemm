@@ -14,48 +14,50 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoriesController = void 0;
 const common_1 = require("@nestjs/common");
+const prisma_service_1 = require("../prisma/prisma.service");
 const categories_service_1 = require("./categories.service");
 const create_category_dto_1 = require("./dto/create-category.dto");
 const decorators_1 = require("../common/decorators");
 let CategoriesController = class CategoriesController {
-    constructor(categoriesService) {
+    constructor(categoriesService, prismaService) {
         this.categoriesService = categoriesService;
+        this.prismaService = prismaService;
     }
     async getAllCategories() {
         const categories = await this.categoriesService.getAllCategories();
         return { categories };
     }
-    createnewcategory(dto) {
-        try {
-            return this.categoriesService.createcategory(dto);
-        }
-        catch (error) {
-            throw error;
-        }
+    async createCategory(dto, res) {
+        const createdCategory = await this.categoriesService.createCategory(dto);
+        const categories = await this.categoriesService.getAllCategories();
+        return res.render('Category_add', { categories });
     }
     async editUser(id, dto, req, res) {
         return this.categoriesService.editcategoryById(Number(id), dto, res, req);
     }
-    async deleteUserById(id, req, res) {
-        return this.categoriesService.deletecategoryById(Number(id), res, req);
+    async deleteCategory(id, res) {
+        await this.categoriesService.deleteCategory(id);
+        const categories = await this.categoriesService.getAllCategories();
+        return res.render('Category_add', { categories });
     }
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("/Categories"),
-    (0, common_1.Render)("Category_add"),
+    (0, common_1.Get)('/Categories'),
+    (0, common_1.Render)('Category_add'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], CategoriesController.prototype, "getAllCategories", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("/craeate-categories"),
+    (0, common_1.Post)('/create-categories'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_category_dto_1.CreateCategoryDto]),
-    __metadata("design:returntype", void 0)
-], CategoriesController.prototype, "createnewcategory", null);
+    __metadata("design:paramtypes", [create_category_dto_1.CreateCategoryDto, Object]),
+    __metadata("design:returntype", Promise)
+], CategoriesController.prototype, "createCategory", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Post)("/edit/:id"),
@@ -69,18 +71,18 @@ __decorate([
 ], CategoriesController.prototype, "editUser", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("/delete/:id"),
-    __param(0, (0, common_1.Param)("id")),
-    __param(1, (0, common_1.Request)()),
-    __param(2, (0, common_1.Response)()),
+    (0, common_1.Post)('/delete/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object, Object]),
+    __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
-], CategoriesController.prototype, "deleteUserById", null);
+], CategoriesController.prototype, "deleteCategory", null);
 CategoriesController = __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Controller)("/Category"),
-    __metadata("design:paramtypes", [categories_service_1.CategoriesService])
+    (0, common_1.Controller)('Category'),
+    __metadata("design:paramtypes", [categories_service_1.CategoriesService,
+        prisma_service_1.PrismaService])
 ], CategoriesController);
 exports.CategoriesController = CategoriesController;
 //# sourceMappingURL=categories.controller.js.map

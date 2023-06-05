@@ -14,20 +14,16 @@ const product_service_1 = require("./product.service");
 const categories_service_1 = require("../categories/categories.service");
 const categories_controller_1 = require("../categories/categories.controller");
 const prisma_module_1 = require("../prisma/prisma.module");
-const cart_module_1 = require("../cart/cart.module");
-const cart_service_1 = require("../cart/cart.service");
-const cart_controller_1 = require("../cart/cart.controller");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
 let ProductModule = ProductModule_1 = class ProductModule {
 };
 ProductModule = ProductModule_1 = __decorate([
     (0, common_1.Module)({
-        controllers: [product_controller_1.ProductController, categories_controller_1.CategoriesController, cart_controller_1.CartController],
-        providers: [product_service_1.ProductService, categories_service_1.CategoriesService, cart_service_1.CartService],
+        controllers: [product_controller_1.ProductController, categories_controller_1.CategoriesController],
+        providers: [product_service_1.ProductService, categories_service_1.CategoriesService],
         imports: [
             prisma_module_1.PrismaModule,
-            cart_module_1.CartModule,
             ProductModule_1,
             jwt_1.JwtModule.registerAsync({
                 imports: [config_1.ConfigModule],

@@ -15,42 +15,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CartController = void 0;
 const common_1 = require("@nestjs/common");
 const cart_service_1 = require("./cart.service");
-const product_service_1 = require("../product/product.service");
-const categories_service_1 = require("../categories/categories.service");
+const create_cart_dto_1 = require("./dto/create-cart.dto");
 const decorators_1 = require("../common/decorators");
-const jwt_1 = require("@nestjs/jwt");
 let CartController = class CartController {
-    constructor(jwtService, cartService, productService, categoriesService) {
-        this.jwtService = jwtService;
+    constructor(cartService) {
         this.cartService = cartService;
-        this.productService = productService;
-        this.categoriesService = categoriesService;
     }
-    async findAll(req, res) {
-        console.log(req.headers);
-        const { cookie } = req.headers;
-        console.log(cookie);
-        const user = JSON.parse(Buffer.from(cookie.split(".")[1], "base64").toString("utf-8"));
-        console.log(user.sub, user.email);
-        const userId = user.sub;
-        return await this.cartService.getCartItems(+userId, req, res);
+    async addToCart(productId, quantity, total, req, res) {
+        return await this.cartService.addItemtoCart(productId, quantity, total, req, res);
     }
-    async addToCart(data, req, res, productId) {
-        try {
-            const { quantity } = data;
-            console.log(req.headers);
-            const { cookie } = req.headers;
-            console.log(cookie);
-            const user = JSON.parse(Buffer.from(cookie.split(".")[1], "base64").toString("utf-8"));
-            console.log(user.sub, user.email);
-            const userId = user.sub;
-            const cart = await this.cartService.addToCart(userId, productId, quantity, req, res);
-            console.log(cart);
-            res.redirect("prodcut_categorye", { cart });
-        }
-        catch (error) {
-            return res.status(500).json({ error: "Internal server error" });
-        }
+    create(createCartDto, req, res) {
+        return this.cartService.create(createCartDto, req, res);
+    }
+    getCartPage(req, res) {
+        return this.cartService.getAllCart(req, res);
+    }
+    findAll() {
     }
     remove(id, req, res) {
         return this.cartService.remove(id, req, res);
@@ -58,29 +38,47 @@ let CartController = class CartController {
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Render)("prodcut_categorye"),
-    (0, common_1.Get)("/all"),
-    __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Res)()),
+    (0, common_1.Post)('cart'),
+    __param(0, (0, common_1.Body)('productId')),
+    __param(1, (0, common_1.Body)('quantity')),
+    __param(2, (0, common_1.Body)('total')),
+    __param(3, (0, common_1.Req)()),
+    __param(4, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], CartController.prototype, "findAll", null);
-__decorate([
-    (0, decorators_1.Public)(),
-    (0, common_1.Post)("add/:id"),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Req)()),
-    __param(2, (0, common_1.Res)()),
-    __param(3, (0, common_1.Param)("id")),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object, Number]),
+    __metadata("design:paramtypes", [Number, Number, Number, Object, Object]),
     __metadata("design:returntype", Promise)
 ], CartController.prototype, "addToCart", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("/delete/:id"),
-    __param(0, (0, common_1.Param)("id")),
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_cart_dto_1.CreateCartDto, Object, Object]),
+    __metadata("design:returntype", void 0)
+], CartController.prototype, "create", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)('/cart_page'),
+    (0, common_1.Render)('cart'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], CartController.prototype, "getCartPage", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], CartController.prototype, "findAll", null);
+__decorate([
+    (0, decorators_1.Public)(),
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Req)()),
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -88,11 +86,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], CartController.prototype, "remove", null);
 CartController = __decorate([
-    (0, common_1.Controller)("cart"),
-    __metadata("design:paramtypes", [jwt_1.JwtService,
-        cart_service_1.CartService,
-        product_service_1.ProductService,
-        categories_service_1.CategoriesService])
+    (0, common_1.Controller)('cart'),
+    __metadata("design:paramtypes", [cart_service_1.CartService])
 ], CartController);
 exports.CartController = CartController;
 //# sourceMappingURL=cart.controller.js.map

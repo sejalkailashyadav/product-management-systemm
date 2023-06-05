@@ -13,27 +13,14 @@ exports.CategoriesService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 let CategoriesService = class CategoriesService {
-    constructor(prismaSerivce) {
-        this.prismaSerivce = prismaSerivce;
-    }
-    async createcategory(dto) {
-        return this.prismaSerivce.category.create({
-            data: {
-                category_name: dto.category_name,
-            },
-        });
+    constructor(prismaService) {
+        this.prismaService = prismaService;
     }
     async getAllCategories() {
-        return this.prismaSerivce.category.findMany();
-    }
-    findOne(id) {
-        return `This action returns a #${id} category`;
-    }
-    remove(id) {
-        return `This action removes a #${id} category`;
+        return this.prismaService.category.findMany();
     }
     async editcategoryById(id, dto, req, res) {
-        await this.prismaSerivce.category.update({
+        await this.prismaService.category.update({
             where: {
                 id: id,
             },
@@ -42,12 +29,40 @@ let CategoriesService = class CategoriesService {
             },
         });
     }
-    async deletecategoryById(id, req, res) {
-        await this.prismaSerivce.category.delete({
+    async createCategory(dto) {
+        return this.prismaService.category.create({
+            data: {
+                category_name: dto.category_name,
+            },
+        });
+    }
+    async editUserById(id, dto, req) {
+        await this.prismaService.category.update({
+            where: {
+                id: id,
+            },
+            data: {
+                category_name: dto.category_name,
+            },
+        });
+        const updatedcategory = await this.prismaService.category.findUnique({
             where: {
                 id: id,
             },
         });
+        return updatedcategory;
+    }
+    async deleteCategory(id) {
+        await this.prismaService.category.delete({
+            where: {
+                id: +id,
+            },
+        });
+    }
+    async findAllCategory(req, res) {
+        const categories = await this.prismaService.category.findMany({});
+        console.log("categories", categories);
+        return { categories };
     }
 };
 CategoriesService = __decorate([

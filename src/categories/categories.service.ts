@@ -1,52 +1,22 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { Category } from '.prisma/client';
 import { CreateCategoryDto } from './dto/create-category.dto';
-import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
 export class CategoriesService {
-  constructor(private readonly prismaSerivce: PrismaService) {}
-  async createcategory(dto: CreateCategoryDto) {
-    return this.prismaSerivce.category.create({
-      data: {
-        category_name: dto.category_name,
-      },
-    });
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async getAllCategories(): Promise<Category[]> {
+    return this.prismaService.category.findMany();
   }
-
-  async getAllCategories() {
-    return this.prismaSerivce.category.findMany();
-  }
-
-  // async getAllUser() {
-  //   return await this.prismaSerivce.product.findMany({
-  //     include: { catrgory: true },
-  //   });
-  // }
-  // create(createCategoryDto: CreateCategoryDto) {
-  //   return 'This action adds a new category';
-  // }
-
-  // async findAll(dto: CreateCategoryDto) {
-  //   return await this.prismaSerivce.category.findMany({
-  //     include: { tags: true },
-  //   });
-  // }
-
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} category`;
-  }
-  //Update User
   async editcategoryById(
     id: number,
     dto: CreateCategoryDto,
     req: Request,
     res: Response
   ) {
-    await this.prismaSerivce.category.update({
+    await this.prismaService.category.update({
       where: {
         id: id,
       },
@@ -56,14 +26,52 @@ export class CategoriesService {
     });
   }
 
-  //Delete User
-  async deletecategoryById(id: number, req: Request, res: Response) {
-    await this.prismaSerivce.category.delete({
+  async createCategory(dto: CreateCategoryDto): Promise<Category> {
+    return this.prismaService.category.create({
+      data: {
+        category_name: dto.category_name,
+      },
+    });
+  }
+
+  async editUserById(id: number, dto: CreateCategoryDto, req: Request) {
+    await this.prismaService.category.update({
+      where: {
+        id: id,
+      },
+      data: {
+        category_name: dto.category_name,
+      },
+    });
+
+    const updatedcategory = await this.prismaService.category.findUnique({
       where: {
         id: id,
       },
     });
+
+    return updatedcategory;
+  }
+
+
+
+  async deleteCategory(id: number): Promise<void> {
+    await this.prismaService.category.delete({
+      where: {
+        id: +id,
+      },
+    });
+  }
+
+
+  async findAllCategory(req: Request, res: Response ) {
+    const categories = await this.prismaService.category.findMany({
+      // include:{
+      //   products: true
+      // }
+    });
+    console.log("categories",categories);
+    return {categories}
+    
   }
 }
-
-

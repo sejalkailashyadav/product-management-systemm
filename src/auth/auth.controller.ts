@@ -53,8 +53,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   signinLocal(
     @Body() dto: AuthDto,
-    @Request() req,
-    @Response() res
+    @Req() req, @Res() res
   ): Promise<Tokens> {
     return this.authService.signinLocal(dto, req, res);
   }

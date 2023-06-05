@@ -10,6 +10,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Res,
+  Req,
   Request,
   Response,
 } from "@nestjs/common";
@@ -24,14 +25,13 @@ import { CreateCategoryDto } from '../categories/dto/create-category.dto';
 import { FileInterceptor } from "@nestjs/platform-express";
 import { get, request } from "http";
 import { extname } from "path";
-import { CartService } from "src/cart/cart.service";
 import { Cart } from '@prisma/client';
 @Controller("/Product")
 export class ProductController {
   constructor(
     private readonly productService: ProductService,
     private readonly categoriesService: CategoriesService,
-    private readonly cartService: CartService,
+
 
   ) {}
 
@@ -40,9 +40,60 @@ export class ProductController {
   //   return this.productService.create(createProductDto);
   // }
 
+  @Public()
+  @Get('/user_product')
+  @Render('user_home_page')
+  userProductPage(@Req() req, @Res() res) {
+    return this.productService.usersAllProducts(req,res);
+  }
 
 
+  @Public()
+  @Get('/cart/:id')
+  @Render('product_Details')
+  showProductInCart(@Param('id') id: number, @Req() req, @Res() res) {
+    return this.productService.findProductById(Number(id), req, res);
+  }
 
+  @Public()
+  @Get('/product_details')
+  @Render('product_Details')
+  productDetailPage(@Req() req, @Res() res){}
+
+
+  @Get()
+  
+  // @Render('create_product')
+  productData() {
+    console.log("psss");
+    
+    return this.productService.findAllProducts();
+  }
+  @Get('/product_by_cat/:category_name')
+  @Render('user_home_page')
+   async productByCategory(@Param('category_name') category_name: string, @Res() res, @Req() req){
+   const products= await this.productService.productByCategory(category_name,res,req);
+     return {products:products};
+  }
+
+
+  @Public()
+  @Get('product/edit/:id')
+  // @Render('product_Details')
+  findProduct(@Param('id') id: number) {
+    console.log("inside get product");
+    
+    return this.productService.findProduct(id);
+  }
+
+  @Public()
+  @Get('product/:id')
+  @Render('product_Details')
+  async findClickedProduct(@Param('id') id: number, @Req() req, @Res() res) {
+    console.log("inside get product by id");
+    
+    return await this.productService.findProductById(Number(id), req, res);
+  }
 
 
   @Public()
@@ -99,20 +150,20 @@ export class ProductController {
   //   }
   // }
 
-  @Public()
-  @Get("/products")
-  @Render("product_add")
-  async userPanel() {
-    try {
-      const products = await this.productService.getAllprodcut();
-      const categories = await this.categoriesService.getAllCategories();
-      return { products, categories }; // Pass the products data to the view
-    } catch (error) {
-      throw error;
-    }
-  }
-
   // @Public()
+  // @Get("/products")
+  // @Render("product_add")
+  // async userPanel() {
+  //   try {
+  //     const products = await this.productService.getAllprodcut();
+  //     const categories = await this.categoriesService.getAllCategories();
+  //     return { products, categories }; // Pass the products data to the view
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+
+   // @Public()
   // @Get('/Home')
   // @Render("prodcut_categorye")
   // async userPanell() {
@@ -126,11 +177,29 @@ export class ProductController {
   //   }
   // }
 
+
+  //category-product for dmin-panle
+  @Public()
+  @Get("/all")
+  @Render("product")
+  async adminPanel() {
+    try {
+      const products = await this.productService.getAllprodcut();
+      const categories = await this.categoriesService.getAllCategories();
+      console.log(products,categories);
+      return { products: products,categories:categories };  
+      // Pass the products data to the view
+    } catch (error) {
+      throw error;
+    }
+  }
+
+ 
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.productService.findOne(+id);
   }
-  //delete  user by id
+  //delete category-product
   @Public()
   @Post("/delete/:id")
   async deleteproduct_category(

@@ -1,12 +1,14 @@
-import { IsNotEmpty, IsNumber, Min } from 'class-validator';
+import { IsNumber } from "class-validator";
 
-export class AddToCartDto {
-  @IsNotEmpty()
-  @IsNumber()
-  productId: number;
+export class CreateCartDto {
 
-  @IsNotEmpty()
-  @IsNumber()
-  @Min(1)
-  quantity: number;
+    userId: number;
+
+    productId: number;
+
+    @IsNumber()
+    quantity: number;
+
+    @IsNumber()
+    total: number;
 }

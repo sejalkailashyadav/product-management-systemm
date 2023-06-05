@@ -15,10 +15,10 @@ const guards_1 = require("./common/guards");
 const user_module_1 = require("./user/user.module");
 const categories_module_1 = require("./categories/categories.module");
 const platform_express_1 = require("@nestjs/platform-express");
-const order_module_1 = require("./order/order.module");
 const product_module_1 = require("./product/product.module");
 const admin_module_1 = require("./admin/admin.module");
 const cart_module_1 = require("./cart/cart.module");
+const orders_module_1 = require("./orders/orders.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -31,10 +31,10 @@ AppModule = __decorate([
             platform_express_1.MulterModule.register({
                 dest: "./files",
             }),
-            order_module_1.OrderModule,
             product_module_1.ProductModule,
             admin_module_1.AdminModule,
             cart_module_1.CartModule,
+            orders_module_1.OrdersModule,
         ],
         providers: [
             {

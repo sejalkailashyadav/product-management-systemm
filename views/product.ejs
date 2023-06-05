@@ -19,9 +19,10 @@
 
 <body>
   <%- include("darshboard") -%>
-  <br>
-<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add Catgeory</button>
-  <br>  <br> <table id="myTable" class="display" style="width:90%">
+    <br>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Add Catgeory</button>
+    <br> <br>
+    <table id="myTable" class="display" style="width:90%">
       <thead>
         <tr>
           <th>Product Name</th>
@@ -33,78 +34,88 @@
         </tr>
       </thead>
       <tbody>
-        <% for (let i = 0; i < products.length; i++) { %>
-        <tr>
-          <td><%= products[i].product_name %></td>
-          <td><%= products[i].product_description %></td>
-          <td><%= products[i].product_price %></td>
-          <td>
-                  <% for (let j = 0; j < products[i].catrgory.length; j++) { %>
-                  <li><%= products[i].catrgory[j].category_name %></li>
-                  <% } %>
-               
-          </td>
-          <td>
-        
-            <form
-              action="/get/delete/<%= products[i].id %>"
-              method="POST"
-              style="display: inline-block">
-              <button type="submit">Delete</button>
-            </form>
-          </td>
-        </tr>
-        <% } %> 
+        <% for (let i=0; i < products.length; i++) { %>
+          <tr>
+            <td>
+              <%= products[i].product_name %>
+            </td>
+            <td>
+              <%= products[i].product_description %>
+            </td>
+            <td>
+              <%= products[i].product_price %>
+            </td>
+            <td>
+              <% for (let j=0; j < products[i].catrgory.length; j++) { %>
+                <li>
+                  <%= products[i].catrgory[j].category_name %>
+                </li>
+                <% } %>
+
+            </td>
+            <td>
+
+           <!-- <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editModal"></a> -->
+              <form action="/Product/delete/<%= products[i].id %>" method="POST" style="display: inline-block">
+                <button type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+          <% } %>
       </tbody>
-   
+
     </table>
 
-  <!-- Add Product Modal -->
- <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
       aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editProductModalLabel">Add Product</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-                  <% categories.forEach(function(category) { %>
-          <form action="/products/<%= category.id %>" method="POST">
-                  <% }); %>
-            <div class="form-group">
-              <label for="edit-product-name">Product Name</label>
-              <input type="text" class="form-control" id="edit-product-name" name="product_name" placeholder="Enter product name" value="" required>
-            </div>
-            <div class="form-group">
-              <label for="edit-product-description">Product Description</label>
-              <textarea class="form-control" id="edit-product-description" name="product_description" placeholder="Enter product description" required></textarea>
-            </div>
-            <div class="form-group">
-              <label for="edit-product-price">Price</label>
-              <input type="number" class="form-control" id="edit-product-price" name="product_price" placeholder="Enter price" value="" required>
-            </div>
-            <div class="form-group">  
-          <label for="product_image">Product Image</label>
-          <input type="file" name="product_image" />
-          <!-- File input for uploading an image -->
-            </div>
-            <button type="submit" class="btn btn-primary">Add</button>
-          </form>
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editProductModalLabel">Add Product</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <% categories.forEach(function(category) { %>
+              <form action="/Product/products/<%= category.id %>" method="POST">
+                <% }); %>
+
+                  <label for="categoryId">Category:</label>
+                  <select class="form-select" aria-label="Default select example" id="categoryId" name="categoryId">
+                    <% categories.forEach(function(category) { %>
+                      <option value="<%= category.id %>">
+                        <%= category.category_name %>
+                      </option>
+                      <% }); %>
+                  </select>
+
+                  <div class="form-group">
+                    <label for="edit-product-name">Product Name</label>
+                    <input type="text" class="form-control" id="edit-product-name" name="product_name"
+                      placeholder="Enter product name" value="" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="edit-product-description">Product Description</label>
+                    <textarea class="form-control" id="edit-product-description" name="product_description"
+                      placeholder="Enter product description" required></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="edit-product-price">Price</label>
+                    <input type="number" class="form-control" id="edit-product-price" name="product_price"
+                      placeholder="Enter price" value="" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="edit-product-image">Product Image</label>
+                    <input type="file" name="product_image" />
+                  </div>
+                  <button type="submit" class="btn btn-primary">Add</button>
+              </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-
-
-
-
-
-
-
     <% categories.forEach(function(category) { %>
       <!-- Edit User Modal -->
       <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
@@ -112,17 +123,17 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="editModalLabel">Edit</h5>
+              <h5 class="modal-title" id="editModalLabel"</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <form action="/get/edit/<%= category.id %>" method="POST">
+              <form action="/Product/edit/<%= category.id %>" method="POST">
                 <div class="form-group">
                   <label for="edit-name">Catgeory Name</label>
-                  <input type="text" class="form-control" id="edit-name" name="category_name" placeholder="Enter category name"
-                    value="" required>
+                  <input type="text" class="form-control" id="edit-name" name="category_name"
+                    placeholder="Enter category name" value="" required>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Update</button>

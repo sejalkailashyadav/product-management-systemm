@@ -1,19 +1,17 @@
 import { CreateUserDto } from "./dto/create-user.dto";
-import { Request, Response } from "express";
-import { ConfigService } from "@nestjs/config";
-import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "../prisma/prisma.service";
-import { Tokens } from "../auth/types";
+import { Request } from "express";
 export declare class UserService {
     private prisma;
-    private jwtService;
-    private config;
-    constructor(prisma: PrismaService, jwtService: JwtService, config: ConfigService);
-    getAllUser(): Promise<import(".prisma/client").User[]>;
-    create(dto: CreateUserDto, req: Request, res: Response): Promise<Tokens>;
-    refreshTokens(userId: number, rt: string): Promise<Tokens>;
-    updateRtHash(userId: number, rt: string): Promise<void>;
-    getTokens(userId: number, email: string): Promise<Tokens>;
-    deleteUserById(id: number): Promise<import(".prisma/client").User>;
-    editUserById(id: number, dto: CreateUserDto, req: Request, res: Response): Promise<void>;
+    constructor(prisma: PrismaService);
+    getAllUser(): Promise<{
+        id: number;
+        name: string;
+        email: string;
+        isadmin: boolean;
+    }[]>;
+    createUser(dto: CreateUserDto): Promise<void>;
+    deleteUserById(id: number): Promise<void>;
+    editUserById(id: number, dto: CreateUserDto, req: Request): Promise<import(".prisma/client").User>;
+    private convertToBoolean;
 }

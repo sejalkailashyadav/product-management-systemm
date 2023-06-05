@@ -1,153 +1,163 @@
-import { Injectable } from "@nestjs/common";
-import { AddToCartDto } from "../cart/dto/create-cart.dto";
-import { PrismaService } from "../prisma/prisma.service";
-import { GetCurrent } from "../common/decorators/decorators";
-import { Public } from "../common/decorators/public.decorator";
-import { JwtService } from "@nestjs/jwt";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateCartDto } from './dto/create-cart.dto';
+import { UpdateCartDto } from './dto/update-cart.dto';
+import {Request, Response} from 'express'
+
 @Injectable()
 export class CartService {
-  constructor(
-    private readonly prismaSerivce: PrismaService,
-    private jwtService: JwtService
-  ) {}
-
-  // async getAllCart() {
-  //   return this.prismaSerivce.category.findMany();
-  // }
-
-  // async getCartItems(userId: number) {
-  //   return this.prismaSerivce.cart.findMany({
-  //     where: {
-  //       user_id: userId,
-  //     },
-  //     include: {
-  //       product: true,
-  //     },
-  //   });
-  // }
-  //get token try
-  async doSomethingWithToken(token: string): Promise<any> {
-    const decodedToken = await this.jwtService.verifyAsync(token);
-    // Access the properties of the decoded token
-    const userId = decodedToken.sub;
-    const email = decodedToken.email;
-    console.log(userId, email);
-
-    // Perform actions based on the token data
-    // ...
+  constructor(private prismaService: PrismaService){}
+  create(createCartDto: CreateCartDto,req: Request, res: Response) {
+   
+    return this.prismaService.cart.create({data:createCartDto})
+    // return 'This action adds a new cart';
   }
 
-  //get allitems
-  async getCartItems(userId: number, req: Request, res: Response) {
-    const carts = await this.prismaSerivce.cart.findMany({
-      where: {
-        user_id: userId,
-      },
-      include: {
-        product: true,
-        user: true,
-      },
-    });
+  // async getPayload(){
+  //   try{
+  //     const user = JSON.parse(
+  //       Buffer.from(token.split('.')[1], 'base64').toString('utf-8'),
+  //       );
+  //   console.log(user);
+  //   }catch(err){
+  //     throw err;
+  //   }
+  // }
+  async addItemtoCart(productId: number, quantity: number,total: number, req: Request, res: Response){
+    try{
+      console.log(req.headers);
+    const { cookie } = req.headers;
+    console.log(cookie);
 
-    const products = await this.prismaSerivce.product.findMany({
-      include: { catrgory: true },
-    });
+    const user = JSON.parse(
+      Buffer.from(cookie.split(".")[1], "base64").toString("utf-8")
+    );
 
-    const categories = await this.prismaSerivce.category.findMany();
+    console.log(user.sub, user.email);
 
-    console.log({ carts: carts, categories: categories, products: products });
-    return { carts: carts, categories: categories, products: products };
-  }
+    const userId = user.sub;
 
-  async addToCart(
-    userId: number,
-    productId: number,
-    quantity: number,
-    req: Request,
-    res: Response
-  ) {
-    const existingCartItem = await this.prismaSerivce.cart.findFirst({
-      where: {
-        user_id: +userId,
-        product_id: +productId,
-      },
-    });
+      // const jwt = req.cookies;
+      // console.log('jwt', jwt);
+      
+    // const {quantity,total} = createCartDto;
+   
+    
+    
+    const cartItem = await this.prismaService.cart.findFirst({where:{productId: +productId, userId:+userId}})
+    console.log("cartItem",cartItem);
+    
+    if(!cartItem){
+      const carts = await this.prismaService.cart.create({
+        data:{
+          productId: +productId,
+          userId: +userId,
+          quantity:+quantity,
+          total:+total
+        }
+      })
+      console.log("heyyy");
+      res.redirect('/cart/cart_page')
+    }else{
+      const upatecart = await this.prismaService.cart.update({
+        where:{id:cartItem.id},
+        data:{
+          productId:+productId,
+          userId: +userId,
+          quantity:+(cartItem.quantity+quantity),
+          total:+(cartItem.total+total)
+        }
+      })
 
-    if (existingCartItem) {
-      // Update the existing cart item quantity
-      await this.prismaSerivce.cart.update({
-        where: {
-          id: existingCartItem.id,
-        },
-        data: {
-          quantity: existingCartItem.quantity + quantity,
-        },
-      });
-    } else {
-      // Create a new cart item
-      await this.prismaSerivce.cart.create({
-        data: {
-          user: { connect: { id: +userId } },
-          product: { connect: { id: +productId } },
-          quantity: +quantity,
-        },
-      });
-      //  res.redirect("/cart/cartpage");
+      // const subtotal = await this.prismaService.cart.findMany({where:{
+      //   userId:uid
+      // }})
+      // var finaltotal=0;
+      // console.log("subtotal",subtotal);
+      // for(var i=0;i<subtotal.length;i++){
+      //   var finaltotal = finaltotal+subtotal[i].total;
+      // }
+      // console.log("finaltotal",finaltotal);
+      // console.log("update it");
+      
+      // const carts = await this.prismaService.cart.update({where:{id:cartItem.id}})
     }
+   
+    }catch(err){
+      throw err;
+    }
+    
   }
 
-  //remove item
+  async getAllCart(req: Request,res: Response ) {
+    console.log(req.headers);
+    const { cookie } = req.headers;
+    console.log(cookie);
 
-  async remove(id: number, req: Request, res: Response) {
-    await this.prismaSerivce.cart.delete({ where: { id: id } });
+    const user = JSON.parse(
+      Buffer.from(cookie.split(".")[1], "base64").toString("utf-8")
+    );
+
+    console.log(user.sub, user.email);
+
+    const userId = user.sub;
+
+    const carts =  await this.prismaService.cart.findMany({
+      where:{userId:userId},
+      include:{
+        user: true,
+        product: true
+      },
+      
+    })
+    console.log("get all cart");
+    console.log("carts",carts);
+    
+    // console.log("carts",carts[1].product.image_url);
+    
+    return {carts}
+    
+    // return carts;
+    // return `This action returns all cart`;
+  }
+
+  // findOne(id: number) {
+  //   return `This action returns a #${id} cart`;
+  // }
+
+  // update(id: number, updateCartDto: UpdateCartDto) {
+  //   return `This action updates a #${id} cart`;
+  // }
+
+  async clearCart(req: Request, res: Response){
+    const { token } = req.cookies;
+      const user = JSON.parse(
+        Buffer.from(token.split('.')[1], 'base64').toString('utf-8'),
+        );
+      console.log(user.id);
+      const userId = user.id;
+    await this.prismaService.cart.deleteMany({where:{
+      userId: userId
+    }})
+  }
+
+  async remove(id: number,req: Request,res: Response) {
+    await this.prismaService.cart.delete({where:{id:id}})
     // res.redirect('/cart/cart_page');
     // return `This action removes a #${id} cart`;
   }
+
+  async getProductByCart(req: Request, res: Response) {
+    const { token } = req.cookies;
+    const user = JSON.parse(
+      Buffer.from(token.split('.')[1], 'base64').toString('utf-8'),
+      );
+    console.log(user.id);
+    const userId = user.id;
+    console.log("dfjskhg",await this.prismaService.cart.findMany({where:{userId: userId}}))
+
+    const pbycart =  await this.prismaService.cart.findMany({where:{userId: userId}})
+
+    res.send(pbycart)
+  }
 }
-// update(id: number, updateCartDto: UpdateCartDto) {
-//   return `This action updates a #${id} cart`;
-// }
-
-// remove(id: number) {
-//   return `This action removes a #${id} cart`;
-// }
-//working
-// async addToCart(userId: number, productId: number, quantity: number) {
-//   const cartItem = await this.prismaSerivce.cart.findFirst({
-//     where: {
-//       user_id: 3,
-//       product_id: productId,
-//     },
-//   });
-
-//   if (cartItem) {
-//     // Update the quantity of the existing cart item
-//     await this.prismaSerivce.cart.update({
-//       where: {
-//         id: cartItem.id,
-//       },
-//       data: {
-//         quantity: cartItem.quantity + quantity,
-//       },
-//     });
-//   } else {
-//     // Create a new cart item
-//     await this.prismaSerivce.cart.create({
-//       data: {
-//         user: {
-//           connect: {
-//             id: 3,
-//           },
-//         },
-//         product: {
-//           connect: {
-//             id: 4, // Replace `4` with the actual product ID
-//           },
-//         },
-//         quantity: 2,
-//       },
-//     });
-
-//   }
-// }
-//

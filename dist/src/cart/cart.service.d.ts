@@ -1,20 +1,18 @@
-import { PrismaService } from "../prisma/prisma.service";
-import { JwtService } from "@nestjs/jwt";
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateCartDto } from './dto/create-cart.dto';
+import { Request, Response } from 'express';
 export declare class CartService {
-    private readonly prismaSerivce;
-    private jwtService;
-    constructor(prismaSerivce: PrismaService, jwtService: JwtService);
-    doSomethingWithToken(token: string): Promise<any>;
-    getCartItems(userId: number, req: Request, res: Response): Promise<{
+    private prismaService;
+    constructor(prismaService: PrismaService);
+    create(createCartDto: CreateCartDto, req: Request, res: Response): import(".prisma/client").Prisma.Prisma__CartClient<import(".prisma/client").Cart, never>;
+    addItemtoCart(productId: number, quantity: number, total: number, req: Request, res: Response): Promise<void>;
+    getAllCart(req: Request, res: Response): Promise<{
         carts: (import(".prisma/client").Cart & {
             product: import(".prisma/client").Product;
             user: import(".prisma/client").User;
         })[];
-        categories: import(".prisma/client").Category[];
-        products: (import(".prisma/client").Product & {
-            catrgory: import(".prisma/client").Category[];
-        })[];
     }>;
-    addToCart(userId: number, productId: number, quantity: number, req: Request, res: Response): Promise<void>;
+    clearCart(req: Request, res: Response): Promise<void>;
     remove(id: number, req: Request, res: Response): Promise<void>;
+    getProductByCart(req: Request, res: Response): Promise<void>;
 }

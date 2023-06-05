@@ -17,22 +17,30 @@ const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const decorators_1 = require("../common/decorators");
+const categories_service_1 = require("../categories/categories.service");
 let UserController = class UserController {
-    constructor(userService) {
+    constructor(userService, categoriesService) {
         this.userService = userService;
+        this.categoriesService = categoriesService;
     }
     async userPanel() {
         const users = await this.userService.getAllUser();
         return { users };
     }
-    insertuser(dto, req, res) {
-        return this.userService.create(dto, req, res);
+    async insertUser(dto, res) {
+        await this.userService.createUser(dto);
+        return res.redirect("/user/users");
     }
     async deleteUserById(id) {
-        return await this.userService.deleteUserById(+id);
+        await this.userService.deleteUserById(+id);
+        return { message: "User deleted successfully" };
     }
-    async editUser(id, dto, req, res) {
-        return this.userService.editUserById(Number(id), dto, res, req);
+    async editUser(id, dto, req) {
+        const updatedUser = await this.userService.editUserById(Number(id), dto, req);
+        return { user: updatedUser };
+    }
+    getUserPanel(req, res) {
+        return this.categoriesService.findAllCategory(req, res);
     }
 };
 __decorate([
@@ -47,12 +55,11 @@ __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Post)("/insert"),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Request)()),
-    __param(2, (0, common_1.Response)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto, Object, Object]),
-    __metadata("design:returntype", void 0)
-], UserController.prototype, "insertuser", null);
+    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "insertUser", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Delete)("delete/:id"),
@@ -67,15 +74,23 @@ __decorate([
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Request)()),
-    __param(3, (0, common_1.Response)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, create_user_dto_1.CreateUserDto, Object, Object]),
+    __metadata("design:paramtypes", [Number, create_user_dto_1.CreateUserDto, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "editUser", null);
+__decorate([
+    (0, common_1.Get)('user_home'),
+    (0, common_1.Render)('users_panel'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "getUserPanel", null);
 UserController = __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Controller)("user"),
-    __metadata("design:paramtypes", [user_service_1.UserService])
+    __metadata("design:paramtypes", [user_service_1.UserService, categories_service_1.CategoriesService])
 ], UserController);
 exports.UserController = UserController;
 //# sourceMappingURL=user.controller.js.map

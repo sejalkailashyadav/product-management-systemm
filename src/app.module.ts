@@ -6,10 +6,11 @@ import { AtGuard } from './common/guards';
 import { UserModule } from './user/user.module';
 import { CategoriesModule } from './categories/categories.module';
 import { MulterModule } from "@nestjs/platform-express";
-import { OrderModule } from './order/order.module';
 import { ProductModule } from './product/product.module';
 import { AdminModule } from './admin/admin.module';
 import { CartModule } from './cart/cart.module';
+import { OrdersModule } from './orders/orders.module';
+
 
 
 
@@ -22,10 +23,10 @@ import { CartModule } from './cart/cart.module';
     MulterModule.register({
       dest: "./files",
     }),
-    OrderModule,
     ProductModule,
     AdminModule,
     CartModule,
+    OrdersModule,
   ],
   providers: [
     {

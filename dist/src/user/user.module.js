@@ -17,6 +17,8 @@ const auth_service_1 = require("../auth/auth.service");
 const strategies_1 = require("../auth/strategies");
 const user_service_1 = require("./user.service");
 const user_controller_1 = require("./user.controller");
+const categories_module_1 = require("../categories/categories.module");
+const categories_service_1 = require("../categories/categories.service");
 let UserModule = class UserModule {
 };
 UserModule = __decorate([
@@ -24,7 +26,7 @@ UserModule = __decorate([
         imports: [
             passport_1.PassportModule.register({ defaultStrategy: "jwt" }),
             jwt_1.JwtModule.registerAsync({
-                imports: [config_1.ConfigModule],
+                imports: [config_1.ConfigModule,],
                 useFactory: async () => ({
                     secret: "buybuihbikhkhk",
                     signOptions: { expiresIn: "15m" },
@@ -33,9 +35,10 @@ UserModule = __decorate([
             }),
             config_1.ConfigModule.forRoot(),
             prisma_module_1.PrismaModule,
+            categories_module_1.CategoriesModule
         ],
         controllers: [auth_controller_1.AuthController, user_controller_1.UserController],
-        providers: [auth_service_1.AuthService, strategies_1.AtStrategy, strategies_1.RtStrategy, user_service_1.UserService],
+        providers: [auth_service_1.AuthService, strategies_1.AtStrategy, strategies_1.RtStrategy, user_service_1.UserService, categories_service_1.CategoriesService],
     })
 ], UserModule);
 exports.UserModule = UserModule;

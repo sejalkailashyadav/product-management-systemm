@@ -9,20 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AddToCartDto = void 0;
+exports.CreateCartDto = void 0;
 const class_validator_1 = require("class-validator");
-class AddToCartDto {
+class CreateCartDto {
 }
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
-], AddToCartDto.prototype, "productId", void 0);
+], CreateCartDto.prototype, "quantity", void 0);
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.Min)(1),
     __metadata("design:type", Number)
-], AddToCartDto.prototype, "quantity", void 0);
-exports.AddToCartDto = AddToCartDto;
+], CreateCartDto.prototype, "total", void 0);
+exports.CreateCartDto = CreateCartDto;
 //# sourceMappingURL=create-cart.dto.js.map

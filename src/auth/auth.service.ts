@@ -127,8 +127,7 @@ export class AuthService {
 
   async signinLocal(
     dto: AuthDto,
-    @Req() req: Request,
-    @Res() res: Response
+    req: Request, res: Response
   ): Promise<Tokens> {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -146,22 +145,27 @@ export class AuthService {
     // Set JWT payload as a cookie
     res.cookie("jwt_payload", tokens.access_token);
 
-    const users = await this.prisma.user.findMany({
-      select: { id: true, email: true, name: true, isadmin: true },
-      where: { isadmin: false },
-    });
-      const products=  await this.prisma.product.findMany({
-            include: { catrgory: true },
-          });
+    // const users = await this.prisma.user.findMany({
+    //   select: { id: true, email: true, name: true, isadmin: true },
+    //   where: { isadmin: false },
+    // });
+    //   const products=  await this.prisma.product.findMany({
+    //         include: { catrgory: true },
+    //       });
         
-      const categories= this.prisma.category.findMany();
+    //   const categories= this.prisma.category.findMany();
   
     if (user.isadmin) {
       res.render("darshboard");
       // res.redirect('/user/users')
       // res.render("user-panel", { user, users });
     } else {
-      res.render("user_Panel", { products, categories });
+      // res.render("user_Panel", { products, categories });
+     // res.render("user_Panel", { products, categories });
+     
+      // res.redirect('/user/user_home');
+      res.redirect('/Product/user_product');
+      
     }
 
     return tokens;

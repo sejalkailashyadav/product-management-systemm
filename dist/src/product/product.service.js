@@ -20,10 +20,9 @@ let ProductService = class ProductService {
         return "This action adds a new product";
     }
     async getAllprodcut() {
-        const categoryProduct = await this.prismaSerivce.product.findMany({
+        return await this.prismaSerivce.product.findMany({
             include: { catrgory: true },
         });
-        console.log(categoryProduct);
     }
     async getAllCategories() {
         return this.prismaSerivce.category.findMany();
@@ -56,6 +55,85 @@ let ProductService = class ProductService {
                 id: id,
             },
         });
+    }
+    async usersAllProducts(req, res) {
+        try {
+            const products = await this.prismaSerivce.product.findMany({
+                include: {
+                    catrgory: true
+                }
+            });
+            console.log(products);
+            console.log("pwithc", products[0].catrgory[0].category_name);
+            return { products };
+        }
+        catch (err) {
+            throw err;
+        }
+    }
+    async findProductById(id, req, res) {
+        try {
+            const product = await this.prismaSerivce.product.findUnique({
+                where: {
+                    id
+                },
+                include: {
+                    catrgory: true,
+                },
+            });
+            console.log('pro', product);
+            return { product };
+        }
+        catch (err) {
+            throw err;
+        }
+    }
+    async findAllProducts() {
+        try {
+            const query = {
+                include: { catrgory: true },
+            };
+            return await this.prismaSerivce.product.findMany(query);
+        }
+        catch (err) {
+            throw err;
+        }
+    }
+    async productByCategory(category_name, res, req) {
+        try {
+            const products = await this.prismaSerivce.product.findMany({
+                where: {
+                    catrgory: {
+                        some: {
+                            category_name: {
+                                contains: category_name
+                            }
+                        }
+                    }
+                },
+                include: {
+                    catrgory: true
+                }
+            });
+            console.log("pbyc", products);
+            res.render('user_home_page', { products });
+        }
+        catch (err) {
+            throw err;
+        }
+    }
+    async findProduct(id) {
+        try {
+            return await this.prismaSerivce.product.findUnique({
+                where: { id },
+                include: {
+                    catrgory: true,
+                },
+            });
+        }
+        catch (err) {
+            throw err;
+        }
     }
 };
 ProductService = __decorate([

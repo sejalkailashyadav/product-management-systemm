@@ -1,4 +1,6 @@
-export declare class AddToCartDto {
+export declare class CreateCartDto {
+    userId: number;
     productId: number;
     quantity: number;
+    total: number;
 }

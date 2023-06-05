@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        .header{
+            display: flex;
+            justify-content: space-between;
+        }
+
+
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/@webpixels/css@1.1.5/dist/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css">
+</head>
+<body>
+    
+    <main class="py-6 bg-surface-secondary">
+        <div class="container-fluid">
+
+    <div class="card shadow border-0 mb-7">
+        <div class="card-header">
+            <div class="header">
+                <h5 class="mb-0">Orders</h5>
+
+            </div>
+            
+            
+        </div>
+        <div class="table-responsive">
+
+           
+            <table class="table table-hover table-nowrap">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">User id</th>
+                        <th scope="col">Order id</th>
+                        <th scope="col">Total payment</th>
+                       
+                        <th></th>
+                    </tr>
+                </thead>
+        <tbody>
+            <% for(var i=0;i<orders.length;i++) {%>
+
+                    <tr>
+                        <td>
+                            <a class="text-heading font-semibold" href="#">
+                                <%= orders[i].userId %>
+                            </a>
+                        </td>
+                        <td>
+                        <%= orders[i].id %>
+                          
+                        </td>
+                        <td>
+                            <a class="text-heading font-semibold" href="#">
+                                <%= orders[i].total %>
+
+                            </a>
+                        </td>
+                        
+                        
+                    </tr>
+                    <% } %>
+        
+            </tbody>
+            </table>
+        </div>
+               
+    </div>
+    </div>
+
+
+
+
+
+    </main>
+</body> 
+</html>
