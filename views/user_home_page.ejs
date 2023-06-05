@@ -1437,7 +1437,18 @@ th:last-child {
     border-radius: 20px;
     padding: 0 15px;
   }
-
+product-item .discount {
+    position: absolute;
+    top: 1vw;
+    WIDTH: 100PX;
+    right: 10rem;
+    left: 0.3rem;
+    background-color: var(--green);
+    padding: 0.5rem 1rem;
+    color: var(--white);
+    border-radius: 2rem;
+    font-size: 1.5rem;
+}
   .search-box input[type="text"] {
     flex: 1;
     height: 100%;
@@ -1480,12 +1491,7 @@ th:last-child {
             <a href="/auth/logout" class="nav-link">Logout</a>
           </li>
          
-          <div class="search-container">
-            <div class="search-box">
-              <input type="text" placeholder="Search...">
-              <button type="submit">Search</button>
-            </div>
-          </div>
+         
 
         <div class="icons d-flex">
           <a href="login.html" class="icon">
@@ -1498,14 +1504,14 @@ th:last-child {
             <i class="bx bx-heart"></i>
             <span class="d-flex">0</span>
           </div>
-          <a href="/cart/cart_page" class="icon">
-            <i class="bx bx-cart"></i>
+          <a href="/cart/cart_page"   >
+          Your Cart
             <!-- <span class="d-flex">0</span> -->
           </a>
         </div>
 
         <div class="hamburger">
-          <i class="bx bx-menu-alt-left"></i>
+        Your Cart
         </div>
       </div>
     </div>
@@ -1532,7 +1538,7 @@ th:last-child {
           </div>
           <ul class="icons">
             <!-- <li><i class="bx bx-heart"></i></li> -->
-            <li><a href="" class="product-thumb"><i class="bx bx-search"></i></a></li>
+           <a href="/Product/product/<%=products[i].id%>"> <span class="discount">click here</span></a>          
             <!-- <li><a onclick="addToCart(`<%=products[i].id%>`,`<%=products[i].price%>`)" class="product-thumb"><i class="bx bx-cart"></i></a></li> -->
             <!-- <li><i class="bx bx-cart"></i></li> -->
           </ul> 

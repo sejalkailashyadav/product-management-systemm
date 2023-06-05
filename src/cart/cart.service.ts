@@ -142,7 +142,7 @@ export class CartService {
   }
 
   async remove(id: number,req: Request,res: Response) {
-    await this.prismaService.cart.delete({where:{id:id}})
+    await this.prismaService.cart.delete({where:{id:+id}})
     // res.redirect('/cart/cart_page');
     // return `This action removes a #${id} cart`;
   }

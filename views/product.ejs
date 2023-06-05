@@ -10,10 +10,26 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
     $(document).ready(function () {
       $('#myTable').DataTable();
     });
+
+      async function confirmation(id) {
+          if (confirm("Are you sure ..?")) {
+            console.log(`${id}`);
+            const res = await axios.delete(`/Product/delete/${id}`).then(function (response) {
+              return "data deleted"
+            });
+
+            console.log("hello9");
+            window.location.reload();
+          } else {
+            alert("not deleted");
+          }
+        }
+
   </script>
 </head>
 
@@ -54,11 +70,9 @@
 
             </td>
             <td>
-
+  <button class="btn btn-danger" onclick="confirmation(`<%= products[i].id%>`)">Delete</button>
            <!-- <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editModal"></a> -->
-              <form action="/Product/delete/<%= products[i].id %>" method="POST" style="display: inline-block">
-                <button type="submit">Delete</button>
-              </form>
+            
             </td>
           </tr>
           <% } %>

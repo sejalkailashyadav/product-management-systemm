@@ -51,10 +51,7 @@ export class AuthController {
   @Public()
   @Post("/signin")
   @HttpCode(HttpStatus.OK)
-  signinLocal(
-    @Body() dto: AuthDto,
-    @Req() req, @Res() res
-  ): Promise<Tokens> {
+  signinLocal(@Body() dto: AuthDto, @Req() req, @Res() res): Promise<Tokens> {
     return this.authService.signinLocal(dto, req, res);
   }
 
@@ -136,15 +133,25 @@ export class AuthController {
     return { msg: "sejal" };
   }
   @Public()
-  @Get()
+  @Get("google-signup")
   @UseGuards(AuthGuard("google"))
   async googleAuth(@Req() req) {}
-  
+
   @Public()
-  @Get("redirect")
+  @Get("google/redirect")
   @UseGuards(AuthGuard("google"))
-  googleAuthRedirect(@Req() req) {
-    return this.authService.googleLogin(req);
+  googleAuthRedirect(@Req() req, @Res() res) {
+    return this.authService.googleLogin(req,res);
+  }
+
+  @Get("status")
+  user(@Req() req) {
+    console.log(req.user);
+    if (req.user) {
+      return { msg: "Authenticated" };
+    } else {
+      return { msg: "Not Authenticated" };
+    }
   }
 
   @Public()
@@ -153,30 +160,23 @@ export class AuthController {
   async logout(
     @GetCurrentUserId() userId: number,
     @Req() req,
-    @Res() res,
+    @Res() res
   ): Promise<boolean> {
     console.log(req.cookies);
-    
+
     res.clearCookie("jwt_payload");
-    res.redirect("/auth/signin")
+    res.redirect("/auth/signin");
     res.clearCookie("refresh_token", { path: "/" });
-  console.log(req.cookies);
+    console.log(req.cookies);
     // Optionally, you can also clear the cookies on the client-side using JavaScript
     // res.send(`
     //   <script>
-    //     document.cookie = 'jwt_payload=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;'; 
+    //     document.cookie = 'jwt_payload=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
     //     document.cookie = 'refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
     //     window.location.href = '/'; // Redirect to the home page or any desired location
     //   </script>
     // `);
-  
+
     return true;
   }
-  
-
-
-
-
-
-
 }

@@ -57,8 +57,17 @@ let AuthController = class AuthController {
         return { msg: "sejal" };
     }
     async googleAuth(req) { }
-    googleAuthRedirect(req) {
-        return this.authService.googleLogin(req);
+    googleAuthRedirect(req, res) {
+        return this.authService.googleLogin(req, res);
+    }
+    user(req) {
+        console.log(req.user);
+        if (req.user) {
+            return { msg: "Authenticated" };
+        }
+        else {
+            return { msg: "Not Authenticated" };
+        }
     }
     async logout(userId, req, res) {
         console.log(req.cookies);
@@ -179,7 +188,7 @@ __decorate([
 ], AuthController.prototype, "verification", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)(),
+    (0, common_1.Get)("google-signup"),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)("google")),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -188,13 +197,21 @@ __decorate([
 ], AuthController.prototype, "googleAuth", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)("redirect"),
+    (0, common_1.Get)("google/redirect"),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)("google")),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "googleAuthRedirect", null);
+__decorate([
+    (0, common_1.Get)("status"),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], AuthController.prototype, "googleAuthRedirect", null);
+], AuthController.prototype, "user", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Get)("/logout"),

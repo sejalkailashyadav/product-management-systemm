@@ -20,7 +20,7 @@ let GoogleStrategy = class GoogleStrategy extends (0, passport_1.PassportStrateg
         super({
             clientID: "420861903648-mbguhfe3ohdhcj7va7hmnt6lfffcssin.apps.googleusercontent.com",
             clientSecret: "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",
-            callbackURL: "http://localhost:8000/google/redirect",
+            callbackURL: "http://localhost:8000/auth/google/redirect",
             scope: ["email", "profile"],
         });
     }

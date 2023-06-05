@@ -108,14 +108,11 @@ export class ProductService {
 
   // //update user
   async deleteproductById(
-    id: number,
-    dto: CreateProductDto,
-    req: Request,
-    res: Response
+    id: number
   ) {
     await this.prismaSerivce.product.delete({
       where: {
-        id: id,
+        id: +id,
       },
     });
   }

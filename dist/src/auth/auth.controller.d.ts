@@ -28,9 +28,12 @@ export declare class AuthController {
         msg: string;
     };
     googleAuth(req: any): Promise<void>;
-    googleAuthRedirect(req: any): "No user from google" | {
+    googleAuthRedirect(req: any, res: any): "No user from google" | {
         message: string;
         user: any;
+    };
+    user(req: any): {
+        msg: string;
     };
     logout(userId: number, req: any, res: any): Promise<boolean>;
 }

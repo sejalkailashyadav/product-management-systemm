@@ -59,6 +59,8 @@ export class CartController {
   @Public()
   @Delete(':id')
   remove(@Param('id') id: number,@Req() req, @Res() res) {
+    console.log("here ");
+    
     return this.cartService.remove(id,req,res);
   }
 }

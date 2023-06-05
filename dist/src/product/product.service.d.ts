@@ -14,7 +14,7 @@ export declare class ProductService {
     update(id: number, updateProductDto: UpdateProductDto): string;
     remove(id: number): string;
     setprodct_category(categoryId: number, dto: CreateProductDto, req: Request, res: Response): Promise<import(".prisma/client").Product>;
-    deleteproductById(id: number, dto: CreateProductDto, req: Request, res: Response): Promise<void>;
+    deleteproductById(id: number): Promise<void>;
     usersAllProducts(req: Request, res: Response): Promise<{
         products: (import(".prisma/client").Product & {
             catrgory: import(".prisma/client").Category[];

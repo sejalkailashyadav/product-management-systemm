@@ -201,14 +201,12 @@ export class ProductController {
   }
   //delete category-product
   @Public()
-  @Post("/delete/:id")
+  @Delete("/delete/:id")
   async deleteproduct_category(
-    @Param("id") id: number,
-    @Body() dto: CreateProductDto,
-    @Request() req,
-    @Response() res
+    @Param("id") id: number
   ) {
-    return this.productService.deleteproductById(Number(id), dto, res, req);
+    await this.productService.deleteproductById(+id);
+     return { message: "product& category deleted successfully" };
   }
 
   // @Patch(":id")

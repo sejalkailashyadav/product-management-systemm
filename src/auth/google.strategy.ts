@@ -13,7 +13,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
       clientID:
         "420861903648-mbguhfe3ohdhcj7va7hmnt6lfffcssin.apps.googleusercontent.com",
       clientSecret: "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",
-      callbackURL: "http://localhost:8000/google/redirect",
+      callbackURL: "http://localhost:8000/auth/google/redirect",
       scope: ["email", "profile"],
     });
   }
@@ -31,7 +31,9 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
       lastName: name.familyName,
       picture: photos[0].value,
       accessToken,
+      
     };
+    
     done(null, user);
   }
 }

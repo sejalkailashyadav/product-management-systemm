@@ -127,7 +127,8 @@ export class AuthService {
 
   async signinLocal(
     dto: AuthDto,
-    req: Request, res: Response
+    req: Request,
+    res: Response
   ): Promise<Tokens> {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -149,23 +150,22 @@ export class AuthService {
     //   select: { id: true, email: true, name: true, isadmin: true },
     //   where: { isadmin: false },
     // });
-    //   const products=  await this.prisma.product.findMany({
-    //         include: { catrgory: true },
-    //       });
-        
-    //   const categories= this.prisma.category.findMany();
-  
+    const products = await this.prisma.product.findMany({
+      include: { catrgory: true },
+    });
+
+    const categories = this.prisma.category.findMany();
+
     if (user.isadmin) {
       res.render("darshboard");
       // res.redirect('/user/users')
       // res.render("user-panel", { user, users });
     } else {
       // res.render("user_Panel", { products, categories });
-     // res.render("user_Panel", { products, categories });
-     
+      // res.render("user_Panel", { products, categories });
+      res.render("user_home_page", { products, categories });
       // res.redirect('/user/user_home');
-      res.redirect('/Product/user_product');
-      
+      // res.redirect('/Product/user_product');
     }
 
     return tokens;
@@ -196,21 +196,21 @@ export class AuthService {
       },
     });
     if (!user || !user.hashedRt) throw new ForbiddenException("Access Denied");
-  
+
     const rtMatches = await argon.verify(user.hashedRt, rt);
     if (!rtMatches) throw new ForbiddenException("Access Denied");
-  
+
     const tokens = await this.getTokens(user.id, user.email);
     // await this.updateRtHash(user.id, tokens.refresh_token, res);
-  
+
     // Set JWT payload as a cookie
     // Set JWT payload and refresh token as cookies
     (res as any).cookie("jwt_payload", tokens.access_token);
     (res as any).cookie("refresh_token", tokens.refresh_token);
-  
+
     return tokens;
   }
-  
+
   async updateRtHash(userId: number, rt: string, res: Response): Promise<void> {
     const hash = await argon.hash(rt);
     await this.prisma.user.update({
@@ -252,15 +252,44 @@ export class AuthService {
 
     return this.prisma.user.findUnique({ where: { id: jwtPayload.sub } });
   }
-
-  googleLogin(req) {
+  //google sign-in
+  googleLogin(req, res: Response) {
     if (!req.user) {
       return "No user from google";
     }
+    else{
 
+ const products =  this.prisma.product.findMany({
+      include: { catrgory: true },
+    });
+
+    const categories = this.prisma.category.findMany();
+       res.render("user_home_page", { products, categories });
+  
+    }
     return {
       message: "User information from google",
-      user: req.user,
+      user: req.user
+      
     };
   }
+
+  //store in db
+  // async googlevalidateUser(details: UserDetails) {
+  //   console.log("AuthService");
+  //   console.log(details);
+  //   const user = await this.prisma.user.findUnique({ email: details.email });
+  //   console.log(user);
+  //   if (user) return user;
+  //   console.log("User not found. Creating...");
+  //   const newUser = this.prisma.user.create(details);
+  //   console.log(newUser);
+    
+  //   return newUser;
+  // }
+
+  // async findUser(id: number) {
+  //   const user = await this.prisma.user.findUnique({ id });
+  //   return user;
+  // } 
 }

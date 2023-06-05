@@ -38,5 +38,7 @@ export declare class ProductController {
         categories: import(".prisma/client").Category[];
     }>;
     findOne(id: string): string;
-    deleteproduct_category(id: number, dto: CreateProductDto, req: any, res: any): Promise<void>;
+    deleteproduct_category(id: number): Promise<{
+        message: string;
+    }>;
 }

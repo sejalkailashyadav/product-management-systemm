@@ -85,7 +85,7 @@ let CartService = class CartService {
             } });
     }
     async remove(id, req, res) {
-        await this.prismaService.cart.delete({ where: { id: id } });
+        await this.prismaService.cart.delete({ where: { id: +id } });
     }
     async getProductByCart(req, res) {
         const { token } = req.cookies;
