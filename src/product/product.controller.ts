@@ -26,7 +26,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { get, request } from "http";
 import { extname } from "path";
 import { Cart } from '@prisma/client';
-@Controller("/Product")
+@Controller("Product")
 export class ProductController {
   constructor(
     private readonly productService: ProductService,

@@ -36,4 +36,5 @@ export declare class AuthController {
         msg: string;
     };
     logout(userId: number, req: any, res: any): Promise<boolean>;
+    app(req: any, res: any): void;
 }

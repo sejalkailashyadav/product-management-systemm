@@ -9,6 +9,9 @@ import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const appp = express();
+  appp.set("view engine", "ejs");
+  appp.set("views", path.join(__dirname, "views"));
   app.useGlobalPipes(new ValidationPipe());
   app.setViewEngine("ejs");
   app.enableCors();

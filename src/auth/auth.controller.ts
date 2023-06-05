@@ -179,4 +179,13 @@ export class AuthController {
 
     return true;
   }
+
+
+
+  @Public()
+  @Get("404")
+  @Render("page_404") 
+  app(@Req() req,@Res() res) {
+    res.status(403).render("page_404");
+  }
 }

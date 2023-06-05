@@ -163,7 +163,10 @@ export class AuthService {
     } else {
       // res.render("user_Panel", { products, categories });
       // res.render("user_Panel", { products, categories });
-      res.render("user_home_page", { products, categories });
+      res.render("user_home_page", {
+        products: products,
+        categories: categories,
+      });
       // res.redirect('/user/user_home');
       // res.redirect('/Product/user_product');
     }
