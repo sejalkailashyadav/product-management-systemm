@@ -6,12 +6,11 @@ import * as express from 'express';
 import * as path from "path";
 import { cwd } from 'process';
 import * as cookieParser from 'cookie-parser';
+import { HttpExecptiionFilter } from './http-execptiion/http-execptiion.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  const appp = express();
-  appp.set("view engine", "ejs");
-  appp.set("views", path.join(__dirname, "views"));
+app.useGlobalFilters(new HttpExecptiionFilter)
   app.useGlobalPipes(new ValidationPipe());
   app.setViewEngine("ejs");
   app.enableCors();
