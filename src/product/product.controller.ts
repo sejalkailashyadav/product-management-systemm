@@ -30,9 +30,7 @@ import { Cart } from '@prisma/client';
 export class ProductController {
   constructor(
     private readonly productService: ProductService,
-    private readonly categoriesService: CategoriesService,
-
-
+    private readonly categoriesService: CategoriesService
   ) {}
 
   // @Post()
@@ -41,60 +39,64 @@ export class ProductController {
   // }
 
   @Public()
-  @Get('/user_product')
-  @Render('user_home_page')
+  @Get("/user_product")
+  @Render("user_home_page")
   userProductPage(@Req() req, @Res() res) {
-    return this.productService.usersAllProducts(req,res);
+    return this.productService.usersAllProducts(req, res);
   }
 
-
   @Public()
-  @Get('/cart/:id')
-  @Render('product_Details')
-  showProductInCart(@Param('id') id: number, @Req() req, @Res() res) {
+  @Get("/cart/:id")
+  @Render("product_Details")
+  showProductInCart(@Param("id") id: number, @Req() req, @Res() res) {
     return this.productService.findProductById(Number(id), req, res);
   }
 
   @Public()
-  @Get('/product_details')
-  @Render('product_Details')
-  productDetailPage(@Req() req, @Res() res){}
-
+  @Get("/product_details")
+  @Render("product_Details")
+  productDetailPage(@Req() req, @Res() res) {}
 
   @Get()
-  
+
   // @Render('create_product')
   productData() {
     console.log("psss");
-    
+
     return this.productService.findAllProducts();
   }
-  @Get('/product_by_cat/:category_name')
-  @Render('user_home_page')
-   async productByCategory(@Param('category_name') category_name: string, @Res() res, @Req() req){
-   const products= await this.productService.productByCategory(category_name,res,req);
-     return {products:products};
+  @Get("/product_by_cat/:category_name")
+  @Render("user_home_page")
+  async productByCategory(
+    @Param("category_name") category_name: string,
+    @Res() res,
+    @Req() req
+  ) {
+    const products = await this.productService.productByCategory(
+      category_name,
+      res,
+      req
+    );
+    return { products: products };
   }
 
-
   @Public()
-  @Get('product/edit/:id')
+  @Get("product/edit/:id")
   // @Render('product_Details')
-  findProduct(@Param('id') id: number) {
+  findProduct(@Param("id") id: number) {
     console.log("inside get product");
-    
+
     return this.productService.findProduct(id);
   }
 
   @Public()
-  @Get('product/:id')
-  @Render('product_Details')
-  async findClickedProduct(@Param('id') id: number, @Req() req, @Res() res) {
+  @Get("product/:id")
+  @Render("product_Details")
+  async findClickedProduct(@Param("id") id: number, @Req() req, @Res() res) {
     console.log("inside get product by id");
-    
+
     return await this.productService.findProductById(Number(id), req, res);
   }
-
 
   @Public()
   @Post("products/:categoryId")
@@ -122,7 +124,7 @@ export class ProductController {
       res
     );
 
-    return res.redirect('/product_add');
+    return res.redirect("/product_add");
   }
 
   // @Post(':categoryId/products')
@@ -163,7 +165,7 @@ export class ProductController {
   //   }
   // }
 
-   // @Public()
+  // @Public()
   // @Get('/Home')
   // @Render("prodcut_categorye")
   // async userPanell() {
@@ -177,7 +179,6 @@ export class ProductController {
   //   }
   // }
 
-
   //category-product for dmin-panle
   @Public()
   @Get("/all")
@@ -186,15 +187,14 @@ export class ProductController {
     try {
       const products = await this.productService.getAllprodcut();
       const categories = await this.categoriesService.getAllCategories();
-      console.log(products,categories);
-      return { products: products,categories:categories };  
+      console.log(products, categories);
+      return { products: products, categories: categories };
       // Pass the products data to the view
     } catch (error) {
       throw error;
     }
   }
 
- 
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.productService.findOne(+id);
@@ -202,36 +202,45 @@ export class ProductController {
   //delete category-product
   @Public()
   @Delete("/delete/:id")
-  async deleteproduct_category(
-    @Param("id") id: number
-  ) {
+  async deleteproduct_category(@Param("id") id: number) {
     await this.productService.deleteproductById(+id);
-     return { message: "product& category deleted successfully" };
+    return { message: "product& category deleted successfully" };
   }
 
-  // @Patch(":id")
-  // update(@Param("id") id: string, @Body() updateProductDto: UpdateProductDto) {
-  //   return this.productService.update(+id, updateProductDto);
+  @Public()
+  @Patch("/edit/:id")
+  async editUser(
+    @Param("id") id: number,
+    @Body("product_name") product_name: string,
+    @Body("product_description") product_description: string,
+    @Body("product_price") product_price: string,
+    @Request() req
+  ) {
+    const updatedUser = await this.productService.editUserById(
+      Number(id),
+      product_name,
+      product_description,
+      product_price,
+      req
+    );
+    return { user: updatedUser };
+  }
+
+  //   @Public()
+  //   @Post(':id/add-to-cart')
+  //   async addToCartt(
+  //   @GetCurrentUserId() userId: number,
+  //   @Request() req,
+  //   @Body('quantity') quantity: number,
+  //     @Param('id') id: number,
+
+  //   ) {
+
+  //    console.log(userId);
+
+  //   //const { user } = request.;
+  //   // const userId = user.id;
+  //   return this.cartService.addToCart(userId, id, quantity);
+
   // }
-
-//   @Public()
-//   @Post(':id/add-to-cart') 
-//   async addToCartt(
-//   @GetCurrentUserId() userId: number,
-//   @Request() req,
-//   @Body('quantity') quantity: number,
-//     @Param('id') id: number,
-  
-//   ) {
-    
-//    console.log(userId);
-   
-//   //const { user } = request.;
-//   // const userId = user.id;
-//   return this.cartService.addToCart(userId, id, quantity);
-
-
-// }
-
-  
 }

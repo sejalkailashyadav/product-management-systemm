@@ -41,4 +41,7 @@ export declare class ProductController {
     deleteproduct_category(id: number): Promise<{
         message: string;
     }>;
+    editUser(id: number, product_name: string, product_description: string, product_price: string, req: any): Promise<{
+        user: void;
+    }>;
 }

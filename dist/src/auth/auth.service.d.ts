@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuthDto } from './dto';
-import { JwtPayload, Tokens } from './types';
+import { Tokens } from './types';
 export declare class AuthService {
     private prisma;
     private jwtService;
@@ -23,9 +23,4 @@ export declare class AuthService {
     refreshTokens(userId: number, rt: string, res: Response): Promise<Tokens>;
     updateRtHash(userId: number, rt: string, res: Response): Promise<void>;
     getTokens(userId: number, email: string): Promise<Tokens>;
-    validateUser(jwtPayload: JwtPayload): Promise<any>;
-    googleLogin(req: any, res: Response): "No user from google" | {
-        message: string;
-        user: any;
-    };
 }

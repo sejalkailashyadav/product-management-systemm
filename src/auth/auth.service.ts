@@ -248,34 +248,34 @@ export class AuthService {
     };
   }
 
-  async validateUser(jwtPayload: JwtPayload): Promise<any> {
-    if (!jwtPayload || !jwtPayload.sub) {
-      throw new UnauthorizedException("Invalid token payload");
-    }
+//   async validateUser(jwtPayload: JwtPayload): Promise<any> {
+//     if (!jwtPayload || !jwtPayload.sub) {
+//       throw new UnauthorizedException("Invalid token payload");
+//     }
 
-    return this.prisma.user.findUnique({ where: { id: jwtPayload.sub } });
-  }
-  //google sign-in
-  googleLogin(req, res: Response) {
-    if (!req.user) {
-      return "No user from google";
-    }
-    else{
+//     return this.prisma.user.findUnique({ where: { id: jwtPayload.sub } });
+//   }
+//   //google sign-in
+//   googleLogin(req, res: Response) {
+//     if (!req.user) {
+//       return "No user from google";
+//     }
+//     else{
 
- const products =  this.prisma.product.findMany({
-      include: { catrgory: true },
-    });
+//  const products =  this.prisma.product.findMany({
+//       include: { catrgory: true },
+//     });
 
-    const categories = this.prisma.category.findMany();
-       res.render("user_home_page", { products, categories });
+//     const categories = this.prisma.category.findMany();
+//        res.render("user_home_page", { products, categories });
   
-    }
-    return {
-      message: "User information from google",
-      user: req.user
+//     }
+//     return {
+//       message: "User information from google",
+//       user: req.user
       
-    };
-  }
+//     };
+//   }
 
   //store in db
   // async googlevalidateUser(details: UserDetails) {

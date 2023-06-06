@@ -14,7 +14,7 @@ import {
 } from "@nestjs/common";
 import * as cookieParser from 'cookie-parser';
 import { Public, GetCurrentUserId, GetCurrentUser } from "../common/decorators";
-import { RtGuard } from "../common/guards";
+import { RtGuard } from "../common/guards";;
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto";
 import { Tokens } from "./types";
@@ -132,27 +132,27 @@ export class AuthController {
     // Your logic to retrieve data and pass it to the template
     return { msg: "sejal" };
   }
-  @Public()
-  @Get("google-signup")
-  @UseGuards(AuthGuard("google"))
-  async googleAuth(@Req() req) {}
+  // @Public()
+  // @Get("google-signup")
+  // @UseGuards(AuthGuard("google"))
+  // async googleAuth(@Req() req) {}
 
-  @Public()
-  @Get("google/redirect")
-  @UseGuards(AuthGuard("google"))
-  googleAuthRedirect(@Req() req, @Res() res) {
-    return this.authService.googleLogin(req,res);
-  }
+  // @Public()
+  // @Get("google/redirect")
+  // @UseGuards(AuthGuard("google"))
+  // googleAuthRedirect(@Req() req, @Res() res) {
+  //   return this.authService.googleLogin(req,res);
+  // }
 
-  @Get("status")
-  user(@Req() req) {
-    console.log(req.user);
-    if (req.user) {
-      return { msg: "Authenticated" };
-    } else {
-      return { msg: "Not Authenticated" };
-    }
-  }
+  // @Get("status")
+  // user(@Req() req) {
+  //   console.log(req.user);
+  //   if (req.user) {
+  //     return { msg: "Authenticated" };
+  //   } else {
+  //     return { msg: "Not Authenticated" };
+  //   }
+  // }
 
   @Public()
   @Get("/logout")
@@ -178,14 +178,5 @@ export class AuthController {
     // `);
 
     return true;
-  }
-
-
-
-  @Public()
-  @Get("404")
-  @Render("page_404") 
-  app(@Req() req,@Res() res) {
-    res.status(403).render("page_404");
   }
 }

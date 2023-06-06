@@ -10,15 +10,15 @@ exports.HttpExecptiionFilter = void 0;
 const common_1 = require("@nestjs/common");
 let HttpExecptiionFilter = class HttpExecptiionFilter {
     catch(exception, host) {
-        host
-            .switchToHttp()
-            .getResponse()
-            .status(exception.getStatus())
-            .render("page_404");
+        const ctx = host.switchToHttp();
+        const response = ctx.getResponse();
+        const request = ctx.getRequest();
+        const status = exception.getStatus();
+        response.render('page_404');
     }
 };
 HttpExecptiionFilter = __decorate([
-    (0, common_1.Catch)()
+    (0, common_1.Catch)(common_1.HttpException)
 ], HttpExecptiionFilter);
 exports.HttpExecptiionFilter = HttpExecptiionFilter;
 //# sourceMappingURL=http-execptiion.filter.js.map

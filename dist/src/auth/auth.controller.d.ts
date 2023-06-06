@@ -27,14 +27,5 @@ export declare class AuthController {
     verification(): {
         msg: string;
     };
-    googleAuth(req: any): Promise<void>;
-    googleAuthRedirect(req: any, res: any): "No user from google" | {
-        message: string;
-        user: any;
-    };
-    user(req: any): {
-        msg: string;
-    };
     logout(userId: number, req: any, res: any): Promise<boolean>;
-    app(req: any, res: any): void;
 }
