@@ -96,16 +96,6 @@ export class AuthController {
   }
 
   @Public()
-  // @Get("/logout")
-  // @HttpCode(HttpStatus.OK)
-  // logout(
-  //   @GetCurrentUserId() userId: number,
-  //   @Request() req,
-  //   @Response() res
-  // ): Promise<boolean> {
-  //   return this.authService.logout(userId, req, res);
-  // }
-  @Public()
   @Get("/dashboard")
   @Render("darshboard") // Specify the EJS template file to render
   panell() {
@@ -168,15 +158,6 @@ export class AuthController {
     res.redirect("/auth/signin");
     res.clearCookie("refresh_token", { path: "/" });
     console.log(req.cookies);
-    // Optionally, you can also clear the cookies on the client-side using JavaScript
-    // res.send(`
-    //   <script>
-    //     document.cookie = 'jwt_payload=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
-    //     document.cookie = 'refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
-    //     window.location.href = '/'; // Redirect to the home page or any desired location
-    //   </script>
-    // `);
-
     return true;
   }
 }

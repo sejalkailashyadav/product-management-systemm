@@ -30,6 +30,10 @@
                 <th>User id</th>
                 <th>Order id</th>
                 <th>Total payment</th>
+                <th>Order Date</th>
+                <th>Name</th>
+                <th>Email</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -52,7 +56,19 @@
 
                     </td>
 
+                        <td>
+                            <%= orders[i].createdAt %>
 
+                        </td>
+                            <% for (let j=0; j < orders[i].user.length; j++) { %>
+                        <td>
+                            <%= orders[i].user[j].name %>
+                        
+                        </td>
+                    <td>
+                        <%= orders[i].user[j].email %>
+                    
+                    </td>
                 </tr>
                 <% } %>
 
@@ -62,3 +78,4 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </html>
+

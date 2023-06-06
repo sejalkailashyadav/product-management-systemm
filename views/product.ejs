@@ -47,8 +47,8 @@
       const product_name = document.getElementById(`edit-name-${id}`).value;
       const product_description = document.getElementById(`edit-product-description-${id}`).value;
       const product_price = document.getElementById(`edit-product-price-${id}`).value;
-
-      if (!product_name || !product_description || !product_price) {
+      const categoryId = document.getElementById('oprtion-value').value;
+      if (!product_name || !product_description || !product_price || !categoryId) {
         alert("Please enter all fields");
         return;
       }
@@ -58,6 +58,7 @@
         product_name: product_name,
         product_description: product_description,
         product_price: product_price,
+        categoryId: categoryId,
       });
 
 
@@ -67,9 +68,8 @@
         gravity: 'top',
         position: 'right',
       }).showToast();
-    
-      updateUserRow(res.data);
-      $(`#editModal${id}`).modal('hide');
+
+
       // Clear input fields
       document.getElementById('product_name').value = '';
       document.getElementById('product_description').value = '';
@@ -80,6 +80,16 @@
       const newRow = table.insertRow();
       newRow.id = `userRow${res.data.id}`;
       newRow.innerHTML = `
+
+        <td>
+        <select class="form-select" aria-label="Default select example" id="categoryId" name="categoryId">
+                       <% categories.forEach(function(category) { %>
+                      <option value="${res.data.categoryId}">
+                        <%= category.category_name %>
+                      </option>
+                     <% }); %>
+                  </select>
+<td>
           <td>${res.data.product_name}</td>
           <td>${res.data.product_description}</td>
           <td>${res.data.product_price}</td>
@@ -218,6 +228,14 @@
             </div>
             <div class="modal-body">
               <form>
+                <label for="categoryId">Category:</label>
+                <select class="form-select" aria-label="Default select example" id="categoryId" name="categoryId">
+                  <% categories.forEach(function(category) { %>
+                    <option id="oprtion-value" value="<%= category.id %>">
+                      <%= category.category_name %>
+                    </option>
+                    <% }); %>
+                </select>
                 <div class="form-group">
                   <label for="edit-name">Product Name</label>
                   <input type="text" class="form-control" id="edit-name-<%= products.id %>" name="product_name"

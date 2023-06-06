@@ -31,6 +31,13 @@ export declare class ProductController {
         };
     }>;
     createPost(categoryId: number, dto: CreateProductDto, req: any, res: any): any;
+    userPanell(): Promise<{
+        products: (import(".prisma/client").Product & {
+            catrgory: import(".prisma/client").Category[];
+        })[];
+        categories: import(".prisma/client").Category[];
+        cart: {};
+    }>;
     adminPanel(): Promise<{
         products: (import(".prisma/client").Product & {
             catrgory: import(".prisma/client").Category[];
@@ -41,7 +48,7 @@ export declare class ProductController {
     deleteproduct_category(id: number): Promise<{
         message: string;
     }>;
-    editUser(id: number, product_name: string, product_description: string, product_price: string, req: any): Promise<{
-        user: void;
+    editUser(id: number, product_name: string, product_description: string, product_price: string, categoryId: number, req: any): Promise<{
+        updatedUser: void;
     }>;
 }

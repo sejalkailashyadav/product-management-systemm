@@ -63,7 +63,7 @@ let ProductService = class ProductService {
             throw new Error(error);
         }
     }
-    async editUserById(id, product_name, product_description, product_price, req) {
+    async editUserById(id, product_name, product_description, product_price, categoryId, req) {
         await this.prismaSerivce.product.update({
             where: {
                 id: id,
@@ -72,7 +72,13 @@ let ProductService = class ProductService {
                 product_name: product_name,
                 product_description: product_description,
                 product_price: product_price,
+                catrgory: {
+                    connect: {
+                        id: +categoryId,
+                    },
+                },
             },
+            include: { catrgory: true },
         });
     }
     async deleteproductById(id) {

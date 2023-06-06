@@ -20,7 +20,7 @@ export class OrdersController {
   
   @Public()
   @Get('/orderpage')
-  @Render('order_page')
+  // @Render('order_page')
   findAll(@Req() req, @Res() res) {
     return this.ordersService.findAll(req,res);
     
@@ -29,7 +29,7 @@ export class OrdersController {
    
   @Public()
   @Get('/orderpage')
-  @Render('dashboard')
+  // @Render('dashboard')
   findAllOrders(@Req() req, @Res() res) {
     return this.ordersService.findAll(req,res);
     

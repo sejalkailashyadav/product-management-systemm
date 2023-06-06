@@ -50,6 +50,17 @@ let ProductController = class ProductController {
         return this.productService.setprodct_category(Number(categoryId), dto, req, res);
         return res.redirect("/product_add");
     }
+    async userPanell() {
+        try {
+            const products = await this.productService.getAllprodcut();
+            const categories = await this.categoriesService.getAllCategories();
+            const cart = {};
+            return { products, categories, cart };
+        }
+        catch (error) {
+            throw error;
+        }
+    }
     async adminPanel() {
         try {
             const products = await this.productService.getAllprodcut();
@@ -68,9 +79,9 @@ let ProductController = class ProductController {
         await this.productService.deleteproductById(+id);
         return { message: "product& category deleted successfully" };
     }
-    async editUser(id, product_name, product_description, product_price, req) {
-        const updatedUser = await this.productService.editUserById(Number(id), product_name, product_description, product_price, req);
-        return { user: updatedUser };
+    async editUser(id, product_name, product_description, product_price, categoryId, req) {
+        const updatedUser = await this.productService.editUserById(Number(id), product_name, product_description, product_price, categoryId, req);
+        return { updatedUser: updatedUser };
     }
 };
 __decorate([
@@ -153,6 +164,13 @@ __decorate([
 ], ProductController.prototype, "createPost", null);
 __decorate([
     (0, decorators_1.Public)(),
+    (0, common_1.Post)('/search'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "userPanell", null);
+__decorate([
+    (0, decorators_1.Public)(),
     (0, common_1.Get)("/all"),
     (0, common_1.Render)("product"),
     __metadata("design:type", Function),
@@ -181,9 +199,10 @@ __decorate([
     __param(1, (0, common_1.Body)("product_name")),
     __param(2, (0, common_1.Body)("product_description")),
     __param(3, (0, common_1.Body)("product_price")),
-    __param(4, (0, common_1.Request)()),
+    __param(4, (0, common_1.Body)("categoryId")),
+    __param(5, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String, String, String, Object]),
+    __metadata("design:paramtypes", [Number, String, String, String, Number, Object]),
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "editUser", null);
 ProductController = __decorate([

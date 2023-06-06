@@ -1,10 +1,9 @@
-import { Injectable,Req, Res ,NotFoundException} from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { Injectable, Req, Res, NotFoundException } from "@nestjs/common";
+import { CreateProductDto } from "./dto/create-product.dto";
+import { UpdateProductDto } from "./dto/update-product.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Request, Response } from "express";
-import { log } from 'util';
-
+import { log } from "util";
 
 @Injectable()
 export class ProductService {
@@ -85,9 +84,14 @@ export class ProductService {
     }
   }
 
-  
- 
-  async editUserById(id: number, product_name:string,product_description:string,product_price:string, req: Request) {
+  async editUserById(
+    id: number,
+    product_name: string,
+    product_description: string,
+    product_price: string,
+    categoryId: number,
+    req: Request
+  ) {
     await this.prismaSerivce.product.update({
       where: {
         id: id,
@@ -96,7 +100,13 @@ export class ProductService {
         product_name: product_name,
         product_description: product_description,
         product_price: product_price,
+        catrgory: {
+          connect: {
+            id: +categoryId,
+          },
+        },
       },
+      include: { catrgory: true },
     });
   }
   // async updatedata() {
@@ -265,26 +275,25 @@ export class ProductService {
       throw err;
     }
   }
-
-  // async addProduct(categoryId: number, productData: CreateProductDto, productImage: FileUpload) {
-  //   const { product_name, product_description, product_price } = productData;
-
-  //   // Handle image upload
-  //   let uploadedImage: string = null;
-  //   if (productImage) {
-  //     uploadedImage = await this.uploadImage(productImage);
-  //   }
-
-  //   return this.prismaSerivce.product.create({
-  //     data: {
-  //       product_name,
-  //       product_description,
-  //       product_price,
-  //       product_image: uploadedImage,
-  //       catrgory: {
-  //         connect: { id: categoryId },
-  //       },
-  //     },
-  //   });
-  // }
 }
+// async addProduct(categoryId: number, productData: CreateProductDto, productImage: FileUpload) {
+//   const { product_name, product_description, product_price } = productData;
+
+//   // Handle image upload
+//   let uploadedImage: string = null;
+//   if (productImage) {
+//     uploadedImage = await this.uploadImage(productImage);
+//   }
+
+//   return this.prismaSerivce.product.create({
+//     data: {
+//       product_name,
+//       product_description,
+//       product_price,
+//       product_image: uploadedImage,
+//       catrgory: {
+//         connect: { id: categoryId },
+//       },
+//     },
+//   });
+// }

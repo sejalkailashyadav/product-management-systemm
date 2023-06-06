@@ -1,4 +1,4 @@
-import { CreateProductDto } from './dto/create-product.dto';
+import { CreateProductDto } from "./dto/create-product.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Request, Response } from "express";
 export declare class ProductService {
@@ -15,7 +15,7 @@ export declare class ProductService {
     updatedata(categoryId: number, product_name: string, product_description: string, product_price: string, product_image: string, id: number, req: Request, res: Response): Promise<import(".prisma/client").Product & {
         catrgory: import(".prisma/client").Category[];
     }>;
-    editUserById(id: number, product_name: string, product_description: string, product_price: string, req: Request): Promise<void>;
+    editUserById(id: number, product_name: string, product_description: string, product_price: string, categoryId: number, req: Request): Promise<void>;
     deleteproductById(id: number): Promise<void>;
     usersAllProducts(req: Request, res: Response): Promise<{
         products: (import(".prisma/client").Product & {

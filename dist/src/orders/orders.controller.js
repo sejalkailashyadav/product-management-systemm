@@ -52,7 +52,6 @@ __decorate([
 __decorate([
     (0, public_decorator_1.Public)(),
     (0, common_1.Get)('/orderpage'),
-    (0, common_1.Render)('order_page'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -62,7 +61,6 @@ __decorate([
 __decorate([
     (0, public_decorator_1.Public)(),
     (0, common_1.Get)('/orderpage'),
-    (0, common_1.Render)('dashboard'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),

@@ -179,6 +179,19 @@ export class ProductController {
   //   }
   // }
 
+  @Public()
+  @Post('/search')
+  async userPanell() {
+    try {
+      const products = await this.productService.getAllprodcut();
+      const categories = await this.categoriesService.getAllCategories();
+      const cart = {};
+      return { products,categories,cart}; // Pass the products data to the view
+    } catch (error) {
+      throw error;
+    }
+  }
+
   //category-product for dmin-panle
   @Public()
   @Get("/all")
@@ -207,6 +220,28 @@ export class ProductController {
     return { message: "product& category deleted successfully" };
   }
 
+  // @Post(":id")
+  // update(
+  //   @Param("id") id: number,
+  //   @Body("product_name") product_name: string,
+  //   // @Body("product_description")product_description:string,
+  //   // @Body("product_price")product_price:string,
+  //   // @Body("product_image")product_image :string,
+  //   @Body("catDropDown")
+  //   categoryId: number,
+  //   @Request() req,
+  //   @Response() res
+  //   // @Body() dto: CreateProductDto,
+  // ) {
+  //   // return this.productService.updatedata(+id, product_name,product_description,product_price,product_image,+categoryId, req, res);
+  //   return this.productService.updatedata(
+  //     +id,
+  //     product_name,
+  //     +categoryId,
+  //     req,
+  //     res
+  //   );
+  // }
   @Public()
   @Patch("/edit/:id")
   async editUser(
@@ -214,18 +249,24 @@ export class ProductController {
     @Body("product_name") product_name: string,
     @Body("product_description") product_description: string,
     @Body("product_price") product_price: string,
-    @Request() req
+    @Body("categoryId") categoryId: number,
+    @Request()
+    req
   ) {
     const updatedUser = await this.productService.editUserById(
       Number(id),
       product_name,
       product_description,
       product_price,
+      categoryId,
       req
     );
-    return { user: updatedUser };
+    return { updatedUser: updatedUser };
   }
 
+
+  
+  //
   //   @Public()
   //   @Post(':id/add-to-cart')
   //   async addToCartt(

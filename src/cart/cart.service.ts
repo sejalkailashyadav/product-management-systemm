@@ -68,19 +68,6 @@ export class CartService {
           total:+(cartItem.total+total)
         }
       })
-
-      // const subtotal = await this.prismaService.cart.findMany({where:{
-      //   userId:uid
-      // }})
-      // var finaltotal=0;
-      // console.log("subtotal",subtotal);
-      // for(var i=0;i<subtotal.length;i++){
-      //   var finaltotal = finaltotal+subtotal[i].total;
-      // }
-      // console.log("finaltotal",finaltotal);
-      // console.log("update it");
-      
-      // const carts = await this.prismaService.cart.update({where:{id:cartItem.id}})
     }
    
     }catch(err){
@@ -117,17 +104,10 @@ export class CartService {
     
     return {carts}
     
-    // return carts;
-    // return `This action returns all cart`;
+
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} cart`;
-  // }
 
-  // update(id: number, updateCartDto: UpdateCartDto) {
-  //   return `This action updates a #${id} cart`;
-  // }
 
   async clearCart(req: Request, res: Response){
     const { token } = req.cookies;
