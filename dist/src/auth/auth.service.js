@@ -107,7 +107,7 @@ let AuthService = class AuthService {
         if (!passwordMatches)
             throw new common_1.ForbiddenException('Access Denied');
         const tokens = await this.getTokens(user.id, user.email);
-        console.log("data");
+        console.log('data');
         console.log(tokens);
         console.log(user.id, user.email);
         res.cookie('jwt_payload', tokens.access_token, { httpOnly: true });
