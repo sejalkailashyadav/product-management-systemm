@@ -52,11 +52,18 @@ export class ProductController {
   @Render("product_Details")
   productDetailPage(@Req() req, @Res() res) {}
 
+  @Public()
+  @Get("/try")
+  @Render("addtocart")
   @Get()
+Data() {
+    // console.log("psss");
 
+    return {msg  : "hrjknhk"}
+  }
   // @Render('create_product')
   productData() {
-   // console.log("psss");
+    // console.log("psss");
 
     return this.productService.findAllProducts();
   }
@@ -79,7 +86,7 @@ export class ProductController {
   @Get("product/edit/:id")
   // @Render('product_Details')
   findProduct(@Param("id") id: number) {
-   // console.log("inside get product");
+    // console.log("inside get product");
 
     return this.productService.findProduct(id);
   }
@@ -93,19 +100,34 @@ export class ProductController {
     return await this.productService.findProductById(Number(id), req, res);
   }
 
-
   @Public()
   @Post("/products")
-  async insertUser(@Body() dto: CreateProductDto, @Response() res ,@Request() req) {
-    const {categoryId } = req.body;
+  @UseInterceptors(
+    FileInterceptor("product_image", {
+      storage: diskStorage({
+        destination: "./public",
+        filename(req, file, callback) {
+          callback(null, `${file.originalname}`);
+        },
+      }),
+    })
+  )
+  async insertUser(
+    @Body() dto: CreateProductDto,
+    @Response() res,
+    @Request() req,
+    @UploadedFile() file: any
+  ) {
+    const { categoryId } = req.body;
     const category_id = categoryId[0];
-    
-   // console.log(req.body);
-    
-    await this.productService.createUser(dto, res,category_id);
+
+    console.log("fileeeeeeeeeeee");
+    console.log(file);
+
+    await this.productService.createUser(dto, res, category_id, file);
     return res.redirect("/product/all"); // Redirect to the user panel after adding a user
   }
-  
+
   @Public()
   @Post("/search")
   async userPanell() {
@@ -127,7 +149,7 @@ export class ProductController {
     try {
       const products = await this.productService.getAllprodcut();
       const categories = await this.categoriesService.getAllCategories();
-     // console.log(products, categories);
+      // console.log(products, categories);
       return { products: products, categories: categories };
       // Pass the products data to the view
     } catch (error) {
@@ -143,7 +165,6 @@ export class ProductController {
     return { message: "product& category deleted successfully" };
   }
 
- 
   @Public()
   @Patch("/edit/:id")
   async editUser(
@@ -165,5 +186,4 @@ export class ProductController {
     );
     return { updatedUser: updatedUser };
   }
-
 }

@@ -101,7 +101,7 @@ Navigation
       height: 6rem;
       line-height: 6rem;
     }
-
+   
     .nav-center {
       justify-content: space-between;
     }
@@ -477,6 +477,8 @@ Hero Media Query
       width: 27rem;
       margin: 0 auto;
       margin-bottom: 3rem;
+      width: 33%;
+      margin: 0;
     }
 
     .product-thumb img {
@@ -1429,8 +1431,15 @@ Hero Media Query
     .search-container {
       display: flex;
       justify-content: center;
-      margin-top: 50px;
+    
     }
+    .nav-center {
+          margin-top: 20px !important;
+      }
+      .product-item img {
+    height: 300px;
+    width: 300px;
+}
 
     .search-box {
       display: flex;
@@ -1459,6 +1468,34 @@ Hero Media Query
       font-size: 16px;
       margin-left: 10px;
     }
+    .nav-center {
+    justify-content: space-between;
+}
+.d-flex {
+    display: flex;
+    align-items: center;
+}
+.container {
+    max-width: 114rem;
+    margin: 0 auto;
+    padding: 0 3rem;
+}
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+ .card img#zoom {
+    height: 200px;
+    width: 200px;
+}
+div {
+    display: block;
+}
+.navigation {
+    height: 6rem;
+    line-height: 6rem;
+}
   </style>
   <title>Product management system</title>
 </head>
@@ -1483,7 +1520,7 @@ Hero Media Query
         <li class="nav-item">
           <a href="/auth/logout" class="nav-link">Logout</a>
         </li>
-
+</ul>
         <div class="search-container">
           <div class="search-box">
             <input type="text" placeholder="Search...">
@@ -1523,14 +1560,14 @@ Hero Media Query
       <% for(var i=0;i<products.length;i++) {%>
 
         <div class="product-item">
-          <div class="overlay">
+          
             <a href="" class="product-thumb">
               <a href="/Product/product/<%=products[i].id%>"><img src="/<%=products[i].product_image%>" alt="" /></a>
             </a>
             <span class="discount">
               <%=products[i].catrgory[0].category_name%>
             </span>
-          </div>
+         
           <div class="product-info">
             <span>
               <%=products[i].product_name%>
@@ -1541,12 +1578,6 @@ Hero Media Query
             <h4>₹<%=products[i].product_price%>
             </h4>
           </div>
-          <ul class="icons">
-            <!-- <li><i class="bx bx-heart"></i></li> -->
-            <li><a href="" class="product-thumb"><i class="bx bx-search"></i></a></li>
-            <!-- <li><a onclick="addToCart(`<%=products[i].id%>`,`<%=products[i].price%>`)" class="product-thumb"><i class="bx bx-cart"></i></a></li> -->
-            <!-- <li><i class="bx bx-cart"></i></li> -->
-          </ul>
         </div>
         <% } %>
 

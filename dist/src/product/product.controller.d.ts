@@ -16,6 +16,9 @@ export declare class ProductController {
         };
     }>;
     productDetailPage(req: any, res: any): void;
+    Data(): {
+        msg: string;
+    };
     productData(): Promise<(import(".prisma/client").Product & {
         catrgory: import(".prisma/client").Category[];
     })[]>;
@@ -30,7 +33,7 @@ export declare class ProductController {
             catrgory: import(".prisma/client").Category[];
         };
     }>;
-    insertUser(dto: CreateProductDto, res: any, req: any): Promise<any>;
+    insertUser(dto: CreateProductDto, res: any, req: any, file: any): Promise<any>;
     userPanell(): Promise<{
         products: (import(".prisma/client").Product & {
             catrgory: import(".prisma/client").Category[];

@@ -15,7 +15,7 @@ app.useGlobalFilters(new HttpExecptiionFilter)
   app.setViewEngine("ejs");
   app.enableCors();
   const cwd = process.cwd();
-  app.useStaticAssets(cwd + "/public");
+  app.useStaticAssets(cwd + "");
   app.use(cookieParser());
   app.use(express.static("public"));
   //  console.log(path.join(__dirname,"../../uploads/"));

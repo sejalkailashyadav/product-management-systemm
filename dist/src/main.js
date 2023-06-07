@@ -13,7 +13,7 @@ async function bootstrap() {
     app.setViewEngine("ejs");
     app.enableCors();
     const cwd = process.cwd();
-    app.useStaticAssets(cwd + "/public");
+    app.useStaticAssets(cwd + "");
     app.use(cookieParser());
     app.use(express.static("public"));
     await app.listen(7000);

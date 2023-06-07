@@ -70,15 +70,21 @@ export class OrdersService {
   }
 
   async findAll(req:Request, res:Response) {
-    
-    const orders =  await this.prismaService.order.findMany({
-      include:{
-        user: true
-      }
-    })
-    //console.log(orders);
-    return {orders}
+    const orders = await this.prismaService.order.findMany({
+      include: {
+        user: true,
+      },
+    });
+    const name = orders[0].user.name;
+    const email = orders[0].user.email;
+     console.log(orders[0].user.name);
 
+     console.log(orders[0].user.createdAt);
+     
+    // console.log();
+
+    console.log(orders);
+    return { orders: orders, name: name };
   }
 
   async findOrderByUser(req:Request, res:Response) {

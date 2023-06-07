@@ -18,51 +18,52 @@
 </head>
 
 <body>
-    <br>
-    <br>
     <h2>Orders History </h2>
-    <br>
-    <br>
 
-<table id="myTable" class="display" style="width:90%">
-        <thead>
-            <tr>
-                <th>User id</th>
-                <th>Order id</th>
-                <th>Total payment</th>
-                <th>Order Date</th>
-                <th>Name</th>
-                <th>Email</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            <% for(var i=0;i<orders.length;i++) {%>
+        
+   
+                            <table id="myTable" class="display" style="width:90%">
+                                <thead>
+                                    <tr>
 
-                <tr>
-                    <td>
-
-                        <%= orders[i].userId %>
-
-                    </td>
-                    <td>
-                        <%= orders[i].id %>
-
-                    </td>
-                    <td>
-
-                        <%= orders[i].total %>
+                                        <th>#</th>
+                                        <th>Total payment</th>
+                                        <th>Order Date</th>
 
 
-                    </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for(var i=0;i<orders.length;i++) {%>
 
-                </tr>
-                <% } %>
+                                        <tr>
 
-        </tbody>
-    </table>
-</body>
+                                            <td>
+                                                <%= orders[i].id %>
+                                               
+
+                                            </td>
+                                            <td>
+
+                                                <%= orders[i].total %>
+
+                                               
+                                            </td>
+                                        
+                                              <td>
+                                                <%= (new Date(orders[i].createdAt).toLocaleDateString()) %>
+                                                
+                                              </td>
+                                              
+                                        </tr>
+                                        <% } %>
+
+                                </tbody>
+                            </table>
+</body><script>
+     console.log("orders")
+    console.log(orders[0].user.name)
+    </script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </html>
-

@@ -8,11 +8,13 @@ export declare class OrdersController {
         orders: (import(".prisma/client").Order & {
             user: import(".prisma/client").User;
         })[];
+        name: string;
     }>;
     findAllOrders(req: any, res: any): Promise<{
         orders: (import(".prisma/client").Order & {
             user: import(".prisma/client").User;
         })[];
+        name: string;
     }>;
     findOrdersByUser(req: any, res: any): Promise<{
         orders: (import(".prisma/client").Order & {

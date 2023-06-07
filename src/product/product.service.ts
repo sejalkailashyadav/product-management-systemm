@@ -21,13 +21,13 @@ export class ProductService {
     return this.prismaSerivce.category.findMany();
   }
 
-  async createUser(dto: CreateProductDto, req: Request, category_id:number) {
+  async createUser(dto: CreateProductDto, req: Request, category_id:number,file) {
      const product = await this.prismaSerivce.product.create({
        data: {
          product_name: dto.product_name,
          product_description: dto.product_description,
          product_price: dto.product_price,
-         product_image: dto.product_image,
+         product_image: file.path,
          catrgory: {
            connect: { id: +category_id },
          },

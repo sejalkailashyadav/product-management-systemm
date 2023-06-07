@@ -25,7 +25,7 @@
           return "data deleted"
         });
 
-      // console.log("hello9");
+      //   console.log("hello9");
         window.location.reload();
       } else {
         alert("not deleted");
@@ -173,7 +173,7 @@
           </div>
           <div class="modal-body">
             <% categories.forEach(function(category) { %>
-              <form action="/Product/products" method="POST">
+              <form action="/Product/products" method="POST" enctype="multipart/form-data">
                 <% }); %>
 
                   <label for="categoryId">Category:</label>

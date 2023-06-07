@@ -43,10 +43,15 @@ let OrdersService = class OrdersService {
     async findAll(req, res) {
         const orders = await this.prismaService.order.findMany({
             include: {
-                user: true
-            }
+                user: true,
+            },
         });
-        return { orders };
+        const name = orders[0].user.name;
+        const email = orders[0].user.email;
+        console.log(orders[0].user.name);
+        console.log(orders[0].user.createdAt);
+        console.log(orders);
+        return { orders: orders, name: name };
     }
     async findOrderByUser(req, res) {
         const { cookie } = req.headers;
