@@ -20,8 +20,8 @@ app.useGlobalFilters(new HttpExecptiionFilter)
   app.use(express.static("public"));
   //  console.log(path.join(__dirname,"../../uploads/"));
   //  console.log(cwd);
-    console.log(cwd + '/public');
+    //console.log(cwd + '/public');
 
-  await app.listen(8000);
+  await app.listen(7000);
 }
 bootstrap();

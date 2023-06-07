@@ -1577,14 +1577,14 @@ Hero Media Query
         // console.log(quantity);
         // const price = document.getElementById('price').value;
         const subtotal = quantity * price;
-        console.log(subtotal);
+        //console.log(subtotal);
 
         const res = await axios.post(`/cart/cart`, {
           productId: pid,
           quantity: 1,
           total: price
         })
-        console.log("res", res);
+       // console.log("res", res);
 
       }
     </script>

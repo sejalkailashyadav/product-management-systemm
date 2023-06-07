@@ -9,9 +9,9 @@ export declare class ProductService {
         catrgory: import(".prisma/client").Category[];
     })[]>;
     getAllCategories(): Promise<import(".prisma/client").Category[]>;
-    findOne(id: number): string;
-    remove(id: number): string;
-    setprodct_category(categoryId: number, dto: CreateProductDto, req: Request, res: Response): Promise<import(".prisma/client").Product>;
+    createUser(dto: CreateProductDto, req: Request, category_id: number): Promise<import(".prisma/client").Product & {
+        catrgory: import(".prisma/client").Category[];
+    }>;
     updatedata(categoryId: number, product_name: string, product_description: string, product_price: string, product_image: string, id: number, req: Request, res: Response): Promise<import(".prisma/client").Product & {
         catrgory: import(".prisma/client").Category[];
     }>;

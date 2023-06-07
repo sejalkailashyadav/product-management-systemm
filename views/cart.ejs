@@ -1544,7 +1544,7 @@ Hero Media Query
     <script>
 
       async function removeItem(id) {
-        console.log("remoive");
+        //console.log("remoive");
 
         axios.delete(`/cart/${id}`).then(function (response) { return "data deleted" });
 
@@ -1553,12 +1553,12 @@ Hero Media Query
 
 
         //  location.reload();
-        console.log("removed");
+       // console.log("removed");
       }
 
       async function placeOrder() {
         const finalTotal = document.getElementById('finaltotal').innerText;
-        console.log(finalTotal);
+       // console.log(finalTotal);
 
         if (finalTotal > 0) {
           new swal(" Order  placed!", "success")
@@ -1567,22 +1567,22 @@ Hero Media Query
 
 
           const res = await axios.post('/orders');
-          console.log("order", res);
+         // console.log("order", res);
 
           const orderId = res.data.id;
-          console.log(orderId);
+          //console.log(orderId);
           const pByCart = await axios.get(`/cart/productbycart`)
-          console.log('pByCart', pByCart);
+         // console.log('pByCart', pByCart);
           const data = pByCart.data;
           await axios.post(`/orderitems/${orderId}`, data)
-          console.log("inserted into orderitem");
+         // console.log("inserted into orderitem");
 
 
 
           // swal("Good job!", "You clicked the button!", "success");
           // window.location.assign("/orders/orderpage");
 
-          console.log("order placed");
+         // console.log("order placed");
         } else {
           new swal("Your cart is empty!")
 

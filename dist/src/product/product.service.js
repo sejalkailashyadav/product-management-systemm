@@ -27,24 +27,22 @@ let ProductService = class ProductService {
     async getAllCategories() {
         return this.prismaSerivce.category.findMany();
     }
-    findOne(id) {
-        return `This action returns a #${id} product`;
-    }
-    remove(id) {
-        return `This action removes a #${id} product`;
-    }
-    async setprodct_category(categoryId, dto, req, res) {
-        return await this.prismaSerivce.product.create({
+    async createUser(dto, req, category_id) {
+        const product = await this.prismaSerivce.product.create({
             data: {
                 product_name: dto.product_name,
                 product_description: dto.product_description,
                 product_price: dto.product_price,
                 product_image: dto.product_image,
                 catrgory: {
-                    connect: { id: categoryId },
+                    connect: { id: +category_id },
                 },
             },
+            include: {
+                catrgory: true,
+            },
         });
+        return product;
     }
     async updatedata(categoryId, product_name, product_description, product_price, product_image, id, req, res) {
         try {
@@ -95,8 +93,6 @@ let ProductService = class ProductService {
                     catrgory: true,
                 },
             });
-            console.log(products);
-            console.log("pwithc", products[0].catrgory[0].category_name);
             return { products };
         }
         catch (err) {
@@ -113,7 +109,6 @@ let ProductService = class ProductService {
                     catrgory: true,
                 },
             });
-            console.log("pro", product);
             return { product };
         }
         catch (err) {
@@ -147,7 +142,6 @@ let ProductService = class ProductService {
                     catrgory: true,
                 },
             });
-            console.log("pbyc", products);
             res.render("user_home_page", { products });
         }
         catch (err) {

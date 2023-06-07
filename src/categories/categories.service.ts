@@ -70,7 +70,7 @@ export class CategoriesService {
       //   products: true
       // }
     });
-    console.log("categories",categories);
+   // console.log("categories",categories);
     return {categories}
     
   }

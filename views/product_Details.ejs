@@ -1557,16 +1557,16 @@ Hero Media Query
 
 
     const addToCart = async (pid, price) => {
-      console.log("hello add to cart");
+     // console.log("hello add to cart");
 
       // console.log(product.product_price);
       // e.preventDefault();
-      console.log(price);
+      //console.log(price);
       const quantity = document.getElementById('quantity').value;
-      console.log(quantity);
+      //console.log(quantity);
       // const price = document.getElementById('price').value;
       const subtotal = quantity * price;
-      console.log(subtotal);
+      //console.log(subtotal);
 
       var toastMixin = Swal.mixin({
         toast: true,
@@ -1587,13 +1587,13 @@ Hero Media Query
         animation: true,
         title: 'Product Added !!!! '
       });
-      console.log('Product Added !!!!');
+      //console.log('Product Added !!!!');
       const res = await axios.post(`/cart/cart`, {
         productId: pid,
         quantity: +quantity,
         total: +subtotal
       })
-      console.log("res", res);
+     // console.log("res", res);
 
 
 
@@ -1624,7 +1624,7 @@ Hero Media Query
   <script src="/js/zoomsl.min.js"></script>
   <script>
     $(function () {
-      console.log("hello");
+     // console.log("hello");
       $("#zoom").imagezoomsl({
         zoomrange: [4, 4],
       });

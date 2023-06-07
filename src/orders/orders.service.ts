@@ -14,15 +14,15 @@ export class OrdersService {
   async create(req: Request, res: Response) {
     
     try{
-      console.log(req.headers);
+      //console.log(req.headers);
     const { cookie } = req.headers;
-    console.log(cookie);
+   // console.log(cookie);
 
     const user = JSON.parse(
       Buffer.from(cookie.split(".")[1], "base64").toString("utf-8")
     );
 
-    console.log(user.sub, user.email);
+    //console.log(user.sub, user.email);
 
     const userId = user.sub;
 
@@ -32,11 +32,11 @@ export class OrdersService {
       }})
       
       var finaltotal=0;
-      console.log("subtotal",subtotal);
+     // console.log("subtotal",subtotal);
       for(var i=0;i<subtotal.length;i++){
         var finaltotal = finaltotal+subtotal[i].total;
       }
-      console.log("finaltotal",finaltotal);
+      //console.log("finaltotal",finaltotal);
 
       
         const order = await this.prismaService.order.create({
@@ -58,7 +58,7 @@ export class OrdersService {
       // })
       
       // toastr.success('Have fun storming the castle!', 'Miracle Max Says')
-    console.log("order placed");
+    //console.log("order placed");
     res.send(order);
     // res.redirect('/orders/orderpage')
       }
@@ -76,21 +76,21 @@ export class OrdersService {
         user: true
       }
     })
-    console.log(orders);
+    //console.log(orders);
     return {orders}
 
   }
 
   async findOrderByUser(req:Request, res:Response) {
-    console.log(req.headers);
+    //console.log(req.headers);
     const { cookie } = req.headers;
-    console.log(cookie);
+    //console.log(cookie);
 
     const user = JSON.parse(
       Buffer.from(cookie.split(".")[1], "base64").toString("utf-8")
     );
 
-    console.log(user.sub, user.email);
+   // console.log(user.sub, user.email);
 
     const userId = user.sub;
 
@@ -103,7 +103,7 @@ export class OrdersService {
       }
       
     })
-    console.log("orderbyuser", orders);
+    //console.log("orderbyuser", orders);
     
     return {orders}
   }

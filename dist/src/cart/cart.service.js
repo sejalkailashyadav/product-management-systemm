@@ -21,14 +21,10 @@ let CartService = class CartService {
     }
     async addItemtoCart(productId, quantity, total, req, res) {
         try {
-            console.log(req.headers);
             const { cookie } = req.headers;
-            console.log(cookie);
             const user = JSON.parse(Buffer.from(cookie.split(".")[1], "base64").toString("utf-8"));
-            console.log(user.sub, user.email);
             const userId = user.sub;
             const cartItem = await this.prismaService.cart.findFirst({ where: { productId: +productId, userId: +userId } });
-            console.log("cartItem", cartItem);
             if (!cartItem) {
                 const carts = await this.prismaService.cart.create({
                     data: {
@@ -38,7 +34,6 @@ let CartService = class CartService {
                         total: +total
                     }
                 });
-                console.log("heyyy");
                 res.redirect('/cart/cart_page');
             }
             else {
@@ -58,11 +53,8 @@ let CartService = class CartService {
         }
     }
     async getAllCart(req, res) {
-        console.log(req.headers);
         const { cookie } = req.headers;
-        console.log(cookie);
         const user = JSON.parse(Buffer.from(cookie.split(".")[1], "base64").toString("utf-8"));
-        console.log(user.sub, user.email);
         const userId = user.sub;
         const carts = await this.prismaService.cart.findMany({
             where: { userId: userId },
@@ -71,14 +63,11 @@ let CartService = class CartService {
                 product: true
             },
         });
-        console.log("get all cart");
-        console.log("carts", carts);
         return { carts };
     }
     async clearCart(req, res) {
         const { token } = req.cookies;
         const user = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf-8'));
-        console.log(user.id);
         const userId = user.id;
         await this.prismaService.cart.deleteMany({ where: {
                 userId: userId
@@ -90,9 +79,7 @@ let CartService = class CartService {
     async getProductByCart(req, res) {
         const { token } = req.cookies;
         const user = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf-8'));
-        console.log(user.id);
         const userId = user.id;
-        console.log("dfjskhg", await this.prismaService.cart.findMany({ where: { userId: userId } }));
         const pbycart = await this.prismaService.cart.findMany({ where: { userId: userId } });
         res.send(pbycart);
     }

@@ -31,7 +31,6 @@ let ProductController = class ProductController {
     }
     productDetailPage(req, res) { }
     productData() {
-        console.log("psss");
         return this.productService.findAllProducts();
     }
     async productByCategory(category_name, res, req) {
@@ -39,16 +38,16 @@ let ProductController = class ProductController {
         return { products: products };
     }
     findProduct(id) {
-        console.log("inside get product");
         return this.productService.findProduct(id);
     }
     async findClickedProduct(id, req, res) {
-        console.log("inside get product by id");
         return await this.productService.findProductById(Number(id), req, res);
     }
-    createPost(categoryId, dto, req, res) {
-        return this.productService.setprodct_category(Number(categoryId), dto, req, res);
-        return res.redirect("/product_add");
+    async insertUser(dto, res, req) {
+        const { categoryId } = req.body;
+        const category_id = categoryId[0];
+        await this.productService.createUser(dto, res, category_id);
+        return res.redirect("/product/all");
     }
     async userPanell() {
         try {
@@ -65,15 +64,11 @@ let ProductController = class ProductController {
         try {
             const products = await this.productService.getAllprodcut();
             const categories = await this.categoriesService.getAllCategories();
-            console.log(products, categories);
             return { products: products, categories: categories };
         }
         catch (error) {
             throw error;
         }
-    }
-    findOne(id) {
-        return this.productService.findOne(+id);
     }
     async deleteproduct_category(id) {
         await this.productService.deleteproductById(+id);
@@ -152,19 +147,17 @@ __decorate([
 ], ProductController.prototype, "findClickedProduct", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)("products/:categoryId"),
-    (0, decorators_1.Public)(),
-    __param(0, (0, common_1.Param)("categoryId")),
-    __param(1, (0, common_1.Body)()),
+    (0, common_1.Post)("/products"),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Response)()),
     __param(2, (0, common_1.Request)()),
-    __param(3, (0, common_1.Response)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, create_product_dto_1.CreateProductDto, Object, Object]),
-    __metadata("design:returntype", void 0)
-], ProductController.prototype, "createPost", null);
+    __metadata("design:paramtypes", [create_product_dto_1.CreateProductDto, Object, Object]),
+    __metadata("design:returntype", Promise)
+], ProductController.prototype, "insertUser", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Post)('/search'),
+    (0, common_1.Post)("/search"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
@@ -177,13 +170,6 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], ProductController.prototype, "adminPanel", null);
-__decorate([
-    (0, common_1.Get)(":id"),
-    __param(0, (0, common_1.Param)("id")),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], ProductController.prototype, "findOne", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Delete)("/delete/:id"),

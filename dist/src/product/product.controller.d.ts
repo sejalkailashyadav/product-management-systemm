@@ -30,7 +30,7 @@ export declare class ProductController {
             catrgory: import(".prisma/client").Category[];
         };
     }>;
-    createPost(categoryId: number, dto: CreateProductDto, req: any, res: any): any;
+    insertUser(dto: CreateProductDto, res: any, req: any): Promise<any>;
     userPanell(): Promise<{
         products: (import(".prisma/client").Product & {
             catrgory: import(".prisma/client").Category[];
@@ -44,7 +44,6 @@ export declare class ProductController {
         })[];
         categories: import(".prisma/client").Category[];
     }>;
-    findOne(id: string): string;
     deleteproduct_category(id: number): Promise<{
         message: string;
     }>;

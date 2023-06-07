@@ -152,12 +152,12 @@ export class AuthController {
     @Req() req,
     @Res() res
   ): Promise<boolean> {
-    console.log(req.cookies);
+    //console.log(req.cookies);
 
     res.clearCookie("jwt_payload");
     res.redirect("/auth/signin");
     res.clearCookie("refresh_token", { path: "/" });
-    console.log(req.cookies);
+   // console.log(req.cookies);
     return true;
   }
 }

@@ -16,8 +16,7 @@ async function bootstrap() {
     app.useStaticAssets(cwd + "/public");
     app.use(cookieParser());
     app.use(express.static("public"));
-    console.log(cwd + '/public');
-    await app.listen(8000);
+    await app.listen(7000);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map

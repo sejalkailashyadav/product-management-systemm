@@ -161,8 +161,7 @@ export class AuthService {
       // res.redirect('/user/users')
       // res.render("user-panel", { user, users });
     } else {
-      // res.render("user_Panel", { products, categories });
-      // res.render("user_Panel", { products, categories });
+
       res.render("user_home_page", {
         products: products,
         categories: categories,

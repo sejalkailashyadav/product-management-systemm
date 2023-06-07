@@ -20,12 +20,12 @@
 
     async function confirmation(id) {
       if (confirm("Are you sure ..?")) {
-        console.log(`${id}`);
+        //console.log(`${id}`);
         const res = await axios.delete(`/Product/delete/${id}`).then(function (response) {
           return "data deleted"
         });
 
-        console.log("hello9");
+      // console.log("hello9");
         window.location.reload();
       } else {
         alert("not deleted");
@@ -161,7 +161,6 @@
 
     </table>
 
-    <!-- Add Product Modal -->
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
       aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -174,18 +173,19 @@
           </div>
           <div class="modal-body">
             <% categories.forEach(function(category) { %>
-              <form action="/Product/products/<%= category.id %>" method="POST">
+              <form action="/Product/products" method="POST">
                 <% }); %>
 
                   <label for="categoryId">Category:</label>
                   <select class="form-select" aria-label="Default select example" id="categoryId" name="categoryId">
+                 
                     <% categories.forEach(function(category) { %>
                       <option value="<%= category.id %>">
                         <%= category.category_name %>
                       </option>
                       <% }); %>
                   </select>
-
+  <input type="hidden" name="categoryId">
                   <div class="form-group">
                     <label for="edit-product-name">Product Name</label>
                     <input type="text" class="form-control" id="edit-product-name" name="product_name"

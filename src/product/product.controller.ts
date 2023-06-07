@@ -33,11 +33,6 @@ export class ProductController {
     private readonly categoriesService: CategoriesService
   ) {}
 
-  // @Post()
-  // create(@Body() createProductDto: CreateProductDto) {
-  //   return this.productService.create(createProductDto);
-  // }
-
   @Public()
   @Get("/user_product")
   @Render("user_home_page")
@@ -61,7 +56,7 @@ export class ProductController {
 
   // @Render('create_product')
   productData() {
-    console.log("psss");
+   // console.log("psss");
 
     return this.productService.findAllProducts();
   }
@@ -84,7 +79,7 @@ export class ProductController {
   @Get("product/edit/:id")
   // @Render('product_Details')
   findProduct(@Param("id") id: number) {
-    console.log("inside get product");
+   // console.log("inside get product");
 
     return this.productService.findProduct(id);
   }
@@ -93,100 +88,32 @@ export class ProductController {
   @Get("product/:id")
   @Render("product_Details")
   async findClickedProduct(@Param("id") id: number, @Req() req, @Res() res) {
-    console.log("inside get product by id");
+    //console.log("inside get product by id");
 
     return await this.productService.findProductById(Number(id), req, res);
   }
 
-  @Public()
-  @Post("products/:categoryId")
-  // @UseInterceptors(
-  //   FileInterceptor("product_image", {
-  //     storage: diskStorage({
-  //       destination: "./public",
-  //       filename(req, file, callback) {
-  //         callback(null, `${file.originalname}`);
-  //       },
-  //     }),
-  //   })
-  // )
-  @Public()
-  createPost(
-    @Param("categoryId") categoryId: number,
-    @Body() dto: CreateProductDto,
-    @Request() req,
-    @Response() res
-  ) {
-    return this.productService.setprodct_category(
-      Number(categoryId),
-      dto,
-      req,
-      res
-    );
 
-    return res.redirect("/product_add");
+  @Public()
+  @Post("/products")
+  async insertUser(@Body() dto: CreateProductDto, @Response() res ,@Request() req) {
+    const {categoryId } = req.body;
+    const category_id = categoryId[0];
+    
+   // console.log(req.body);
+    
+    await this.productService.createUser(dto, res,category_id);
+    return res.redirect("/product/all"); // Redirect to the user panel after adding a user
   }
-
-  // @Post(':categoryId/products')
-  // @UseInterceptors(FileInterceptor('product_image', {
-  //   storage: diskStorage({
-  //     destination: './uploads',
-  //     filename: (req, file, callback) => {
-  //       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-  //       const extension = extname(file.originalname);
-  //       callback(null, file.fieldname + '-' + uniqueSuffix + extension);
-  //     },
-  //   }),
-  // }))
-  // async addProductToCategory(
-  //   @Param('categoryId') categoryId: number,
-  //   @Body() productData: CreateProductDto,
-  //   @UploadedFile() file: Express.Multer.File,
-  // ) {
-  //   try {
-  //   const product = await this.productService.addProduct(categoryId, productData, product_image);
-
-  //     return { message: 'Product added successfully', product };
-  //   } catch (error) {
-  //     throw new Error('Failed to add product');
-  //   }
-  // }
-
-  // @Public()
-  // @Get("/products")
-  // @Render("product_add")
-  // async userPanel() {
-  //   try {
-  //     const products = await this.productService.getAllprodcut();
-  //     const categories = await this.categoriesService.getAllCategories();
-  //     return { products, categories }; // Pass the products data to the view
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
-
-  // @Public()
-  // @Get('/Home')
-  // @Render("prodcut_categorye")
-  // async userPanell() {
-  //   try {
-  //     const products = await this.productService.getAllprodcut();
-  //     const categories = await this.categoriesService.getAllCategories();
-  //     const cart = {};
-  //     return { products,categories,cart}; // Pass the products data to the view
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
-
+  
   @Public()
-  @Post('/search')
+  @Post("/search")
   async userPanell() {
     try {
       const products = await this.productService.getAllprodcut();
       const categories = await this.categoriesService.getAllCategories();
       const cart = {};
-      return { products,categories,cart}; // Pass the products data to the view
+      return { products, categories, cart }; // Pass the products data to the view
     } catch (error) {
       throw error;
     }
@@ -200,7 +127,7 @@ export class ProductController {
     try {
       const products = await this.productService.getAllprodcut();
       const categories = await this.categoriesService.getAllCategories();
-      console.log(products, categories);
+     // console.log(products, categories);
       return { products: products, categories: categories };
       // Pass the products data to the view
     } catch (error) {
@@ -208,10 +135,6 @@ export class ProductController {
     }
   }
 
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.productService.findOne(+id);
-  }
   //delete category-product
   @Public()
   @Delete("/delete/:id")
@@ -220,28 +143,7 @@ export class ProductController {
     return { message: "product& category deleted successfully" };
   }
 
-  // @Post(":id")
-  // update(
-  //   @Param("id") id: number,
-  //   @Body("product_name") product_name: string,
-  //   // @Body("product_description")product_description:string,
-  //   // @Body("product_price")product_price:string,
-  //   // @Body("product_image")product_image :string,
-  //   @Body("catDropDown")
-  //   categoryId: number,
-  //   @Request() req,
-  //   @Response() res
-  //   // @Body() dto: CreateProductDto,
-  // ) {
-  //   // return this.productService.updatedata(+id, product_name,product_description,product_price,product_image,+categoryId, req, res);
-  //   return this.productService.updatedata(
-  //     +id,
-  //     product_name,
-  //     +categoryId,
-  //     req,
-  //     res
-  //   );
-  // }
+ 
   @Public()
   @Patch("/edit/:id")
   async editUser(
@@ -264,24 +166,4 @@ export class ProductController {
     return { updatedUser: updatedUser };
   }
 
-
-  
-  //
-  //   @Public()
-  //   @Post(':id/add-to-cart')
-  //   async addToCartt(
-  //   @GetCurrentUserId() userId: number,
-  //   @Request() req,
-  //   @Body('quantity') quantity: number,
-  //     @Param('id') id: number,
-
-  //   ) {
-
-  //    console.log(userId);
-
-  //   //const { user } = request.;
-  //   // const userId = user.id;
-  //   return this.cartService.addToCart(userId, id, quantity);
-
-  // }
 }
