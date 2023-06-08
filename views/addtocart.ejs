@@ -9,10 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-    <!-- Custom StyleSheet -->
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'></link>  
     <style>
         body {
             margin-top: 20px;
@@ -117,16 +114,7 @@
                                                     <%=carts[i].product.product_price%><span class="text-muted">x</span>
                                                 </strong></h6>
                                         </div>
-                                        <div class="col-xs-4">
-                                            <input type="number" value="<%=carts[i].quantity%>" min="1" disabled />
-
-                                            <div class="value-button" id="decrease" onclick="decreaseValue()"
-                                                value="Decrease Value">-</div>
-                                            <input type="number" id="number" value="0" />
-                                            <div class="value-button" id="increase" onclick="increaseValue()"
-                                                value="Increase Value">+</div>
-
-                                        </div>
+                                       
                                         <div class="col-xs-4">
                                             ₹ <%=carts[i].total%>
                                         </div>
@@ -196,7 +184,7 @@
         // console.log(finalTotal);
 
         if (finalTotal > 0) {
-            new swal(" Order  placed!", "success")
+            confirm(" Order  placed!", "success")
 
             // toastr.success('Have fun storming the castle!', 'Miracle Max Says')
 
@@ -219,25 +207,12 @@
 
             // console.log("order placed");
         } else {
-            new swal("Your cart is empty!")
+            confirm("Your cart is empty!")
 
         }
 
     }
-    function increaseValue() {
-        var value = parseInt(document.getElementById('number').value, 10);
-        value = isNaN(value) ? 0 : value;
-        value++;
-        document.getElementById('number').value = value;
-    }
-
-    function decreaseValue() {
-        var value = parseInt(document.getElementById('number').value, 10);
-        value = isNaN(value) ? 0 : value;
-        value < 1 ? value = 1 : '';
-        value--;
-        document.getElementById('number').value = value;
-    }    
+   
 </script>
 
 </html>

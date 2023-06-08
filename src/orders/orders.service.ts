@@ -77,9 +77,9 @@ export class OrdersService {
     });
     const name = orders[0].user.name;
     const email = orders[0].user.email;
-     console.log(orders[0].user.name);
+    //  console.log(orders[0].user.name);
 
-     console.log(orders[0].user.createdAt);
+    //  console.log(orders[0].user.createdAt);
      
     // console.log();
 
@@ -90,13 +90,13 @@ export class OrdersService {
   async findOrderByUser(req:Request, res:Response) {
     //console.log(req.headers);
     const { cookie } = req.headers;
-    //console.log(cookie);
+    console.log(cookie);
 
     const user = JSON.parse(
       Buffer.from(cookie.split(".")[1], "base64").toString("utf-8")
     );
 
-   // console.log(user.sub, user.email);
+    console.log(user.sub, user.email);
 
     const userId = user.sub;
 
@@ -109,7 +109,7 @@ export class OrdersService {
       }
       
     })
-    //console.log("orderbyuser", orders);
+    console.log("orderbyuser", orders);
     
     return {orders}
   }

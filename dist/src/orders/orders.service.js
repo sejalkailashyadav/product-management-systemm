@@ -48,14 +48,14 @@ let OrdersService = class OrdersService {
         });
         const name = orders[0].user.name;
         const email = orders[0].user.email;
-        console.log(orders[0].user.name);
-        console.log(orders[0].user.createdAt);
         console.log(orders);
         return { orders: orders, name: name };
     }
     async findOrderByUser(req, res) {
         const { cookie } = req.headers;
+        console.log(cookie);
         const user = JSON.parse(Buffer.from(cookie.split(".")[1], "base64").toString("utf-8"));
+        console.log(user.sub, user.email);
         const userId = user.sub;
         const orders = await this.prismaService.order.findMany({
             where: {
@@ -65,6 +65,7 @@ let OrdersService = class OrdersService {
                 orderItems: true
             }
         });
+        console.log("orderbyuser", orders);
         return { orders };
     }
     update(id, updateOrderDto) {

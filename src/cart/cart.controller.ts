@@ -32,7 +32,7 @@ export class CartController {
 
   @Public()
   @Get('/cart_page')
-  @Render('addtocart')
+  @Render('cart')
   getCartPage(@Req() req, @Res() res){
     return this.cartService.getAllCart(req, res );
   }
