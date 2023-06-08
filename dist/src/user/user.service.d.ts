@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { CreateUserDto } from './dto/create-user.dto';
 import { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
@@ -18,7 +19,22 @@ export declare class UserService {
         name: string;
         email: string;
         id: number;
+=======
+import { CreateUserDto } from "./dto/create-user.dto";
+import { PrismaService } from "../prisma/prisma.service";
+import { Request } from "express";
+export declare class UserService {
+    private prisma;
+    constructor(prisma: PrismaService);
+    getAllUser(): Promise<{
+        id: number;
+        name: string;
+        email: string;
+        isadmin: boolean;
+>>>>>>> dec3b3ff12bcc5cfd1cf1e4f26b73f770f67cb5a
     }[]>;
-    deleteUserById(id: number, req: Request, res: Response): Promise<void>;
-    editUserById(id: number, dto: CreateUserDto, req: Request, res: Response): Promise<void>;
+    createUser(dto: CreateUserDto): Promise<void>;
+    deleteUserById(id: number): Promise<void>;
+    editUserById(id: number, dto: CreateUserDto, req: Request): Promise<import(".prisma/client").User>;
+    private convertToBoolean;
 }

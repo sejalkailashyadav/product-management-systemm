@@ -15,6 +15,8 @@ const prisma_module_1 = require("../prisma/prisma.module");
 const auth_controller_1 = require("./auth.controller");
 const auth_service_1 = require("./auth.service");
 const strategies_1 = require("./strategies");
+const product_module_1 = require("../product/product.module");
+const google_strategy_1 = require("./google.strategy");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
@@ -31,9 +33,10 @@ AuthModule = __decorate([
             }),
             config_1.ConfigModule.forRoot(),
             prisma_module_1.PrismaModule,
+            product_module_1.ProductModule
         ],
-        controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, strategies_1.AtStrategy, strategies_1.RtStrategy],
+        controllers: [auth_controller_1.AuthController,],
+        providers: [auth_service_1.AuthService, strategies_1.AtStrategy, strategies_1.RtStrategy, google_strategy_1.GoogleStrategy],
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

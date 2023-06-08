@@ -6,6 +6,8 @@ import { PrismaModule } from "../prisma/prisma.module";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { AtStrategy, RtStrategy } from "./strategies";
+import { ProductModule } from "../product/product.module";
+import { GoogleStrategy } from "./google.strategy";
 
 @Module({
   imports: [
@@ -20,8 +22,9 @@ import { AtStrategy, RtStrategy } from "./strategies";
     }),
     ConfigModule.forRoot(), 
     PrismaModule,
+    ProductModule
   ],
-  controllers: [AuthController],
-  providers: [AuthService, AtStrategy, RtStrategy],
+  controllers: [AuthController,],
+  providers: [AuthService, AtStrategy, RtStrategy,GoogleStrategy],
 })
 export class AuthModule {}

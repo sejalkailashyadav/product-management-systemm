@@ -27,8 +27,12 @@ export class AuthService {
     private config: ConfigService,
   ) {
     this.transporter = nodemailer.createTransport({
+<<<<<<< HEAD
       // Configure your email service provider details here
       service: 'gmail',
+=======
+      service: "gmail",
+>>>>>>> dec3b3ff12bcc5cfd1cf1e4f26b73f770f67cb5a
       auth: {
         user: 'codebackup122@gmail.com',
         pass: 'uuceenmlfvmxcnos',
@@ -56,7 +60,7 @@ export class AuthService {
     };
 
     await this.transporter.sendMail(mailOptions);
-    // const redirectUrl = '/auth/change-password'; // Specify the URL of the page you want to redirect to
+    // const redirectUrl = '/auth/change-password';
     // res.redirect(redirectUrl);
   }
 
@@ -120,16 +124,27 @@ export class AuthService {
     // await this.updateRtHash(user.id, tokens.refresh_token);
 
     // Set JWT payload as a cookie
+<<<<<<< HEAD
     res.cookie('jwt_payload', tokens.access_token, { httpOnly: true });
 
     res.redirect('/auth/local/signup');
+=======
+    res.cookie("jwt_payload", tokens.access_token);
+
+    res.redirect("/auth/signup");
+>>>>>>> dec3b3ff12bcc5cfd1cf1e4f26b73f770f67cb5a
     return tokens;
   }
 
   async signinLocal(
     dto: AuthDto,
+<<<<<<< HEAD
     @Req() req: Request,
     @Res() res: Response,
+=======
+    req: Request,
+    res: Response
+>>>>>>> dec3b3ff12bcc5cfd1cf1e4f26b73f770f67cb5a
   ): Promise<Tokens> {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -143,6 +158,7 @@ export class AuthService {
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
 
     const tokens = await this.getTokens(user.id, user.email);
+<<<<<<< HEAD
     console.log('data');
 
     console.log(tokens);
@@ -151,12 +167,21 @@ export class AuthService {
 
     // Set JWT payload as a cookie
     res.cookie('jwt_payload', tokens.access_token, { httpOnly: true });
+=======
+>>>>>>> dec3b3ff12bcc5cfd1cf1e4f26b73f770f67cb5a
 
-    const users = await this.prisma.user.findMany({
-      select: { id: true, email: true, name: true },
-      where: { isadmin: false },
+    // Set JWT payload as a cookie
+    res.cookie("jwt_payload", tokens.access_token);
+
+    // const users = await this.prisma.user.findMany({
+    //   select: { id: true, email: true, name: true, isadmin: true },
+    //   where: { isadmin: false },
+    // });
+    const products = await this.prisma.product.findMany({
+      include: { catrgory: true },
     });
 
+<<<<<<< HEAD
     res.render('user_Panel', { user, users });
     // console.log(users);
 
@@ -172,6 +197,45 @@ export class AuthService {
     userId: number,
     rt: string,
     res: Response,
+=======
+    const categories = this.prisma.category.findMany();
+
+    if (user.isadmin) {
+      res.render("darshboard");
+      // res.redirect('/user/users')
+      // res.render("user-panel", { user, users });
+    } else {
+
+      res.render("user_home_page", {
+        products: products,
+        categories: categories,
+      });
+      // res.redirect('/user/user_home');
+      // res.redirect('/Product/user_product');
+    }
+
+    return tokens;
+  }
+  async getAllprodcut() {
+    return await this.prisma.product.findMany({
+      include: { catrgory: true },
+    });
+  }
+  async getAllCategories() {
+    return this.prisma.category.findMany();
+  }
+
+  async logout(userId: number, req: Request, res: Response): Promise<boolean> {
+    res.clearCookie("jwt_payload");
+    res.clearCookie("refresh_token");
+    return true;
+  }
+
+  async refreshTokens(
+    userId: number,
+    rt: string,
+    res: Response
+>>>>>>> dec3b3ff12bcc5cfd1cf1e4f26b73f770f67cb5a
   ): Promise<Tokens> {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -188,8 +252,13 @@ export class AuthService {
 
     // Set JWT payload as a cookie
     // Set JWT payload and refresh token as cookies
+<<<<<<< HEAD
     res.cookie('jwt_payload', tokens.access_token, { httpOnly: true });
     res.cookie('refresh_token', tokens.refresh_token, { httpOnly: true });
+=======
+    (res as any).cookie("jwt_payload", tokens.access_token);
+    (res as any).cookie("refresh_token", tokens.refresh_token);
+>>>>>>> dec3b3ff12bcc5cfd1cf1e4f26b73f770f67cb5a
 
     return tokens;
   }
@@ -215,10 +284,17 @@ export class AuthService {
 
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
+<<<<<<< HEAD
         expiresIn: '10m',
       }),
       this.jwtService.signAsync(jwtPayload, {
         expiresIn: '7d',
+=======
+        expiresIn: "10m",
+      }),
+      this.jwtService.signAsync(jwtPayload, {
+        expiresIn: "7d",
+>>>>>>> dec3b3ff12bcc5cfd1cf1e4f26b73f770f67cb5a
       }),
     ]);
 
@@ -227,6 +303,7 @@ export class AuthService {
       refresh_token: rt,
     };
   }
+<<<<<<< HEAD
   async validateUser(jwtPayload: JwtPayload): Promise<any> {
     if (!jwtPayload || !jwtPayload.sub) {
       throw new UnauthorizedException('Invalid token payload');
@@ -234,6 +311,56 @@ export class AuthService {
 
     return this.prisma.user.findUnique({ where: { id: jwtPayload.sub } });
   }
+=======
+
+//   async validateUser(jwtPayload: JwtPayload): Promise<any> {
+//     if (!jwtPayload || !jwtPayload.sub) {
+//       throw new UnauthorizedException("Invalid token payload");
+//     }
+
+//     return this.prisma.user.findUnique({ where: { id: jwtPayload.sub } });
+//   }
+//   //google sign-in
+//   googleLogin(req, res: Response) {
+//     if (!req.user) {
+//       return "No user from google";
+//     }
+//     else{
+
+//  const products =  this.prisma.product.findMany({
+//       include: { catrgory: true },
+//     });
+
+//     const categories = this.prisma.category.findMany();
+//        res.render("user_home_page", { products, categories });
+  
+//     }
+//     return {
+//       message: "User information from google",
+//       user: req.user
+      
+//     };
+//   }
+
+  //store in db
+  // async googlevalidateUser(details: UserDetails) {
+  //   console.log("AuthService");
+  //   console.log(details);
+  //   const user = await this.prisma.user.findUnique({ email: details.email });
+  //   console.log(user);
+  //   if (user) return user;
+  //   console.log("User not found. Creating...");
+  //   const newUser = this.prisma.user.create(details);
+  //   console.log(newUser);
+    
+  //   return newUser;
+  // }
+
+  // async findUser(id: number) {
+  //   const user = await this.prisma.user.findUnique({ id });
+  //   return user;
+  // } 
+>>>>>>> dec3b3ff12bcc5cfd1cf1e4f26b73f770f67cb5a
 }
 // async validateUser(jwtPayload: JwtPayload): Promise<any> {
 //   return this.prisma.user.findUnique({ where: { email: jwtPayload.email } });

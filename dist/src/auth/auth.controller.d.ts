@@ -20,7 +20,6 @@ export declare class AuthController {
         msg: string;
     };
     forgotPassword(email: string, req: any, res: any): Promise<void>;
-    logout(userId: number, req: any, res: any): Promise<boolean>;
     panell(): {
         msg: string;
     };
@@ -28,4 +27,5 @@ export declare class AuthController {
     verification(): {
         msg: string;
     };
+    logout(userId: number, req: any, res: any): Promise<boolean>;
 }

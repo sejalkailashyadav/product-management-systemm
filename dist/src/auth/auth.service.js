@@ -19,7 +19,6 @@ const jwt_1 = require("@nestjs/jwt");
 const runtime_1 = require("@prisma/client/runtime");
 const argon = require("argon2");
 const prisma_service_1 = require("../prisma/prisma.service");
-const dto_1 = require("./dto");
 const crypto_1 = require("crypto");
 const nodemailer = require("nodemailer");
 let AuthService = class AuthService {
@@ -91,8 +90,8 @@ let AuthService = class AuthService {
             throw error;
         });
         const tokens = await this.getTokens(user.id, user.email);
-        res.cookie('jwt_payload', tokens.access_token, { httpOnly: true });
-        res.redirect('/auth/local/signup');
+        res.cookie("jwt_payload", tokens.access_token);
+        res.redirect("/auth/signup");
         return tokens;
     }
     async signinLocal(dto, req, res) {
@@ -107,20 +106,33 @@ let AuthService = class AuthService {
         if (!passwordMatches)
             throw new common_1.ForbiddenException('Access Denied');
         const tokens = await this.getTokens(user.id, user.email);
-        console.log('data');
-        console.log(tokens);
-        console.log(user.id, user.email);
-        res.cookie('jwt_payload', tokens.access_token, { httpOnly: true });
-        const users = await this.prisma.user.findMany({
-            select: { id: true, email: true, name: true },
-            where: { isadmin: false },
+        res.cookie("jwt_payload", tokens.access_token);
+        const products = await this.prisma.product.findMany({
+            include: { catrgory: true },
         });
-        res.render('user_Panel', { user, users });
+        const categories = this.prisma.category.findMany();
+        if (user.isadmin) {
+            res.render("darshboard");
+        }
+        else {
+            res.render("user_home_page", {
+                products: products,
+                categories: categories,
+            });
+        }
         return tokens;
     }
+    async getAllprodcut() {
+        return await this.prisma.product.findMany({
+            include: { catrgory: true },
+        });
+    }
+    async getAllCategories() {
+        return this.prisma.category.findMany();
+    }
     async logout(userId, req, res) {
-        res.clearCookie('jwt_payload');
-        res.clearCookie('refresh_token');
+        res.clearCookie("jwt_payload");
+        res.clearCookie("refresh_token");
         return true;
     }
     async refreshTokens(userId, rt, res) {
@@ -135,8 +147,8 @@ let AuthService = class AuthService {
         if (!rtMatches)
             throw new common_1.ForbiddenException('Access Denied');
         const tokens = await this.getTokens(user.id, user.email);
-        res.cookie('jwt_payload', tokens.access_token, { httpOnly: true });
-        res.cookie('refresh_token', tokens.refresh_token, { httpOnly: true });
+        res.cookie("jwt_payload", tokens.access_token);
+        res.cookie("refresh_token", tokens.refresh_token);
         return tokens;
     }
     async updateRtHash(userId, rt, res) {
@@ -158,10 +170,10 @@ let AuthService = class AuthService {
         console.log(jwtPayload);
         const [at, rt] = await Promise.all([
             this.jwtService.signAsync(jwtPayload, {
-                expiresIn: '10m',
+                expiresIn: "10m",
             }),
             this.jwtService.signAsync(jwtPayload, {
-                expiresIn: '7d',
+                expiresIn: "7d",
             }),
         ]);
         return {
@@ -183,13 +195,6 @@ __decorate([
     __metadata("design:paramtypes", [String, Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthService.prototype, "forgotPassword", null);
-__decorate([
-    __param(1, (0, common_1.Req)()),
-    __param(2, (0, common_1.Res)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dto_1.AuthDto, Object, Object]),
-    __metadata("design:returntype", Promise)
-], AuthService.prototype, "signinLocal", null);
 AuthService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,

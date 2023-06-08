@@ -1,5 +1,5 @@
 import { IsEmail, IsString } from "class-validator";
 export class CreateCategoryDto {
-  @IsString()
-  category_name?: string;
+
+  category_name : string;
 }

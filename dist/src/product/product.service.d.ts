@@ -4,7 +4,34 @@ import { Request, Response } from "express";
 export declare class ProductService {
     private readonly prismaSerivce;
     constructor(prismaSerivce: PrismaService);
-    findAll(req: Request, res: Response): Promise<void>;
-    deleteUserById(id: number, dto: CreateProductDto, req: Request, res: Response): Promise<void>;
-    setprodct_category(dto: CreateProductDto, req: Request, res: Response, file: any): Promise<import(".prisma/client").Product>;
+    create(createProductDto: CreateProductDto): string;
+    getAllprodcut(): Promise<(import(".prisma/client").Product & {
+        catrgory: import(".prisma/client").Category[];
+    })[]>;
+    getAllCategories(): Promise<import(".prisma/client").Category[]>;
+    createUser(dto: CreateProductDto, req: Request, category_id: number, file: any): Promise<import(".prisma/client").Product & {
+        catrgory: import(".prisma/client").Category[];
+    }>;
+    updatedata(categoryId: number, product_name: string, product_description: string, product_price: string, product_image: string, id: number, req: Request, res: Response): Promise<import(".prisma/client").Product & {
+        catrgory: import(".prisma/client").Category[];
+    }>;
+    editUserById(id: number, product_name: string, product_description: string, product_price: string, categoryId: number, req: Request): Promise<void>;
+    deleteproductById(id: number): Promise<void>;
+    usersAllProducts(req: Request, res: Response): Promise<{
+        products: (import(".prisma/client").Product & {
+            catrgory: import(".prisma/client").Category[];
+        })[];
+    }>;
+    findProductById(id: number, req: Request, res: Response): Promise<{
+        product: import(".prisma/client").Product & {
+            catrgory: import(".prisma/client").Category[];
+        };
+    }>;
+    findAllProducts(): Promise<(import(".prisma/client").Product & {
+        catrgory: import(".prisma/client").Category[];
+    })[]>;
+    productByCategory(category_name: string, res: Response, req: Request): Promise<void>;
+    findProduct(id: number): Promise<import(".prisma/client").Product & {
+        catrgory: import(".prisma/client").Category[];
+    }>;
 }

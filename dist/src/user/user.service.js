@@ -11,14 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
-const runtime_1 = require("@prisma/client/runtime");
-const argon = require("argon2");
-const config_1 = require("@nestjs/config");
-const jwt_1 = require("@nestjs/jwt");
 const prisma_service_1 = require("../prisma/prisma.service");
 let UserService = class UserService {
-    constructor(prisma, jwtService, config) {
+    constructor(prisma) {
         this.prisma = prisma;
+<<<<<<< HEAD
         this.jwtService = jwtService;
         this.config = config;
     }
@@ -121,15 +118,31 @@ let UserService = class UserService {
         });
         console.log(users, 'adminpanel user getdata');
         return users;
+=======
     }
-    async deleteUserById(id, req, res) {
-        await this.prisma.user.delete({
-            where: {
-                id: id,
+    async getAllUser() {
+        return await this.prisma.user.findMany({
+            select: { id: true, email: true, name: true, isadmin: true },
+            where: { isadmin: false },
+        });
+>>>>>>> dec3b3ff12bcc5cfd1cf1e4f26b73f770f67cb5a
+    }
+    async createUser(dto) {
+        await this.prisma.user.create({
+            data: {
+                name: dto.name,
+                email: dto.email,
             },
         });
     }
-    async editUserById(id, dto, req, res) {
+    async deleteUserById(id) {
+        await this.prisma.user.delete({
+            where: {
+                id: +id,
+            },
+        });
+    }
+    async editUserById(id, dto, req) {
         await this.prisma.user.update({
             where: {
                 id: id,
@@ -137,16 +150,26 @@ let UserService = class UserService {
             data: {
                 name: dto.name,
                 email: dto.email,
-                password: dto.password,
+                isadmin: this.convertToBoolean(dto.isadmin),
             },
         });
+        const updatedUser = await this.prisma.user.findUnique({
+            where: {
+                id: id,
+            },
+        });
+        return updatedUser;
+    }
+    convertToBoolean(value) {
+        if (typeof value === "string") {
+            return value.toLowerCase() === "admin";
+        }
+        return Boolean(value);
     }
 };
 UserService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
-        jwt_1.JwtService,
-        config_1.ConfigService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
 ], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map

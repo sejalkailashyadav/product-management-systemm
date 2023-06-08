@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductService = void 0;
 const common_1 = require("@nestjs/common");
@@ -19,41 +16,152 @@ let ProductService = class ProductService {
     constructor(prismaSerivce) {
         this.prismaSerivce = prismaSerivce;
     }
-    async findAll(req, res) {
-        const cate_product = await this.prismaSerivce.product.findMany({
+    create(createProductDto) {
+        return "This action adds a new product";
+    }
+    async getAllprodcut() {
+        return await this.prismaSerivce.product.findMany({
             include: { catrgory: true },
         });
-        res.render("user_Panel", { cate_product });
-        console.log(cate_product);
     }
-    async deleteUserById(id, dto, req, res) {
-        await this.prismaSerivce.product.delete({
-            where: {
-                id: id,
-            },
-        });
+    async getAllCategories() {
+        return this.prismaSerivce.category.findMany();
     }
-    async setprodct_category(dto, req, res, file) {
-        return await this.prismaSerivce.product.create({
+    async createUser(dto, req, category_id, file) {
+        const product = await this.prismaSerivce.product.create({
             data: {
                 product_name: dto.product_name,
                 product_description: dto.product_description,
                 product_price: dto.product_price,
-                product_image: dto.product_image,
+                product_image: file.path,
                 catrgory: {
-                    create: [{ category_name: dto.category_name }],
+                    connect: { id: +category_id },
                 },
+            },
+            include: {
+                catrgory: true,
+            },
+        });
+        return product;
+    }
+    async updatedata(categoryId, product_name, product_description, product_price, product_image, id, req, res) {
+        try {
+            return await this.prismaSerivce.product.update({
+                where: { id: +id },
+                data: {
+                    product_name: product_name,
+                    catrgory: {
+                        connect: { id: +categoryId },
+                    },
+                },
+                include: { catrgory: true },
+            });
+        }
+        catch (error) {
+            throw new Error(error);
+        }
+    }
+    async editUserById(id, product_name, product_description, product_price, categoryId, req) {
+        await this.prismaSerivce.product.update({
+            where: {
+                id: id,
+            },
+            data: {
+                product_name: product_name,
+                product_description: product_description,
+                product_price: product_price,
+                catrgory: {
+                    connect: {
+                        id: +categoryId,
+                    },
+                },
+            },
+            include: { catrgory: true },
+        });
+    }
+    async deleteproductById(id) {
+        await this.prismaSerivce.product.delete({
+            where: {
+                id: +id,
             },
         });
     }
+    async usersAllProducts(req, res) {
+        try {
+            const products = await this.prismaSerivce.product.findMany({
+                include: {
+                    catrgory: true,
+                },
+            });
+            return { products };
+        }
+        catch (err) {
+            throw err;
+        }
+    }
+    async findProductById(id, req, res) {
+        try {
+            const product = await this.prismaSerivce.product.findUnique({
+                where: {
+                    id,
+                },
+                include: {
+                    catrgory: true,
+                },
+            });
+            return { product };
+        }
+        catch (err) {
+            throw err;
+        }
+    }
+    async findAllProducts() {
+        try {
+            const query = {
+                include: { catrgory: true },
+            };
+            return await this.prismaSerivce.product.findMany(query);
+        }
+        catch (err) {
+            throw err;
+        }
+    }
+    async productByCategory(category_name, res, req) {
+        try {
+            const products = await this.prismaSerivce.product.findMany({
+                where: {
+                    catrgory: {
+                        some: {
+                            category_name: {
+                                contains: category_name,
+                            },
+                        },
+                    },
+                },
+                include: {
+                    catrgory: true,
+                },
+            });
+            res.render("user_home_page", { products });
+        }
+        catch (err) {
+            throw err;
+        }
+    }
+    async findProduct(id) {
+        try {
+            return await this.prismaSerivce.product.findUnique({
+                where: { id },
+                include: {
+                    catrgory: true,
+                },
+            });
+        }
+        catch (err) {
+            throw err;
+        }
+    }
 };
-__decorate([
-    __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Res)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], ProductService.prototype, "findAll", null);
 ProductService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService])
