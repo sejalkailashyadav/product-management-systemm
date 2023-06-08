@@ -154,7 +154,10 @@ export class AuthService {
       include: { catrgory: true },
     });
 
-    const categories = this.prisma.category.findMany();
+    const categories = await this.prisma.category.findMany();
+    console.log(products,categories);
+    // console.log(products[0].catrgory[0].category_name);
+    
 
     if (user.isadmin) {
       res.render("darshboard");
@@ -162,6 +165,7 @@ export class AuthService {
       // res.render("user-panel", { user, users });
     } else {
 
+      // res.redirect("Product/user_product");
       res.render("user_home_page", {
         products: products,
         categories: categories,

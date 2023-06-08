@@ -4,6 +4,8 @@ import { UpdateProductDto } from "./dto/update-product.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Request, Response } from "express";
 import { log } from "util";
+import { SearchDto } from "./dto/serch-dto";
+import { tr } from "@faker-js/faker";
 
 @Injectable()
 export class ProductService {
@@ -21,22 +23,110 @@ export class ProductService {
     return this.prismaSerivce.category.findMany();
   }
 
-  async createUser(dto: CreateProductDto, req: Request, category_id:number,file) {
-     const product = await this.prismaSerivce.product.create({
-       data: {
-         product_name: dto.product_name,
-         product_description: dto.product_description,
-         product_price: dto.product_price,
-         product_image: file.path,
-         catrgory: {
-           connect: { id: +category_id },
-         },
-       },
-       include: {
-         catrgory: true,
-       },
-     });
-  return product;
+  async getAllprodcutandCategorty() {
+    return await this.prismaSerivce.product.findMany({
+      include: { catrgory: true },
+    });
+  }
+  // async getAllTextwithFilter(searchDto: SearchDto) {
+  //   let tasks = await this.getAllprodcutandCategorty();
+  //   const { search } = searchDto;
+  //   console.log(tasks);
+  //   console.log(tasks[0].product_name);
+  //   console.log(search);
+
+  //   if (search) {
+  //     tasks = (await tasks).filter((task) =>
+  //       task.product_name.includes(search) ||  task.product_description.includes(search) ||  task.catrgory[0].category_name.includes(search)
+  //     );
+  //   }
+
+  //   console.log(tasks);
+
+  //   return tasks;
+  // }
+
+  async search(req: Request, res: Response) {
+    try {
+      const search = req.body.search;
+      //  await this.prismaSerivce.product.findMany({
+      //    where: {
+      //      OR: [
+
+      //      ],
+      //    },
+      //    include: { catrgory: true },
+      //  });
+
+      const result = await this.prismaSerivce.product.findMany({
+        where: {
+          OR: [
+            {
+              product_name: {
+                endsWith: search,
+              },
+              product_price: {
+                endsWith: search,
+              },
+              product_description: {
+                endsWith: search,
+              },
+            },
+          ],
+        },
+        include: {
+          catrgory: true,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  //category dropdowm
+
+  async catgoryDropdwon() {
+    return await this.prismaSerivce.product.findMany({
+      where: { id: +id },
+      data :{
+            
+      },
+      include: { catrgory: true },
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  async createUser(
+    dto: CreateProductDto,
+    req: Request,
+    category_id: number,
+    file
+  ) {
+    const product = await this.prismaSerivce.product.create({
+      data: {
+        product_name: dto.product_name,
+        product_description: dto.product_description,
+        product_price: dto.product_price,
+        product_image: file.path,
+        catrgory: {
+          connect: { id: +category_id },
+        },
+      },
+      include: {
+        catrgory: true,
+      },
+    });
+    return product;
   }
 
   // update many to many
@@ -128,7 +218,7 @@ export class ProductService {
         },
       });
 
-     // console.log("pro", product);
+      // console.log("pro", product);
 
       return { product };
     } catch (err) {
@@ -185,7 +275,7 @@ export class ProductService {
           catrgory: true,
         },
       });
-     // console.log("pbyc", products);
+      // console.log("pbyc", products);
       // console.log(products[2].categories);
 
       res.render("user_home_page", { products });

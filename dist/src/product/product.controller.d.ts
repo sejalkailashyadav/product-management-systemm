@@ -34,13 +34,8 @@ export declare class ProductController {
         };
     }>;
     insertUser(dto: CreateProductDto, res: any, req: any, file: any): Promise<any>;
-    userPanell(): Promise<{
-        products: (import(".prisma/client").Product & {
-            catrgory: import(".prisma/client").Category[];
-        })[];
-        categories: import(".prisma/client").Category[];
-        cart: {};
-    }>;
+    catgoryDropdwon(res: any, req: any): Promise<void>;
+    Search(req: any, res: any): Promise<void>;
     adminPanel(): Promise<{
         products: (import(".prisma/client").Product & {
             catrgory: import(".prisma/client").Category[];

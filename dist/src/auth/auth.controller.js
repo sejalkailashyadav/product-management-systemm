@@ -57,9 +57,9 @@ let AuthController = class AuthController {
         return { msg: "sejal" };
     }
     async logout(userId, req, res) {
-        res.clearCookie("jwt_payload");
-        res.redirect("/auth/signin");
-        res.clearCookie("refresh_token", { path: "/" });
+        if (res.redirect("/auth/signin")) {
+            res.clearCookie("jwt_payload");
+        }
         return true;
     }
 };

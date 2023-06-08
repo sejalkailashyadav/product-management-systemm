@@ -9,6 +9,13 @@ export declare class ProductService {
         catrgory: import(".prisma/client").Category[];
     })[]>;
     getAllCategories(): Promise<import(".prisma/client").Category[]>;
+    getAllprodcutandCategorty(): Promise<(import(".prisma/client").Product & {
+        catrgory: import(".prisma/client").Category[];
+    })[]>;
+    search(req: Request, res: Response): Promise<void>;
+    catgoryDropdwon(): Promise<(import(".prisma/client").Product & {
+        catrgory: import(".prisma/client").Category[];
+    })[]>;
     createUser(dto: CreateProductDto, req: Request, category_id: number, file: any): Promise<import(".prisma/client").Product & {
         catrgory: import(".prisma/client").Category[];
     }>;

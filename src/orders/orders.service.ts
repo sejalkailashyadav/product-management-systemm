@@ -83,20 +83,20 @@ export class OrdersService {
      
     // console.log();
 
-    console.log(orders);
+    //console.log(orders);
     return { orders: orders, name: name };
   }
 
   async findOrderByUser(req:Request, res:Response) {
     //console.log(req.headers);
     const { cookie } = req.headers;
-    console.log(cookie);
+   // console.log(cookie);
 
     const user = JSON.parse(
       Buffer.from(cookie.split(".")[1], "base64").toString("utf-8")
     );
 
-    console.log(user.sub, user.email);
+   // console.log(user.sub, user.email);
 
     const userId = user.sub;
 
@@ -109,7 +109,7 @@ export class OrdersService {
       }
       
     })
-    console.log("orderbyuser", orders);
+   // console.log("orderbyuser", orders);
     
     return {orders}
   }

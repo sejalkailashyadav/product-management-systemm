@@ -13,10 +13,12 @@ import {
   Req,
   Request,
   Response,
+  Query,
 } from "@nestjs/common";
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { diskStorage } from "multer";
 import { CreateProductDto } from "./dto/create-product.dto";
+import{ SearchDto } from "./dto/serch-dto"
 import { ProductService } from "../product/product.service";
 import { GetCurrentUserId, Public } from "src/common/decorators";
 import { Express } from "express";
@@ -26,6 +28,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { get, request } from "http";
 import { extname } from "path";
 import { Cart } from '@prisma/client';
+import { log } from "console";
 @Controller("Product")
 export class ProductController {
   constructor(
@@ -56,10 +59,10 @@ export class ProductController {
   @Get("/try")
   @Render("addtocart")
   @Get()
-Data() {
+  Data() {
     // console.log("psss");
 
-    return {msg  : "hrjknhk"}
+    return { msg: "hrjknhk" };
   }
   // @Render('create_product')
   productData() {
@@ -121,24 +124,49 @@ Data() {
     const { categoryId } = req.body;
     const category_id = categoryId[0];
 
-    console.log("fileeeeeeeeeeee");
-    console.log(file);
+    // console.log("fileeeeeeeeeeee");
+    // console.log(file);
 
     await this.productService.createUser(dto, res, category_id, file);
     return res.redirect("/product/all"); // Redirect to the user panel after adding a user
   }
 
-  @Public()
-  @Post("/search")
-  async userPanell() {
-    try {
-      const products = await this.productService.getAllprodcut();
-      const categories = await this.categoriesService.getAllCategories();
-      const cart = {};
-      return { products, categories, cart }; // Pass the products data to the view
-    } catch (error) {
-      throw error;
-    }
+
+  //category dropdown 
+   @Public()
+   @Post("/categoryDropdown")
+async catgoryDropdwon(
+    @Response() res,
+    @Request() req,
+  ) { 
+    const { categoryId } = req.body;
+    const category_id = categoryId[0];
+
+    console.log(category_id);
+
+    // await this.productService.createUser(dto, res, category_id, file);
+    // return res.redirect("/product/all"); // Redirect to the user panel after adding a user
+  }
+
+  // @Public()
+  // @Post("/search")
+  // async userPanell(@Req() req,@Res() res) {
+  //   console.log(req.dody);
+  //   const search = req.body;
+  //   if (Object.keys(search).length) {
+  //     return this.productService.getAllTextwithFilter(search);
+  //   } else {
+  //     return this.productService.getAllprodcutandCategorty;
+  //   }
+  // }
+
+  @Post("search-product")
+  async Search(@Req() req, @Res() res) {
+    console.log("user............", req.query.data);
+
+    const data = await this.productService.search(req.query, res);
+
+    res.send(data);
   }
 
   //category-product for dmin-panle

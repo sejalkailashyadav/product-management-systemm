@@ -21,6 +21,7 @@
       --grey2: #e9d7d3;
     }
 
+
     /* Basic Reset */
     *,
     *::before,
@@ -101,7 +102,7 @@ Navigation
       height: 6rem;
       line-height: 6rem;
     }
-   
+
     .nav-center {
       justify-content: space-between;
     }
@@ -1431,15 +1432,17 @@ Hero Media Query
     .search-container {
       display: flex;
       justify-content: center;
-    
+
     }
+
     .nav-center {
-          margin-top: 20px !important;
-      }
-      .product-item img {
-    height: 300px;
-    width: 300px;
-}
+      margin-top: 20px !important;
+    }
+
+    .product-item img {
+      height: 300px;
+      width: 300px;
+    }
 
     .search-box {
       display: flex;
@@ -1468,34 +1471,43 @@ Hero Media Query
       font-size: 16px;
       margin-left: 10px;
     }
+
     .nav-center {
-    justify-content: space-between;
-}
-.d-flex {
-    display: flex;
-    align-items: center;
-}
-.container {
-    max-width: 114rem;
-    margin: 0 auto;
-    padding: 0 3rem;
-}
-*, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
-}
- .card img#zoom {
-    height: 200px;
-    width: 200px;
-}
-div {
-    display: block;
-}
-.navigation {
-    height: 6rem;
-    line-height: 6rem;
-}
+      justify-content: space-between;
+    }
+
+    .d-flex {
+      display: flex;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 114rem;
+      margin: 0 auto;
+      padding: 0 3rem;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: inherit;
+    }
+
+    .card img#zoom {
+      height: 200px;
+      width: 200px;
+    }
+
+    div {
+      display: block;
+    }
+
+    .navigation {
+      height: 6rem;
+      line-height: 6rem;
+    }
   </style>
   <title>Product management system</title>
 </head>
@@ -1511,8 +1523,28 @@ div {
   <div class="navigation">
     <div class="nav-center container d-flex">
       <a href="index.html" class="logo"></a>
+      <!-- slider -->
+
+
 
       <ul class="nav-list d-flex">
+        <li class="nav-item">
+          <% categories.forEach(function(category) { %>
+            <form action="/Product/categoryDropdown/<%= category.id %>" method="POST">
+              <!-- <input type="hidden"  id="categoryId"> -->
+              <% }); %>
+
+                <label for="category">Category:</label>
+                <select class="form-select" aria-label="Default select example" id="categoryId" name="categoryId"
+                  onclick="selectDropDown(this)">
+                  <% categories.forEach(function(category) { %>
+                    <option value="<%= category.id %>">
+                      <%= category.category_name %>
+                    </option>
+                    <% }); %>
+                </select>
+
+        </li>
         <li class="nav-item">
           <a href="/Product/user_product" class="nav-link">Home</a>
         </li>
@@ -1520,16 +1552,16 @@ div {
         <li class="nav-item">
           <a href="/auth/logout" class="nav-link">Logout</a>
         </li>
-</ul>
-        <div class="search-container">
-          <div class="search-box">
-            <input type="text" placeholder="Search...">
-            <button type="submit">Search</button>
-          </div>
+      </ul>
+      <div class="search-container">
+        <div class="search-box">
+          <input type="text" placeholder="Search...">
+          <button type="submit">Search</button>
         </div>
+      </div>
 
-        <div class="icons d-flex">
-          <!-- <a href="login.html" class="icon">
+      <div class="icons d-flex">
+        <!-- <a href="login.html" class="icon">
             <i class="bx bx-user"></i>
           </a>
           <div class="icon">
@@ -1539,15 +1571,15 @@ div {
             <i class="bx bx-heart"></i>
             <span class="d-flex">0</span>
           </div> -->
-          <a href="/cart/cart_page" class="icon">
-            <i class="bx bx-cart"></i>
-            <!-- <span class="d-flex">0</span> -->
-          </a>
-        </div>
+        <a href="/cart/cart_page" class="icon">
+          <i class="bx bx-cart"></i>
+          <!-- <span class="d-flex">0</span> -->
+        </a>
+      </div>
 
-        <div class="hamburger">
-          <i class="bx bx-menu-alt-left"></i>
-        </div>
+      <div class="hamburger">
+        <i class="bx bx-menu-alt-left"></i>
+      </div>
     </div>
   </div>
 
@@ -1560,14 +1592,14 @@ div {
       <% for(var i=0;i<products.length;i++) {%>
 
         <div class="product-item">
-          
-            <a href="" class="product-thumb">
-              <a href="/Product/product/<%=products[i].id%>"><img src="/<%=products[i].product_image%>" alt="" /></a>
-            </a>
-            <span class="discount">
-              <%=products[i].catrgory[0].category_name%>
-            </span>
-         
+
+          <a href="" class="product-thumb">
+            <a href="/Product/product/<%=products[i].id%>"><img src="/<%=products[i].product_image%>" alt="" /></a>
+          </a>
+          <span class="discount">
+            <%=products[i].catrgory[0].category_name%>
+          </span>
+
           <div class="product-info">
             <span>
               <%=products[i].product_name%>
@@ -1598,7 +1630,69 @@ div {
     <!-- Custom Script -->
     <script src="/js/index.js"></script>
     <script>
-      const addToCart = async (pid, price) => {
+
+// to show category wise dataa
+async function selectDropDown() {
+        const selectedValue = document.getElementById('categoryId').value;
+        //console.log(selectedValue)
+        const response = await fetch(`/Product/categoryDropdown/${selectedValue}`)
+        allproductdata = await response.json();
+
+        if (allproductdata.status === 200) {
+          let userArray = []
+          userArray = allproductdata.data
+          document.getElementById('res').innerHTML = userArray.length;
+          let html = '';
+          userArray.map((elnment, i)=> {
+            letcategrydata = '';
+            htmldata += `  <section class="section product-detail">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-4">
+          <div class="card">
+            <img src="/${elnment.product_image}" id="zoom" alt="" />
+            <!-- <img class="card-img-top" src="${elnment.product_image}" alt="Product Image"> -->
+           
+          </div>
+        </div>
+<div class="col-md-6">
+<div class="card-body">
+  <h5 class="card-title">
+    <h2 class="space">Product name : ${elnment.product_name}
+    </h2> 
+  </h5>
+  <h1 class="space">Category :${elnment.catrgory[0].category_name}
+  </h1>
+  </p>
+  <p class="space">Price: ${elnment.product_price}
+  </p>
+  <p class="card-text">
+    <!-- <p>${elnment.product_description}</p>   -->
+  </p>
+
+  <form class="form">
+    Enter Quantity : <input type="text" placeholder="1" id="quantity" value="1" />
+       <a class="addCart" onclick="return addToCart(${elnment.id}, ${elnment.product_price})">Add To
+      Cart</a>
+  </form>
+
+</div>
+</div>
+      </div>
+    </div>
+  </section>
+`
+
+            htmldata += letcategrydata
+          })
+          let resultdata = document.querySelector('.coldata');
+          resultdata.innerHTML = htmldata;
+        } 
+      }
+
+//add to cart 
+const addToCart = async (pid, price) => {
         // console.log("hello add to cart");
 
         // console.log(product.product_price);
@@ -1615,10 +1709,83 @@ div {
           quantity: 1,
           total: price
         })
-       // console.log("res", res);
+        // console.log("res", res);
 
       }
-    </script>
+
+//show all product on home page 
+async function showallproduct(){
+  const response = await fetch(`/Product/getallproduct?sortType=asc`);
+  allproductdata = await response.json();
+     if (allProductData.status === 200) {
+    let userArray = []
+    userArray = allProductData.data
+    document.getElementById('res').innerHTML = userArray.length;
+    let htmldata = '';
+    userArray.map((element, i) => {
+      let categoryhtml = '';
+      htmldata += `
+            <div class=" offset-md-0 offset-sm-1 border m-1" >
+            <div class="card mb-3">
+                <img class="card-img-top imgwidth" src="/uploads/${element.image}">
+                <div class="card-body ">
+                    <h5><b>
+                        ${element.ProductName}
+                        </b></h5>
+                    <div class="d-flex flex-row ">
+                        <div class="product-description">
+                            <p>
+                            ${element.description}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-row ">
+                        <div class="product-tags">
+                            <p>Categories:`
+
+      element.categoryNames.forEach(function (category) {
+        categoryhtml += `<span class="tag">
+                   ${category}
+                </span>`
+      })
+      categoryhtml += ` </p>
+                       </div>
+                    </div>
+                    <div class="d-flex flex-row ">
+                        <div class="text-muted">₹  ${element.price}
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row ">
+                     <a class="btn btn-primary w-100 rounded " id=" ${element.id}" onclick="addToCart(this)">Add to
+                                cart</a>
+                    </div>
+                </div>
+            </div>
+        </div><br />
+        `
+      htmldata += categoryhtml
+    });
+    let resultdata = document.querySelector('.coldata');
+    resultdata.innerHTML = htmldata;
+  }
+}
+productListing()
+
+async function shwoData()
+{
+  const response = await fetch(`/category/allcategory`);
+  alluserdata  = await response.json();
+  if(alluserdata=== 200)
+  {
+    let userArray = []
+    userArray = alluserdata.data
+    let htmldata = '';
+    let resultdata = document.querySelector('#category-deopdown');
+  }
+}
+
+</script>
 </body>
 
 </html>
