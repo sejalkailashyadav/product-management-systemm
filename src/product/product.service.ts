@@ -84,15 +84,15 @@ export class ProductService {
   }
   //category dropdowm
 
-  async catgoryDropdwon() {
-    return await this.prismaSerivce.product.findMany({
-      where: { id: +id },
-      data :{
+  // async catgoryDropdwon() {
+  //   return await this.prismaSerivce.product.findMany({
+  //     where: { id: +id },
+  //     data :{
             
-      },
-      include: { catrgory: true },
-    });
-  }
+  //     },
+  //     include: { catrgory: true },
+  //   });
+  // }
 
 
 

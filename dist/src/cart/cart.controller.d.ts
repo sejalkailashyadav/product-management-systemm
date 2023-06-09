@@ -7,8 +7,8 @@ export declare class CartController {
     create(createCartDto: CreateCartDto, req: any, res: any): import(".prisma/client").Prisma.Prisma__CartClient<import(".prisma/client").Cart, never>;
     getCartPage(req: any, res: any): Promise<{
         carts: (import(".prisma/client").Cart & {
-            user: import(".prisma/client").User;
             product: import(".prisma/client").Product;
+            user: import(".prisma/client").User;
         })[];
     }>;
     findAll(): void;
