@@ -35,7 +35,6 @@ export declare class ProductController {
     }>;
     insertUser(dto: CreateProductDto, res: any, req: any, file: any): Promise<any>;
     catgoryDropdwon(res: any, req: any): Promise<void>;
-    Search(req: any, res: any): Promise<void>;
     adminPanel(): Promise<{
         products: (import(".prisma/client").Product & {
             catrgory: import(".prisma/client").Category[];
@@ -48,4 +47,5 @@ export declare class ProductController {
     editUser(id: number, product_name: string, product_description: string, product_price: string, categoryId: number, req: any): Promise<{
         updatedUser: void;
     }>;
+    Search(req: any, res: any): Promise<void>;
 }

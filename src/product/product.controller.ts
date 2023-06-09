@@ -130,12 +130,10 @@ export class ProductController {
     await this.productService.createUser(dto, res, category_id, file);
     return res.redirect("/product/all"); // Redirect to the user panel after adding a user
   }
-
-
   //category dropdown 
    @Public()
    @Post("/categoryDropdown")
-async catgoryDropdwon(
+   async catgoryDropdwon(
     @Response() res,
     @Request() req,
   ) { 
@@ -146,7 +144,7 @@ async catgoryDropdwon(
 
     // await this.productService.createUser(dto, res, category_id, file);
     // return res.redirect("/product/all"); // Redirect to the user panel after adding a user
-  }
+   }
 
   // @Public()
   // @Post("/search")
@@ -160,16 +158,9 @@ async catgoryDropdwon(
   //   }
   // }
 
-  @Post("search-product")
-  async Search(@Req() req, @Res() res) {
-    console.log("user............", req.query.data);
-
-    const data = await this.productService.search(req.query, res);
-
-    res.send(data);
-  }
-
+ 
   //category-product for dmin-panle
+  
   @Public()
   @Get("/all")
   @Render("product")
@@ -214,4 +205,13 @@ async catgoryDropdwon(
     );
     return { updatedUser: updatedUser };
   }
+
+  @Public()
+  @Post('search-product')
+  async Search(@Req() req, @Res() res) {
+    const data = await this.productService.search(req.query, res);
+    res.send(data);
+  }
+
+
 }

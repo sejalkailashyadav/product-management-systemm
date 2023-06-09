@@ -4,7 +4,6 @@ import { Request, Response } from "express";
 export declare class ProductService {
     private readonly prismaSerivce;
     constructor(prismaSerivce: PrismaService);
-    create(createProductDto: CreateProductDto): string;
     getAllprodcut(): Promise<(import(".prisma/client").Product & {
         catrgory: import(".prisma/client").Category[];
     })[]>;
@@ -12,7 +11,10 @@ export declare class ProductService {
     getAllprodcutandCategorty(): Promise<(import(".prisma/client").Product & {
         catrgory: import(".prisma/client").Category[];
     })[]>;
+<<<<<<< HEAD
     search(req: Request, res: Response): Promise<void>;
+=======
+>>>>>>> b5ac1e61771cdc6ac9ff42d4f6232f36620398f6
     createUser(dto: CreateProductDto, req: Request, category_id: number, file: any): Promise<import(".prisma/client").Product & {
         catrgory: import(".prisma/client").Category[];
     }>;
@@ -38,4 +40,7 @@ export declare class ProductService {
     findProduct(id: number): Promise<import(".prisma/client").Product & {
         catrgory: import(".prisma/client").Category[];
     }>;
+    search(req: any, res: any): Promise<(import(".prisma/client").Product & {
+        catrgory: import(".prisma/client").Category[];
+    })[]>;
 }

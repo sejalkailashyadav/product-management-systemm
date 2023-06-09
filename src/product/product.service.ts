@@ -3,16 +3,11 @@ import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Request, Response } from "express";
-import { log } from "util";
-import { SearchDto } from "./dto/serch-dto";
-import { tr } from "@faker-js/faker";
 
 @Injectable()
 export class ProductService {
   constructor(private readonly prismaSerivce: PrismaService) {}
-  create(createProductDto: CreateProductDto) {
-    return "This action adds a new product";
-  }
+  
 
   async getAllprodcut() {
     return await this.prismaSerivce.product.findMany({
@@ -46,42 +41,7 @@ export class ProductService {
   //   return tasks;
   // }
 
-  async search(req: Request, res: Response) {
-    try {
-      const search = req.body.search;
-      //  await this.prismaSerivce.product.findMany({
-      //    where: {
-      //      OR: [
 
-      //      ],
-      //    },
-      //    include: { catrgory: true },
-      //  });
-
-      const result = await this.prismaSerivce.product.findMany({
-        where: {
-          OR: [
-            {
-              product_name: {
-                endsWith: search,
-              },
-              product_price: {
-                endsWith: search,
-              },
-              product_description: {
-                endsWith: search,
-              },
-            },
-          ],
-        },
-        include: {
-          catrgory: true,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
   //category dropdowm
 
   // async catgoryDropdwon() {
@@ -93,6 +53,7 @@ export class ProductService {
   //     include: { catrgory: true },
   //   });
   // }
+<<<<<<< HEAD
 
 
 
@@ -105,6 +66,8 @@ export class ProductService {
 
 
 
+=======
+>>>>>>> b5ac1e61771cdc6ac9ff42d4f6232f36620398f6
 
   async createUser(
     dto: CreateProductDto,
@@ -128,7 +91,6 @@ export class ProductService {
     });
     return product;
   }
-
   // update many to many
   async updatedata(
     categoryId: number,
@@ -158,7 +120,6 @@ export class ProductService {
       throw new Error(error);
     }
   }
-
   async editUserById(
     id: number,
     product_name: string,
@@ -184,7 +145,6 @@ export class ProductService {
       include: { catrgory: true },
     });
   }
-
   async deleteproductById(id: number) {
     await this.prismaSerivce.product.delete({
       where: {
@@ -192,7 +152,6 @@ export class ProductService {
       },
     });
   }
-
   async usersAllProducts(req: Request, res: Response) {
     try {
       const products = await this.prismaSerivce.product.findMany({
@@ -255,8 +214,7 @@ export class ProductService {
       throw err;
     }
   }
-
-  async productByCategory(category_name: string, res: Response, req: Request) {
+   async productByCategory(category_name: string, res: Response, req: Request) {
     try {
       const products = await this.prismaSerivce.product.findMany({
         where: {
@@ -285,8 +243,7 @@ export class ProductService {
       throw err;
     }
   }
-
-  async findProduct(id: number) {
+   async findProduct(id: number) {
     try {
       return await this.prismaSerivce.product.findUnique({
         where: { id },
@@ -302,4 +259,45 @@ export class ProductService {
       throw err;
     }
   }
+  //search
+  async search(req, res) {
+    try {
+      const page = req.page || 1;
+      const perPage = 2;
+
+      const skip = page > 0 ? perPage * (page - 1) : 0;
+      const search = await this.prismaSerivce.product.findMany({
+        skip: skip,
+        take: perPage,
+        include: {
+          catrgory: true,
+        },
+        where: {
+          OR: [
+            {
+              product_name: {
+                startsWith: req.data,
+              },
+            },
+
+            {
+              product_description: {
+                startsWith: req.data,
+              },
+            },
+            {
+              product_price: {
+                startsWith: req.data,
+              },
+            },
+          ],
+        },
+      });
+      console.log('searched d', search);
+      return search;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
+
