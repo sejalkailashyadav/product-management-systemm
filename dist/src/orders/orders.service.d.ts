@@ -1,6 +1,6 @@
-import { PrismaService } from '../prisma/prisma.service';
-import { UpdateOrderDto } from './dto/update-order.dto';
-import { Request, Response } from 'express';
+import { PrismaService } from "../prisma/prisma.service";
+import { UpdateOrderDto } from "./dto/update-order.dto";
+import { Request, Response } from "express";
 export declare class OrdersService {
     private prismaService;
     constructor(prismaService: PrismaService);

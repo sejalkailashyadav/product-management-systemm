@@ -25,7 +25,6 @@ export class CategoriesService {
       },
     });
   }
-
   async createCategory(dto: CreateCategoryDto): Promise<Category> {
     return this.prismaService.category.create({
       data: {
@@ -33,7 +32,6 @@ export class CategoriesService {
       },
     });
   }
-
   async editUserById(id: number, dto: CreateCategoryDto, req: Request) {
     await this.prismaService.category.update({
       where: {
@@ -52,9 +50,6 @@ export class CategoriesService {
 
     return updatedcategory;
   }
-
-
-
   async deleteCategory(id: number): Promise<void> {
     await this.prismaService.category.delete({
       where: {
@@ -62,8 +57,6 @@ export class CategoriesService {
       },
     });
   }
-
-
   async findAllCategory(req: Request, res: Response ) {
     const categories = await this.prismaService.category.findMany({
       // include:{

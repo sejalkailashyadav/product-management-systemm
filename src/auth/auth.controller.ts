@@ -10,11 +10,11 @@ import {
   Request,
   Response,
   Req,
-  Res
+  Res,
 } from "@nestjs/common";
-import * as cookieParser from 'cookie-parser';
+import * as cookieParser from "cookie-parser";
 import { Public, GetCurrentUserId, GetCurrentUser } from "../common/decorators";
-import { RtGuard } from "../common/guards";;
+import { RtGuard } from "../common/guards";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto";
 import { Tokens } from "./types";
@@ -77,7 +77,7 @@ export class AuthController {
 
   @Public()
   @Get("forget-password")
-  @Render("forget-password") // Specify the EJS template file to render
+  @Render("forget-password") 
   forget() {
     // Your logic to retrieve data and pass it to the template
     return { msg: "sejal" };
@@ -97,9 +97,8 @@ export class AuthController {
 
   @Public()
   @Get("/dashboard")
-  @Render("darshboard") // Specify the EJS template file to render
+  @Render("darshboard") 
   panell() {
-    // Your logic to retrieve data and pass it to the template
     return { msg: "sejal" };
   }
 
@@ -117,11 +116,30 @@ export class AuthController {
 
   @Public()
   @Get("email-verification")
-  @Render("email-verification") // Specify the EJS template file to render
+  @Render("email-verification") 
   verification() {
     // Your logic to retrieve data and pass it to the template
     return { msg: "sejal" };
   }
+
+  @Public()
+  @Get("/logout")
+  @HttpCode(HttpStatus.OK)
+  async logout(
+    @GetCurrentUserId() userId: number,
+    @Req() req,
+    @Res() res
+  ): Promise<boolean> {
+    //console.log(req.cookies);
+    if (res.redirect("/auth/signin")) {
+      res.clearCookie("jwt_payload");
+    }
+
+    // res.clearCookie("refresh_token", { path: "/" });
+    // console.log(req.cookies);
+    return true;
+  }
+
   // @Public()
   // @Get("google-signup")
   // @UseGuards(AuthGuard("google"))
@@ -133,34 +151,4 @@ export class AuthController {
   // googleAuthRedirect(@Req() req, @Res() res) {
   //   return this.authService.googleLogin(req,res);
   // }
-
-  // @Get("status")
-  // user(@Req() req) {
-  //   console.log(req.user);
-  //   if (req.user) {
-  //     return { msg: "Authenticated" };
-  //   } else {
-  //     return { msg: "Not Authenticated" };
-  //   }
-  // }
-
-  @Public()
-  @Get("/logout")
-  @HttpCode(HttpStatus.OK)
-  async logout(
-    @GetCurrentUserId() userId: number,
-    @Req() req,
-    @Res() res
-  ): Promise<boolean> {
-    //console.log(req.cookies);
-if(  res.redirect("/auth/signin"))
-{
- res.clearCookie("jwt_payload");
-  
-}
-   
-    // res.clearCookie("refresh_token", { path: "/" });
-   // console.log(req.cookies);
-    return true;
-  }
 }

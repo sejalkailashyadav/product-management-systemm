@@ -1530,7 +1530,7 @@ Hero Media Query
 
       <ul class="nav-list d-flex">
         <li class="nav-item">
-         
+
 
         </li>
         <li class="nav-item">
@@ -1540,48 +1540,37 @@ Hero Media Query
         <li class="nav-item">
           <a href="/auth/logout" class="nav-link">Logout</a>
         </li>
-      
-      <li class="nav-item">
-        <div class="search">
-          <label>
-            <input type="text" placeholder="Search here" class="search" id="search" onkeyup="searching()"
-             />
 
-            <ion-icon name="search-outline"></ion-icon>
-          </label>
-        </div>
-      </li>
-    </ul>
+        <li class="nav-item">
+          <div class="search">
+            <label>
+              <input type="text" placeholder="Search here" class="search" id="search" onkeyup="searching()" />
+
+              <ion-icon name="search-outline"></ion-icon>
+            </label>
+          </div>
+        </li>
+      </ul>
 
       <div class="icons d-flex">
-        <!-- <a href="login.html" class="icon">
-            <i class="bx bx-user"></i>
-          </a>
-          <div class="icon">
-            <i class="bx bx-search"></i>
-          </div>
-          <div class="icon">
-            <i class="bx bx-heart"></i>
-            <span class="d-flex">0</span>
-          </div> -->
         <a href="/cart/cart_page" class="icon">
           <i class="bx bx-cart"></i>
-          <!-- <span class="d-flex">0</span> -->
+
         </a>
       </div>
-searc
+
       <div class="hamburger">
         <i class="bx bx-menu-alt-left"></i>
       </div>
     </div>
   </div>
 
-  <!-- All Products -->
+
   <section class="section all-products" id="products">
     <div class="top container">
       <h1>All Products</h1>
     </div>
-    <div class="product-center container"  id="tbody">
+    <div class="product-center container" id="tbody">
       <% for(var i=0;i<products.length;i++) {%>
 
         <div class="product-item">
@@ -1624,8 +1613,8 @@ searc
     <script src="/js/index.js"></script>
     <script>
 
-// to show category wise dataa
-async function selectDropDown() {
+      // to show category wise dataa
+      async function selectDropDown() {
         const selectedValue = document.getElementById('categoryId').value;
         //console.log(selectedValue)
         const response = await fetch(`/Product/categoryDropdown/${selectedValue}`)
@@ -1636,7 +1625,7 @@ async function selectDropDown() {
           userArray = allproductdata.data
           document.getElementById('res').innerHTML = userArray.length;
           let html = '';
-          userArray.map((elnment, i)=> {
+          userArray.map((elnment, i) => {
             letcategrydata = '';
             htmldata += `  <section class="section product-detail">
     <div class="container">
@@ -1681,19 +1670,11 @@ async function selectDropDown() {
           })
           let resultdata = document.querySelector('.coldata');
           resultdata.innerHTML = htmldata;
-        } 
+        }
       }
 
-//add to cart 
-const addToCart = async (pid, price) => {
-        // console.log("hello add to cart");
-
-        // console.log(product.product_price);
-        // e.preventDefault();
-        // console.log(price);
-        // const quantity = document.getElementById('quantity').value;
-        // console.log(quantity);
-        // const price = document.getElementById('price').value;
+      //add to cart 
+      const addToCart = async (pid, price) => {
         const subtotal = quantity * price;
         //console.log(subtotal);
 
@@ -1702,22 +1683,22 @@ const addToCart = async (pid, price) => {
           quantity: 1,
           total: price
         })
-        // console.log("res", res);
+
 
       }
 
-//show all product on home page 
-async function showallproduct(){
-  const response = await fetch(`/Product/getallproduct?sortType=asc`);
-  allproductdata = await response.json();
-     if (allProductData.status === 200) {
-    let userArray = []
-    userArray = allProductData.data
-    document.getElementById('res').innerHTML = userArray.length;
-    let htmldata = '';
-    userArray.map((element, i) => {
-      let categoryhtml = '';
-      htmldata += `
+      //show all product on home page 
+      async function showallproduct() {
+        const response = await fetch(`/Product/getallproduct?sortType=asc`);
+        allproductdata = await response.json();
+        if (allProductData.status === 200) {
+          let userArray = []
+          userArray = allProductData.data
+          document.getElementById('res').innerHTML = userArray.length;
+          let htmldata = '';
+          userArray.map((element, i) => {
+            let categoryhtml = '';
+            htmldata += `
             <div class=" offset-md-0 offset-sm-1 border m-1" >
             <div class="card mb-3">
                 <img class="card-img-top imgwidth" src="/uploads/${element.image}">
@@ -1737,12 +1718,12 @@ async function showallproduct(){
                         <div class="product-tags">
                             <p>Categories:`
 
-      element.categoryNames.forEach(function (category) {
-        categoryhtml += `<span class="tag">
+            element.categoryNames.forEach(function (category) {
+              categoryhtml += `<span class="tag">
                    ${category}
                 </span>`
-      })
-      categoryhtml += ` </p>
+            })
+            categoryhtml += ` </p>
                        </div>
                     </div>
                     <div class="d-flex flex-row ">
@@ -1757,48 +1738,44 @@ async function showallproduct(){
             </div>
         </div><br />
         `
-      htmldata += categoryhtml
-    });
-    let resultdata = document.querySelector('.coldata');
-    resultdata.innerHTML = htmldata;
-  }
-}
-productListing()
+            htmldata += categoryhtml
+          });
+          let resultdata = document.querySelector('.coldata');
+          resultdata.innerHTML = htmldata;
+        }
+      }
+      productListing()
 
-async function shwoData()
-{
-  const response = await fetch(`/category/allcategory`);
-  alluserdata  = await response.json();
-  if(alluserdata=== 200)
-  {
-    let userArray = []
-    userArray = alluserdata.data
-    let htmldata = '';
-    let resultdata = document.querySelector('#category-deopdown');
-  }
+      async function shwoData() {
+        const response = await fetch(`/category/allcategory`);
+        alluserdata = await response.json();
+        if (alluserdata === 200) {
+          let userArray = []
+          userArray = alluserdata.data
+          let htmldata = '';
+          let resultdata = document.querySelector('#category-deopdown');
+        }
 
 
-}
+      }
+
+      //seaarch 
+      async function searching() {
+
+        var val = document.getElementById("search").value
+        console.log(val)
+        console.log(typeof val);
+        var set = '';
+        await axios.post(`/Product/search-product?data=${val}`).then(function (response) {
 
 
 
-//seaarch 
-async function searching() {
-
-  var val = document.getElementById("search").value
-  console.log(val)
-  console.log(typeof val);
-  var set = '';
-  await axios.post(`/Product/search-product?data=${val}`).then(function (response) {
- 
-
-
-    for (var i = 0; i < response.data.length; i++) {
-      set += `
+          for (var i = 0; i < response.data.length; i++) {
+            set += `
       <div class="product-item">
 
         <a href="" class="product-thumb">
-          <img src="/${response.data[i].image_url}" alt="" /></a>
+          <img src="/${response.data[i].product_image}" alt="" /></a>
         </a>
         <span class="discount">
           <span class="discount">${response.data[i].catrgory && response.data[i].catrgory.length > 0 ? response.data[i].catrgory[0].category_name : ''}</span>
@@ -1815,14 +1792,14 @@ async function searching() {
         </div>
       </div>`
 
-    }
+          }
 
-    document.getElementById("tbody").innerHTML = set;
-  });
+          document.getElementById("tbody").innerHTML = set;
+        });
 
-}
+      }
 
-</script>
+    </script>
 </body>
 
 </html>

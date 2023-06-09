@@ -21,9 +21,11 @@ let OrdersService = class OrdersService {
             const { cookie } = req.headers;
             const user = JSON.parse(Buffer.from(cookie.split(".")[1], "base64").toString("utf-8"));
             const userId = user.sub;
-            const subtotal = await this.prismaService.cart.findMany({ where: {
-                    userId: userId
-                } });
+            const subtotal = await this.prismaService.cart.findMany({
+                where: {
+                    userId: userId,
+                },
+            });
             var finaltotal = 0;
             for (var i = 0; i < subtotal.length; i++) {
                 var finaltotal = finaltotal + subtotal[i].total;
@@ -31,8 +33,8 @@ let OrdersService = class OrdersService {
             const order = await this.prismaService.order.create({
                 data: {
                     total: finaltotal,
-                    userId: userId
-                }
+                    userId: userId,
+                },
             });
             res.send(order);
         }
@@ -56,11 +58,11 @@ let OrdersService = class OrdersService {
         const userId = user.sub;
         const orders = await this.prismaService.order.findMany({
             where: {
-                userId: userId
+                userId: userId,
             },
             include: {
-                orderItems: true
-            }
+                orderItems: true,
+            },
         });
         return { orders };
     }

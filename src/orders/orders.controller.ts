@@ -43,10 +43,6 @@ export class OrdersController {
     return this.ordersService.findOrderByUser(req,res);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.ordersService.findOne(id);
-  // }
   @Public()
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {

@@ -25,7 +25,7 @@
           return "data deleted"
         });
 
-      //   console.log("hello9");
+        //   console.log("hello9");
         window.location.reload();
       } else {
         alert("not deleted");
@@ -178,14 +178,14 @@
 
                   <label for="categoryId">Category:</label>
                   <select class="form-select" aria-label="Default select example" id="categoryId" name="categoryId">
-                 
+
                     <% categories.forEach(function(category) { %>
                       <option value="<%= category.id %>">
                         <%= category.category_name %>
                       </option>
                       <% }); %>
                   </select>
-  <input type="hidden" name="categoryId">
+                  <input type="hidden" name="categoryId">
                   <div class="form-group">
                     <label for="edit-product-name">Product Name</label>
                     <input type="text" class="form-control" id="edit-product-name" name="product_name"

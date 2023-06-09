@@ -53,21 +53,6 @@ export class ProductService {
   //     include: { catrgory: true },
   //   });
   // }
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-
-
-
-
-=======
->>>>>>> b5ac1e61771cdc6ac9ff42d4f6232f36620398f6
 
   async createUser(
     dto: CreateProductDto,
@@ -186,18 +171,9 @@ export class ProductService {
   }
   async findAllProducts() {
     try {
-      // const { draw, search, order } = req.query;
-
       const query = {
         include: { catrgory: true },
       };
-      // const products =  await this.prismaService.product.findMany({
-      //   include:{
-      //     categories: true
-      //   }
-
-      // })
-
       return await this.prismaSerivce.product.findMany(query);
 
       // console.log("products",products);
@@ -259,7 +235,7 @@ export class ProductService {
       throw err;
     }
   }
-  //search
+
   async search(req, res) {
     try {
       const page = req.page || 1;

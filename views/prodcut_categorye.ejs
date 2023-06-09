@@ -252,27 +252,15 @@
 
     <script>
         function orderProduct(productId) {
-            // Perform the order functionality here
-          //  console.log('Order Product:', productId);
         }
-
-
         function addToCart(productId) {
             // Get the current quantity from the DOM
             const quantityElement = document.getElementById(`quantity${productId}`);
             let quantity = parseInt(quantityElement.innerText);
-
-
-            // Increment the quantity
             quantity++;
             quantityElement.innerText = quantity;
-
-
-            // Perform the add to cart functionality here
-            //console.log('Add to Cart - Product:', productId, 'Quantity:', quantity);
         }
-        //for quqantity increase
-
+    
         $(document).ready(function () {
 
             var quantitiy = 0;

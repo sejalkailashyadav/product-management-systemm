@@ -41,6 +41,3 @@ async function createProductwithCat() {
     });
   prisma.$transaction(productpromise);
 }
-
-//console.log("many-to-many");
-//console.log(JSON.stringify(createProductwithCat(), null, 2));

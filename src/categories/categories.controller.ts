@@ -39,7 +39,6 @@ export class CategoriesController {
     return this.categoriesService.editcategoryById(Number(id), dto, res, req);
   }
 
-  
   @Public()
   @Post('/delete/:id')
   async deleteCategory(@Param('id') id: number, @Res() res) {

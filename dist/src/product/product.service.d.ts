@@ -11,10 +11,6 @@ export declare class ProductService {
     getAllprodcutandCategorty(): Promise<(import(".prisma/client").Product & {
         catrgory: import(".prisma/client").Category[];
     })[]>;
-<<<<<<< HEAD
-    search(req: Request, res: Response): Promise<void>;
-=======
->>>>>>> b5ac1e61771cdc6ac9ff42d4f6232f36620398f6
     createUser(dto: CreateProductDto, req: Request, category_id: number, file: any): Promise<import(".prisma/client").Product & {
         catrgory: import(".prisma/client").Category[];
     }>;

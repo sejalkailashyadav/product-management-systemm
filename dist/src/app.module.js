@@ -19,6 +19,7 @@ const product_module_1 = require("./product/product.module");
 const admin_module_1 = require("./admin/admin.module");
 const cart_module_1 = require("./cart/cart.module");
 const orders_module_1 = require("./orders/orders.module");
+const rol_permission_module_1 = require("./rol-permission/rol-permission.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -35,6 +36,7 @@ AppModule = __decorate([
             admin_module_1.AdminModule,
             cart_module_1.CartModule,
             orders_module_1.OrdersModule,
+            rol_permission_module_1.RolPermissionModule,
         ],
         providers: [
             {

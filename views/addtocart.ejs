@@ -167,28 +167,14 @@
 <script>
 
     async function removeItem(id) {
-        //console.log("remoive");
-
         axios.delete(`/cart/${id}`).then(function (response) { return "data deleted" });
-
-
         location.assign("/cart/cart_page")
-
-
-        //  location.reload();
-        // console.log("removed");
     }
 
     async function placeOrder() {
         const finalTotal = document.getElementById('finaltotal').innerText;
-        // console.log(finalTotal);
-
         if (finalTotal > 0) {
             confirm(" Order  placed!", "success")
-
-            // toastr.success('Have fun storming the castle!', 'Miracle Max Says')
-
-
             const res = await axios.post('/orders');
             // console.log("order", res);
 
@@ -198,14 +184,6 @@
             // console.log('pByCart', pByCart);
             const data = pByCart.data;
             await axios.post(`/orderitems/${orderId}`, data)
-            // console.log("inserted into orderitem");
-
-
-
-            // swal("Good job!", "You clicked the button!", "success");
-            // window.location.assign("/orders/orderpage");
-
-            // console.log("order placed");
         } else {
             confirm("Your cart is empty!")
 

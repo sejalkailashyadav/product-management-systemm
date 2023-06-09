@@ -231,24 +231,14 @@
             // Get the current quantity from the DOM
             const quantityElement = document.getElementById(`quantity${productId}`);
             let quantity = parseInt(quantityElement.innerText);
-
-
-            // Increment the quantity
             quantity++;
             quantityElement.innerText = quantity;
-
-
-            // Perform the add to cart functionality here
-            //console.log('Add to Cart - Product:', productId, 'Quantity:', quantity);
         }
-        //for quqantity increase
 
         $(document).ready(function () {
 
             var quantitiy = 0;
             $('.quantity-right-plus').click(function (e) {
-
-                // Stop acting like a button
                 e.preventDefault();
                 // Get the field name
                 var quantity = parseInt($('#quantity').val());
@@ -268,9 +258,6 @@
                 // Get the field name
                 var quantity = parseInt($('#quantity').val());
 
-                // If is not undefined
-
-                // Increment
                 if (quantity > 0) {
                     $('#quantity').val(quantity - 1);
                 }

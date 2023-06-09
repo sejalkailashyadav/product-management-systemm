@@ -10,10 +10,7 @@ import { ProductModule } from './product/product.module';
 import { AdminModule } from './admin/admin.module';
 import { CartModule } from './cart/cart.module';
 import { OrdersModule } from './orders/orders.module';
-
-
-
-
+import { RolPermissionModule } from './rol-permission/rol-permission.module';
 @Module({
   imports: [
     PrismaModule,
@@ -27,6 +24,7 @@ import { OrdersModule } from './orders/orders.module';
     AdminModule,
     CartModule,
     OrdersModule,
+    RolPermissionModule,
   ],
   providers: [
     {

@@ -3,7 +3,6 @@ import {
   Injectable,
   Req,
   Res,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
@@ -15,7 +14,7 @@ import { AuthDto } from './dto';
 import { JwtPayload, Tokens } from './types';
 import { randomBytes } from 'crypto';
 import * as nodemailer from 'nodemailer';
-import { rmSync } from 'fs';
+
 
 @Injectable()
 export class AuthService {
@@ -176,11 +175,13 @@ export class AuthService {
 
     return tokens;
   }
+
   async getAllprodcut() {
     return await this.prisma.product.findMany({
       include: { catrgory: true },
     });
   }
+  
   async getAllCategories() {
     return this.prisma.category.findMany();
   }
