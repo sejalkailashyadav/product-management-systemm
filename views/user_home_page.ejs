@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!-- Box icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
   <!-- Custom StyleSheet -->
@@ -1529,20 +1530,7 @@ Hero Media Query
 
       <ul class="nav-list d-flex">
         <li class="nav-item">
-          <% categories.forEach(function(category) { %>
-            <form action="/Product/categoryDropdown/<%= category.id %>" method="POST">
-              <!-- <input type="hidden"  id="categoryId"> -->
-              <% }); %>
-
-                <label for="category">Category:</label>
-                <select class="form-select" aria-label="Default select example" id="categoryId" name="categoryId"
-                  onclick="selectDropDown(this)">
-                  <% categories.forEach(function(category) { %>
-                    <option value="<%= category.id %>">
-                      <%= category.category_name %>
-                    </option>
-                    <% }); %>
-                </select>
+         
 
         </li>
         <li class="nav-item">
@@ -1552,13 +1540,18 @@ Hero Media Query
         <li class="nav-item">
           <a href="/auth/logout" class="nav-link">Logout</a>
         </li>
-      </ul>
-      <div class="search-container">
-        <div class="search-box">
-          <input type="text" placeholder="Search...">
-          <button type="submit">Search</button>
+      
+      <li class="nav-item">
+        <div class="search">
+          <label>
+            <input type="text" placeholder="Search here" class="search" id="search" onkeyup="searching()"
+             />
+
+            <ion-icon name="search-outline"></ion-icon>
+          </label>
         </div>
-      </div>
+      </li>
+    </ul>
 
       <div class="icons d-flex">
         <!-- <a href="login.html" class="icon">
@@ -1588,7 +1581,7 @@ Hero Media Query
     <div class="top container">
       <h1>All Products</h1>
     </div>
-    <div class="product-center container">
+    <div class="product-center container"  id="tbody">
       <% for(var i=0;i<products.length;i++) {%>
 
         <div class="product-item">
@@ -1783,6 +1776,50 @@ async function shwoData()
     let htmldata = '';
     let resultdata = document.querySelector('#category-deopdown');
   }
+
+
+}
+
+
+
+//seaarch 
+async function searching() {
+
+  var val = document.getElementById("search").value
+  console.log(val)
+  console.log(typeof val);
+  var set = '';
+  await axios.post(`/Product/search-product?data=${val}`).then(function (response) {
+ 
+
+
+    for (var i = 0; i < response.data.length; i++) {
+      set += `
+      <div class="product-item">
+
+        <a href="" class="product-thumb">
+          <img src="/${response.data[i].image_url}" alt="" /></a>
+        </a>
+        <span class="discount">
+          <span class="discount">${response.data[i].catrgory && response.data[i].catrgory.length > 0 ? response.data[i].catrgory[0].category_name : ''}</span>
+        </span>
+
+        <div class="product-info">
+          <span>
+            ${response.data[i].product_name}
+          </span>
+          <a href="/Product/product/${response.data[i].id}">${response.data[i].product_description}
+          </a>
+          ${response.data[i].product_price}
+          </h4>
+        </div>
+      </div>`
+
+    }
+
+    document.getElementById("tbody").innerHTML = set;
+  });
+
 }
 
 </script>
