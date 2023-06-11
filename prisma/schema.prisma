@@ -10,104 +10,72 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
- model User {
-  id                     Int          @id @default(autoincrement())
-  name                   String
-  email                  String
-  password_hash          String
-  reset_token            String?
-  reset_token_expiry     DateTime?
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String ?
+  email    String ? @unique
+  password String ?
+  googleid String?
+  hashedRt String ?
+  resetToken  String? 
+  otp Int  @default(0)
+  isadmin  Boolean ? @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  roles                  Role[]       @relation("UserRole")
   carts                  Cart[]
   orders                 Order[]
 }
 
-model Role {
-  id                     Int          @id @default(autoincrement())
-  name                   String
-
-  users                  User[]       @relation("UserRole")
-  permissions            Permission[] @relation("RolePermission")
-}
-
-model Permission {
-  id                     Int          @id @default(autoincrement())
-  name                   String
-
-  roles                  Role[]       @relation("RolePermission")
-}
-
-model UserRole {
-  user_id                Int
-  role_id                Int
-
-  user                   User         @relation(fields: [user_id], references: [id])
-  role                   Role         @relation(fields: [role_id], references: [id])
-
-  @@id([user_id, role_id])
-}
-
 model Product {
-  id                     Int          @id @default(autoincrement())
-  name                   String
-  description            String?
-  price                  Float
-
-  categories             Category[]   @relation("ProductCategory")
-  carts                  Cart[]
-  order_items            OrderItem[]
+  id       Int  @id @default(autoincrement())
+  product_name  String
+  product_description String
+  product_price  String
+  product_image  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  catrgory   Category[]
+  carts       Cart[]
+  orderitems OrderItem[]
 }
 
 model Category {
-  id                     Int          @id @default(autoincrement())
-  name                   String
-
-  products               Product[]    @relation("ProductCategory")
+  id    Int    @id @default(autoincrement())
+  category_name   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product Product[] 
 }
 
-model ProductCategory {
-  product_id             Int
-  category_id            Int
-
-  product                Product      @relation(fields: [product_id], references: [id])
-  category               Category     @relation(fields: [category_id], references: [id])
-
-  @@id([product_id, category_id])
-}
 
 model Cart {
   id                     Int          @id @default(autoincrement())
-  user_id                Int
-  product_id             Int
+  userId              Int
+  productId             Int
   quantity               Int
-
-  user                   User         @relation(fields: [user_id], references: [id])
-  product                Product      @relation(fields: [product_id], references: [id])
-
-  @@unique([user_id, product_id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  total Int
+  user                   User         @relation(fields: [userId], references: [id],onDelete: Cascade)
+  product                 Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
-model Order {
-  id                     Int          @id @default(autoincrement())
-  user_id                Int
-  order_date             DateTime
-  total_amount           Float
-
-  user                   User         @relation(fields: [user_id], references: [id])
-  order_items            OrderItem[]
+model Order{
+  id        Int    @id @default(autoincrement())
+  total Float
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete:Cascade)
+  orderItems OrderItem[]
 }
 
-model OrderItem {
-  order_id               Int
-  product_id             Int
-  quantity               Int
-  price                  Float
-
-  order                  Order        @relation(fields: [order_id], references: [id])
-  product                Product      @relation(fields: [product_id], references: [id])
-
-  @@id([order_id, product_id])
+model OrderItem{
+  id Int @id @default(autoincrement())
+  quantity Int
+  price Float
+  productId Int
+  product Product @relation(fields: [productId], references: [id], onDelete:Cascade)
+  orderId Int
+  order Order @relation(fields: [orderId], references: [id], onDelete:Cascade)
 }
-
 
