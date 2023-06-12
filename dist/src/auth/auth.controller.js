@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const decorators_1 = require("../common/decorators");
-const guards_1 = require("../common/guards");
 const auth_service_1 = require("./auth.service");
 const dto_1 = require("./dto");
 let AuthController = class AuthController {
@@ -49,9 +48,6 @@ let AuthController = class AuthController {
     panell() {
         return { msg: "sejal" };
     }
-    refreshTokens(userId, refreshToken, res) {
-        return this.authService.refreshTokens(userId, refreshToken, res);
-    }
     verification() {
         return { msg: "sejal" };
     }
@@ -79,7 +75,7 @@ __decorate([
     __param(2, (0, common_1.Response)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [dto_1.AuthDto, Object, Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signupLocal", null);
 __decorate([
     (0, decorators_1.Public)(),
@@ -98,7 +94,7 @@ __decorate([
     __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [dto_1.AuthDto, Object, Object]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signinLocal", null);
 __decorate([
     (0, decorators_1.Public)(),
@@ -149,18 +145,6 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "panell", null);
-__decorate([
-    (0, decorators_1.Public)(),
-    (0, common_1.UseGuards)(guards_1.RtGuard),
-    (0, common_1.Post)("refresh"),
-    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    __param(0, (0, decorators_1.GetCurrentUserId)()),
-    __param(1, (0, decorators_1.GetCurrentUser)("refreshToken")),
-    __param(2, (0, common_1.Response)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String, Object]),
-    __metadata("design:returntype", Promise)
-], AuthController.prototype, "refreshTokens", null);
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Get)("email-verification"),

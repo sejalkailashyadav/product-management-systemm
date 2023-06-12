@@ -3,6 +3,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { Public } from 'src/common/decorators';
+import { Role } from 'src/auth/entities/role.enum';
+import { Roles } from 'src/auth/entities/roles.decorator';
+import { Permission } from 'src/auth/entities/permissions.enum';
+import { Permissions } from 'src/auth/entities/permissions.decorator'
 
 @Public()
 @Controller('Category')
@@ -13,6 +17,7 @@ export class CategoriesController {
   ) {}
 
   @Public()
+  @Roles(Role.ADMIN)
   @Get('/Categories')
   @Render('Category_add')
   async getAllCategories() {

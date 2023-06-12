@@ -19,12 +19,26 @@ model User {
   hashedRt String ?
   resetToken  String? 
   otp Int  @default(0)
-  isadmin  Boolean ? @default(false)
+  // isadmin   Boolean ? @default(false)
+  role      Role?     @relation(fields: [roleId], references: [id]) 
+  roleId    Int?      @default(1)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   carts                  Cart[]
   orders                 Order[]
+}
+model Role {
+  id          Int       @id @default(autoincrement())
+  name        String
+  permissions Permission[]
+  users        User[]
+}
+
+model Permission {
+  id     String  @id @default(uuid())
+  name   String
+  roles Role[]
 }
 
 model Product {

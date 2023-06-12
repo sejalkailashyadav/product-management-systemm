@@ -21,6 +21,7 @@ const argon = require("argon2");
 const prisma_service_1 = require("../prisma/prisma.service");
 const crypto_1 = require("crypto");
 const nodemailer = require("nodemailer");
+const constants_1 = require("../utils/constants");
 let AuthService = class AuthService {
     constructor(prisma, jwtService, config) {
         this.prisma = prisma;
@@ -73,12 +74,13 @@ let AuthService = class AuthService {
     }
     async signupLocal(dto, req, res) {
         const hash = await argon.hash(dto.password);
-        const user = await this.prisma.user
+        await this.prisma.user
             .create({
             data: {
                 name: dto.name,
                 email: dto.email,
                 password: hash,
+                roleId: dto.roleId,
             },
         })
             .catch((error) => {
@@ -89,10 +91,7 @@ let AuthService = class AuthService {
             }
             throw error;
         });
-        const tokens = await this.getTokens(user.id, user.email);
-        res.cookie("jwt_payload", tokens.access_token);
-        res.redirect("/auth/signup");
-        return tokens;
+        res.redirect("/auth/signin");
     }
     async signinLocal(dto, req, res) {
         const user = await this.prisma.user.findUnique({
@@ -100,19 +99,42 @@ let AuthService = class AuthService {
                 email: dto.email,
             },
         });
+        const findPermissions = await this.prisma.role.findUnique({
+            where: { id: user.roleId },
+            include: {
+                permissions: true,
+            },
+        });
+        const permi = findPermissions.permissions;
+        const ob = {};
+        for (var i = 0; i < permi.length; i++) {
+            ob[i] = permi[i].name;
+        }
+        console.log("obb", ob);
         if (!user)
             throw new common_1.ForbiddenException("Access Denied");
         const passwordMatches = await argon.verify(user.password, dto.password);
         if (!passwordMatches)
             throw new common_1.ForbiddenException("Access Denied");
-        const tokens = await this.getTokens(user.id, user.email);
-        res.cookie("jwt_payload", tokens.access_token);
+        const tokens = await this.signToken({
+            id: user.id,
+            email: user.email,
+            roleId: user.roleId,
+            permissions: ob,
+        });
+        console.log('token', tokens);
+        res.cookie("jwt_payload", tokens);
         const products = await this.prisma.product.findMany({
             include: { catrgory: true },
         });
         const categories = await this.prisma.category.findMany();
         console.log(products, categories);
-        if (user.isadmin) {
+        if (!tokens) {
+            throw new common_1.ForbiddenException();
+        }
+        const decodet = this.jwtService.decode(tokens);
+        res.cookie("token", tokens, {});
+        if (user.roleId == 2) {
             res.render("darshboard");
         }
         else {
@@ -122,6 +144,10 @@ let AuthService = class AuthService {
             });
         }
         return tokens;
+    }
+    async signToken(args) {
+        const payload = args;
+        return this.jwtService.signAsync(payload, { secret: constants_1.jwtSecret });
     }
     async getAllprodcut() {
         return await this.prisma.product.findMany({
@@ -136,22 +162,6 @@ let AuthService = class AuthService {
         res.clearCookie("refresh_token");
         return true;
     }
-    async refreshTokens(userId, rt, res) {
-        const user = await this.prisma.user.findUnique({
-            where: {
-                id: userId,
-            },
-        });
-        if (!user || !user.hashedRt)
-            throw new common_1.ForbiddenException("Access Denied");
-        const rtMatches = await argon.verify(user.hashedRt, rt);
-        if (!rtMatches)
-            throw new common_1.ForbiddenException("Access Denied");
-        const tokens = await this.getTokens(user.id, user.email);
-        res.cookie("jwt_payload", tokens.access_token);
-        res.cookie("refresh_token", tokens.refresh_token);
-        return tokens;
-    }
     async updateRtHash(userId, rt, res) {
         const hash = await argon.hash(rt);
         await this.prisma.user.update({
@@ -163,24 +173,11 @@ let AuthService = class AuthService {
             },
         });
     }
-    async getTokens(userId, email) {
-        const jwtPayload = {
-            sub: userId,
-            email: email,
-        };
-        console.log(jwtPayload);
-        const [at, rt] = await Promise.all([
-            this.jwtService.signAsync(jwtPayload, {
-                expiresIn: "10m",
-            }),
-            this.jwtService.signAsync(jwtPayload, {
-                expiresIn: "7d",
-            }),
-        ]);
-        return {
-            access_token: at,
-            refresh_token: rt,
-        };
+    async getUserFromToken(req, res) {
+        const { token } = req.cookies;
+        const user = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf-8'));
+        const uid = user.id;
+        return uid;
     }
 };
 __decorate([

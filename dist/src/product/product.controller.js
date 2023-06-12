@@ -16,6 +16,8 @@ exports.ProductController = void 0;
 const common_1 = require("@nestjs/common");
 const multer_1 = require("multer");
 const create_product_dto_1 = require("./dto/create-product.dto");
+const roles_decorator_1 = require("../auth/entities/roles.decorator");
+const role_enum_1 = require("../auth/entities/role.enum");
 const product_service_1 = require("../product/product.service");
 const decorators_1 = require("../common/decorators");
 const categories_service_1 = require("../categories/categories.service");
@@ -83,6 +85,7 @@ let ProductController = class ProductController {
 };
 __decorate([
     (0, decorators_1.Public)(),
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN),
     (0, common_1.Get)("/user_product"),
     (0, common_1.Render)("user_home_page"),
     __param(0, (0, common_1.Req)()),
@@ -93,6 +96,7 @@ __decorate([
 ], ProductController.prototype, "userProductPage", null);
 __decorate([
     (0, decorators_1.Public)(),
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN),
     (0, common_1.Get)("/cart/:id"),
     (0, common_1.Render)("product_Details"),
     __param(0, (0, common_1.Param)("id")),
@@ -104,6 +108,7 @@ __decorate([
 ], ProductController.prototype, "showProductInCart", null);
 __decorate([
     (0, decorators_1.Public)(),
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN),
     (0, common_1.Get)("/product_details"),
     (0, common_1.Render)("product_Details"),
     __param(0, (0, common_1.Req)()),
@@ -122,6 +127,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductController.prototype, "Data", null);
 __decorate([
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN),
     (0, common_1.Get)("/product_by_cat/:category_name"),
     (0, common_1.Render)("user_home_page"),
     __param(0, (0, common_1.Param)("category_name")),

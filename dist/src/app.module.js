@@ -19,12 +19,17 @@ const product_module_1 = require("./product/product.module");
 const admin_module_1 = require("./admin/admin.module");
 const cart_module_1 = require("./cart/cart.module");
 const orders_module_1 = require("./orders/orders.module");
-const rol_permission_module_1 = require("./rol-permission/rol-permission.module");
+const roles_module_1 = require("./roles/roles.module");
+const roles_guard_1 = require("./common/guards/roles.guard");
+const permissions_guard_1 = require("./common/guards/permissions.guard");
+const jwt_1 = require("@nestjs/jwt");
+const app_controller_1 = require("./app.controller");
+const app_service_1 = require("./app.service");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [
+        imports: [jwt_1.JwtModule,
             prisma_module_1.PrismaModule,
             auth_module_1.AuthModule,
             user_module_1.UserModule,
@@ -36,13 +41,20 @@ AppModule = __decorate([
             admin_module_1.AdminModule,
             cart_module_1.CartModule,
             orders_module_1.OrdersModule,
-            rol_permission_module_1.RolPermissionModule,
-        ],
-        providers: [
+            roles_module_1.RolesModule,
+        ], controllers: [app_controller_1.AppController],
+        providers: [app_service_1.AppService, jwt_1.JwtService,
             {
                 provide: core_1.APP_GUARD,
                 useClass: guards_1.AtGuard,
+            }, {
+                provide: core_1.APP_GUARD,
+                useClass: roles_guard_1.default
             },
+            {
+                provide: core_1.APP_GUARD,
+                useClass: permissions_guard_1.default
+            }
         ],
     })
 ], AppModule);

@@ -4,5 +4,5 @@ export class CreateUserDto {
   name: string;
   email: string;
   password?: string;
-  isadmin: boolean | string;
+  roleId?: number;
 }

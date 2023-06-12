@@ -3,4 +3,6 @@ export declare class AuthDto {
     email: string;
     password: string;
     googleid: string;
+    roleId: number;
+    role: string;
 }

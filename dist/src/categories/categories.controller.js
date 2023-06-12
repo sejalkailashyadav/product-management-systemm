@@ -18,6 +18,8 @@ const prisma_service_1 = require("../prisma/prisma.service");
 const categories_service_1 = require("./categories.service");
 const create_category_dto_1 = require("./dto/create-category.dto");
 const decorators_1 = require("../common/decorators");
+const role_enum_1 = require("../auth/entities/role.enum");
+const roles_decorator_1 = require("../auth/entities/roles.decorator");
 let CategoriesController = class CategoriesController {
     constructor(categoriesService, prismaService) {
         this.categoriesService = categoriesService;
@@ -43,6 +45,7 @@ let CategoriesController = class CategoriesController {
 };
 __decorate([
     (0, decorators_1.Public)(),
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN),
     (0, common_1.Get)('/Categories'),
     (0, common_1.Render)('Category_add'),
     __metadata("design:type", Function),

@@ -13,7 +13,7 @@ async function main() {
             password: hash,
             googleid: null,
             hashedRt: null,
-            isadmin: true,
+            roleId: 2
         },
     });
 }

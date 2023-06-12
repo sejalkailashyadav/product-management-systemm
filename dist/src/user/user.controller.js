@@ -18,6 +18,10 @@ const user_service_1 = require("./user.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const decorators_1 = require("../common/decorators");
 const categories_service_1 = require("../categories/categories.service");
+const roles_decorator_1 = require("../auth/entities/roles.decorator");
+const role_enum_1 = require("../auth/entities/role.enum");
+const permissions_decorator_1 = require("../auth/entities/permissions.decorator");
+const permissions_enum_1 = require("../auth/entities/permissions.enum");
 let UserController = class UserController {
     constructor(userService, categoriesService) {
         this.userService = userService;
@@ -46,6 +50,7 @@ let UserController = class UserController {
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Get)("/users"),
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.USER, role_enum_1.Role.ADMIN),
     (0, common_1.Render)("user-panel"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -54,6 +59,8 @@ __decorate([
 __decorate([
     (0, decorators_1.Public)(),
     (0, common_1.Post)("/insert"),
+    (0, common_1.Render)('add_user_page'),
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -80,6 +87,8 @@ __decorate([
 ], UserController.prototype, "editUser", null);
 __decorate([
     (0, common_1.Get)('user_home'),
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN),
+    (0, permissions_decorator_1.Permissions)(permissions_enum_1.Permission.READ),
     (0, common_1.Render)('users_panel'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),

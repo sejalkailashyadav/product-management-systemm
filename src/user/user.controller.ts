@@ -15,6 +15,10 @@ import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { Public } from "../common/decorators";
 import { CategoriesService } from "src/categories/categories.service";
+import { Roles } from 'src/auth/entities/roles.decorator';
+import { Role } from 'src/auth/entities/role.enum';
+import { Permissions } from 'src/auth/entities/permissions.decorator';
+import { Permission } from 'src/auth/entities/permissions.enum';
 
 @Public()
 @Controller("user")
@@ -23,6 +27,7 @@ export class UserController {
 
   @Public()
   @Get("/users")
+  @Roles(Role.USER,Role.ADMIN)
   @Render("user-panel")
   async userPanel() {
     const users = await this.userService.getAllUser();
@@ -31,6 +36,8 @@ export class UserController {
 
   @Public()
   @Post("/insert")
+  @Render('add_user_page')
+  @Roles(Role.ADMIN)
   async insertUser(@Body() dto: CreateUserDto, @Res() res: Response) {
     await this.userService.createUser(dto);
     return res.redirect("/user/users"); // Redirect to the user panel after adding a user
@@ -58,6 +65,8 @@ export class UserController {
     return { user: updatedUser };
   }
   @Get('user_home')
+  @Roles(Role.ADMIN)
+  @Permissions(Permission.READ)
   @Render('users_panel')
   getUserPanel(@Req() req, @Res() res){
     return this.categoriesService.findAllCategory(req, res);

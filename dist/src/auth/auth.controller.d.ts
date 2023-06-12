@@ -1,17 +1,16 @@
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto";
-import { Tokens } from "./types";
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
     signup(): {
         msg: string;
     };
-    signupLocal(dto: AuthDto, req: any, res: any): Promise<Tokens>;
+    signupLocal(dto: AuthDto, req: any, res: any): Promise<void>;
     getuserLogin(): {
         msg: string;
     };
-    signinLocal(dto: AuthDto, req: any, res: any): Promise<Tokens>;
+    signinLocal(dto: AuthDto, req: any, res: any): Promise<string>;
     password(): {
         msg: string;
     };
@@ -23,7 +22,6 @@ export declare class AuthController {
     panell(): {
         msg: string;
     };
-    refreshTokens(userId: number, refreshToken: string, res: any): Promise<Tokens>;
     verification(): {
         msg: string;
     };

@@ -196,6 +196,11 @@
             <label for="password">Password:</label>
             <input type="password" class="form-control" id="password" required>
           </div>
+          <select name="roleId" id="roleId">
+            <option value="1">User</option>
+            <option value="2">Admin</option>
+
+          </select>
           <button type="button" class="btn btn-primary" onclick="addUser()">Add User</button>
         </form>
       </div>
@@ -218,7 +223,7 @@
               <td><%= user.id %></td>
               <td><%= user.name %></td>
               <td><%= user.email %></td>
-              <td><%= user.isadmin === 1 ? "Admin" : "User" %></td>
+              <td><%= user.role.name %></td>
               <td data-id="<%= user.id %>">
                 <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editModal<%= user.id %>"
                   onclick="editUser('<%= user.id %>')">Edit</a>
@@ -257,9 +262,13 @@
                 value="<%= user.email %>" required>
             </div>
             <div class="form-group">
-              <label for="edit-email">Role</label>
-              <input type="text" class="form-control" id="edit-isadmin-<%= user.id %>" name="isadmin"
-                placeholder="Enter role" value="<%= user.isadmin === 1 ? "Admin" : "User" %>" required>
+             
+            <label for="<%= user.id %>">Role</label>
+            <select name="<%= user.id %>" id="<%= user.id %>">
+              <option value="1">User</option>
+              <option value="2">Admin</option>
+
+            </select>
             </div>
             <button type="button" class="btn btn-primary" onclick="editUser('<%= user.id %>')">Update</button>
           </form>

@@ -10,9 +10,14 @@ import { ProductModule } from './product/product.module';
 import { AdminModule } from './admin/admin.module';
 import { CartModule } from './cart/cart.module';
 import { OrdersModule } from './orders/orders.module';
-import { RolPermissionModule } from './rol-permission/rol-permission.module';
+import { RolesModule } from './roles/roles.module';
+import RolesGuard from './common/guards/roles.guard';
+import PermissionsGuard from './common/guards/permissions.guard';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 @Module({
-  imports: [
+  imports: [JwtModule,
     PrismaModule,
     AuthModule,
     UserModule,
@@ -24,13 +29,20 @@ import { RolPermissionModule } from './rol-permission/rol-permission.module';
     AdminModule,
     CartModule,
     OrdersModule,
-    RolPermissionModule,
-  ],
-  providers: [
+    RolesModule,
+  ],  controllers: [AppController],
+  providers: [AppService,JwtService,
     {
       provide: APP_GUARD,
       useClass: AtGuard,
+    },{
+      provide: APP_GUARD,
+      useClass: RolesGuard
     },
+    {
+      provide: APP_GUARD,
+      useClass: PermissionsGuard
+    }
   ],
 })
 export class AppModule {}

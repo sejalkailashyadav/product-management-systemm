@@ -17,7 +17,7 @@ import { Public, GetCurrentUserId, GetCurrentUser } from "../common/decorators";
 import { RtGuard } from "../common/guards";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto";
-import { Tokens } from "./types";
+// import { Tokens } from "./types";
 import { AuthGuard } from "@nestjs/passport";
 import { request } from "http";
 @Controller("auth")
@@ -37,7 +37,7 @@ export class AuthController {
     @Body() dto: AuthDto,
     @Request() req,
     @Response() res
-  ): Promise<Tokens> {
+  ){
     return this.authService.signupLocal(dto, req, res);
   }
 
@@ -51,7 +51,7 @@ export class AuthController {
   @Public()
   @Post("/signin")
   @HttpCode(HttpStatus.OK)
-  signinLocal(@Body() dto: AuthDto, @Req() req, @Res() res): Promise<Tokens> {
+  signinLocal(@Body() dto: AuthDto, @Req() req, @Res() res) {
     return this.authService.signinLocal(dto, req, res);
   }
 
@@ -102,17 +102,17 @@ export class AuthController {
     return { msg: "sejal" };
   }
 
-  @Public()
-  @UseGuards(RtGuard)
-  @Post("refresh")
-  @HttpCode(HttpStatus.OK)
-  refreshTokens(
-    @GetCurrentUserId() userId: number,
-    @GetCurrentUser("refreshToken") refreshToken: string,
-    @Response() res
-  ): Promise<Tokens> {
-    return this.authService.refreshTokens(userId, refreshToken, res);
-  }
+  // @Public()
+  // @UseGuards(RtGuard)
+  // @Post("refresh")
+  // @HttpCode(HttpStatus.OK)
+  // refreshTokens(
+  //   @GetCurrentUserId() userId: number,
+  //   @GetCurrentUser("refreshToken") refreshToken: string,
+  //   @Response() res
+  // ){
+  //   return this.authService.refreshTokens(userId, refreshToken, res);
+  // }
 
   @Public()
   @Get("email-verification")

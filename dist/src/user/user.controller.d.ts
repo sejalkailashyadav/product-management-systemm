@@ -7,12 +7,9 @@ export declare class UserController {
     private readonly categoriesService;
     constructor(userService: UserService, categoriesService: CategoriesService);
     userPanel(): Promise<{
-        users: {
-            id: number;
-            name: string;
-            email: string;
-            isadmin: boolean;
-        }[];
+        users: (import(".prisma/client").User & {
+            role: import(".prisma/client").Role;
+        })[];
     }>;
     insertUser(dto: CreateUserDto, res: Response): Promise<void>;
     deleteUserById(id: number): Promise<{

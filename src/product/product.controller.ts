@@ -19,6 +19,10 @@ import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 import { diskStorage } from "multer";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { SearchDto } from "./dto/serch-dto";
+import { Roles } from 'src/auth/entities/roles.decorator';
+import { Role } from 'src/auth/entities/role.enum';
+import { Permissions } from 'src/auth/entities/permissions.decorator';
+import { Permission } from 'src/auth/entities/permissions.enum';
 import { ProductService } from "../product/product.service";
 import { GetCurrentUserId, Public } from "src/common/decorators";
 import { Express } from "express";
@@ -37,6 +41,7 @@ export class ProductController {
   ) {}
 
   @Public()
+  @Roles(Role.ADMIN)
   @Get("/user_product")
   @Render("user_home_page")
   userProductPage(@Req() req, @Res() res) {
@@ -44,6 +49,7 @@ export class ProductController {
   }
 
   @Public()
+  @Roles(Role.ADMIN)
   @Get("/cart/:id")
   @Render("product_Details")
   showProductInCart(@Param("id") id: number, @Req() req, @Res() res) {
@@ -51,6 +57,8 @@ export class ProductController {
   }
 
   @Public()
+  @Roles(Role.ADMIN)
+  // @Permissions(Permission.MANAGE_PRODUCT)
   @Get("/product_details")
   @Render("product_Details")
   productDetailPage(@Req() req, @Res() res) {}
@@ -70,6 +78,8 @@ export class ProductController {
 
     return this.productService.findAllProducts();
   }
+  
+  @Roles(Role.ADMIN)
   @Get("/product_by_cat/:category_name")
   @Render("user_home_page")
   async productByCategory(
@@ -136,6 +146,7 @@ export class ProductController {
 
   @Public()
   @Get("/all")
+  // @Roles(Role.ADMIN)
   @Render("product")
   async adminPanel() {
     try {

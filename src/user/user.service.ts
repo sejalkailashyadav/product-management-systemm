@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable ,BadRequestException} from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { PrismaService } from "../prisma/prisma.service";
 import { Request } from "express";
-
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
@@ -14,18 +14,42 @@ export class UserService {
   // });
 
 
-  async getAllUser() {
+  // async getAllUser() {
+  //   return await this.prisma.user.findMany({
+  //     select: { id: true, email: true, name: true },
+  //     where: { isadmin: false },
+  //   });
+  // }
+
+    async getAllUser() {
     return await this.prisma.user.findMany({
-      select: { id: true, email: true, name: true, isadmin: true },
-      where: { isadmin: false },
+      
+      include: { role: true },
+     
     });
   }
-
+  async hashPassword(password: string) {
+    const saltOrRounds = 10;
+    return await bcrypt.hash(password, saltOrRounds);
+  }
   async createUser(dto: CreateUserDto) {
+
+    const { name, email, password, roleId } = dto;
+    const findUser = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (findUser) {
+      throw new BadRequestException('Email already exists');
+    }
+    const hashedPassword = await this.hashPassword(dto.password);
     await this.prisma.user.create({
       data: {
-        name: dto.name,
-        email: dto.email,
+        name: name,
+        email: email,
+        password: hashedPassword,
+        roleId : roleId
+
       },
     });
   }
@@ -45,8 +69,7 @@ export class UserService {
       },
       data: {
         name: dto.name,
-        email: dto.email,
-        isadmin: this.convertToBoolean(dto.isadmin),
+        email: dto.email
       },
     });
 
