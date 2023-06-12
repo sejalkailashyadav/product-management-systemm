@@ -9,7 +9,7 @@ export const GetCurrentUserId = createParamDecorator(
     const user: JwtPayload = JSON.parse(
       Buffer.from(jwt_payload.split('.')[1], 'base64').toString('utf-8'),
     );
-    //console.log(user.sub, user.email);
+    console.log(user.sub, user.email);
 
     return user.sub;
   },

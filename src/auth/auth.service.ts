@@ -9,7 +9,7 @@ import { AuthDto } from "./dto";
 import { JwtPayload } from "./types";
 import { randomBytes } from "crypto";
 import * as nodemailer from "nodemailer";
-import { jwtSecret } from "src/utils/constants";
+import { jwtSecret } from "../utils/constants";
 
 @Injectable()
 export class AuthService {
@@ -116,11 +116,7 @@ export class AuthService {
     // return tokens;
   }
 
-  async signinLocal(
-    dto: AuthDto,
-    req: Request,
-    res: Response
-){
+  async signinLocal(dto: AuthDto, req: Request, res: Response) {
     const user = await this.prisma.user.findUnique({
       where: {
         email: dto.email,
@@ -160,7 +156,7 @@ export class AuthService {
       permissions: ob,
     });
 
-    console.log('token', tokens);
+    console.log("token", tokens);
 
     // Set JWT payload as a cookie
     res.cookie("jwt_payload", tokens);
@@ -200,10 +196,13 @@ export class AuthService {
     const decodet = this.jwtService.decode(tokens);
     res.cookie("token", tokens, {});
 
-    if (user.roleId == 2) {
+    if (user.roleId == 2 || user.roleId == 3) {
+      //superadmin and admin
       res.render("darshboard");
-    } else {
-     
+    }
+
+    if (user.roleId == 1) {
+      //simple user
       res.render("user_home_page", {
         products: products,
         categories: categories,
@@ -234,9 +233,15 @@ export class AuthService {
 
   async logout(userId: number, req: Request, res: Response): Promise<boolean> {
     res.clearCookie("jwt_payload");
-    res.clearCookie("refresh_token");
+    res.clearCookie("token");
     return true;
   }
+
+  // async logoutt(userId: number, req: Request, res: Response): Promise<boolean> {
+  //   res.clearCookie("jwt_payload");
+  //   res.clearCookie("refresh_token");
+  //   return true;
+  // }
 
   // async refreshTokens(
   //   userId: number,
@@ -299,7 +304,7 @@ export class AuthService {
     const { token } = req.cookies;
 
     const user = JSON.parse(
-      Buffer.from(token.split('.')[1], 'base64').toString('utf-8'),
+      Buffer.from(token.split(".")[1], "base64").toString("utf-8")
     );
     const uid = user.id;
     return uid;

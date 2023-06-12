@@ -3,16 +3,15 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { PrismaService } from "../prisma/prisma.service";
 import { Request } from "express";
 import * as bcrypt from 'bcrypt';
+import * as argon from "argon2";
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
-
 
   // const users = await this.prisma.user.findMany({
   //   select: { id: true, email: true, name: true, isadmin: true },
   //   where: { isadmin: false },
   // });
-
 
   // async getAllUser() {
   //   return await this.prisma.user.findMany({
@@ -21,26 +20,30 @@ export class UserService {
   //   });
   // }
 
-    async getAllUser() {
-    return await this.prisma.user.findMany({
-      
+  async getAllUser() {
+    return await this.prisma.user.findMany(
+      {
       include: { role: true },
-     
+      where:{
+        roleId:{not :3}
+      }
     });
   }
   async hashPassword(password: string) {
-    const saltOrRounds = 10;
-    return await bcrypt.hash(password, saltOrRounds);
-  }
-  async createUser(dto: CreateUserDto) {
+   return await argon.hash(password);
+     
 
+  }
+
+  
+  async createUser(dto: CreateUserDto) {
     const { name, email, password, roleId } = dto;
     const findUser = await this.prisma.user.findUnique({
       where: { email },
     });
 
     if (findUser) {
-      throw new BadRequestException('Email already exists');
+      throw new BadRequestException("Email already exists");
     }
     const hashedPassword = await this.hashPassword(dto.password);
     await this.prisma.user.create({
@@ -48,8 +51,7 @@ export class UserService {
         name: name,
         email: email,
         password: hashedPassword,
-        roleId : roleId
-
+        roleId: roleId,
       },
     });
   }
@@ -69,7 +71,7 @@ export class UserService {
       },
       data: {
         name: dto.name,
-        email: dto.email
+        email: dto.email,
       },
     });
 

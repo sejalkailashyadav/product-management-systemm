@@ -31,7 +31,18 @@ export class UserController {
   @Render("user-panel")
   async userPanel() {
     const users = await this.userService.getAllUser();
-    return { users };
+
+    //  console.log(users[0].roleId);
+    //  if (users[0].roleId==3)
+    //  {
+    //   return false;
+    //  }
+      return { users };
+   
+    
+    // if (users.rol) {
+      
+    // }
   }
 
   @Public()

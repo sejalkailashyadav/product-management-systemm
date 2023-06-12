@@ -21,7 +21,7 @@ import { Permissions } from 'src/auth/entities/permissions.decorator';
 import { Permission } from 'src/auth/entities/permissions.enum';
 import { Public } from 'src/common/decorators';
 
-@Controller('roles')
+@Controller("roles")
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
@@ -35,41 +35,45 @@ export class RolesController {
   @Public()
   @Roles(Role.ADMIN)
   // @Permissions(Permissions.))
-  @Render('role-permission')
+  @Render("role-permission")
   findAll(@Req() req, @Res() res) {
     return this.rolesService.findAll();
   }
 
   @Public()
-  @Get('/role')
-  @Render('role_permission')
-  @Render('roless')
+  @Get("/role")
+  @Render("role_permission")
+  @Render("roless")
   findAllR() {
     return this.rolesService.findAll();
   }
 
   @Public()
-  @Get('/permissions')
+  @Get("/permissions")
   getPermission(@Req() req, @Res() res) {
     return this.rolesService.getAllPermissions(req, res);
   }
 
-  @Post('/permissions')
-  createPermission(@Body('name') permission_name: string) {
+  @Public()
+  @Post("/permissions")
+  createPermission(@Body("name") permission_name: string) {
     return this.rolesService.createPermissions(permission_name);
   }
   @Public()
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.rolesService.findOne(+id);
   }
 
-  @Put('/:id')
-  updateP(
-    @Param('id') roleId: number,
-    @Body('permissionIds') permissionIds: string[],
+  @Public()
+  @Put("/:id")
+  async updateP(
+    @Param("id") roleId: number,
+    @Body("permissionIds") permissionIds: string[]
   ) {
-    return this.rolesService.updatePermissionn(+roleId, permissionIds);
+    const asn =await  this.rolesService.updatePermissionn(+roleId, permissionIds);
+    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+    console.log(asn);
   }
 }
 

@@ -16,8 +16,8 @@ exports.RolesController = void 0;
 const common_1 = require("@nestjs/common");
 const roles_service_1 = require("./roles.service");
 const create_role_dto_1 = require("./dto/create-role.dto");
-const roles_decorator_1 = require("src/auth/entities/roles.decorator");
-const role_enum_1 = require("src/auth/entities/role.enum");
+const roles_decorator_1 = require("../auth/entities/roles.decorator");
+const role_enum_1 = require("../auth/entities/role.enum");
 const decorators_1 = require("../common/decorators");
 let RolesController = class RolesController {
     constructor(rolesService) {
@@ -41,8 +41,10 @@ let RolesController = class RolesController {
     findOne(id) {
         return this.rolesService.findOne(+id);
     }
-    updateP(roleId, permissionIds) {
-        return this.rolesService.updatePermissionn(+roleId, permissionIds);
+    async updateP(roleId, permissionIds) {
+        const asn = await this.rolesService.updatePermissionn(+roleId, permissionIds);
+        console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+        console.log(asn);
     }
 };
 __decorate([
@@ -57,7 +59,7 @@ __decorate([
     (0, common_1.Get)(),
     (0, decorators_1.Public)(),
     (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN),
-    (0, common_1.Render)('role-permission'),
+    (0, common_1.Render)("role-permission"),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -66,16 +68,16 @@ __decorate([
 ], RolesController.prototype, "findAll", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)('/role'),
-    (0, common_1.Render)('role_permission'),
-    (0, common_1.Render)('roless'),
+    (0, common_1.Get)("/role"),
+    (0, common_1.Render)("role_permission"),
+    (0, common_1.Render)("roless"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], RolesController.prototype, "findAllR", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)('/permissions'),
+    (0, common_1.Get)("/permissions"),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -83,30 +85,32 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], RolesController.prototype, "getPermission", null);
 __decorate([
-    (0, common_1.Post)('/permissions'),
-    __param(0, (0, common_1.Body)('name')),
+    (0, decorators_1.Public)(),
+    (0, common_1.Post)("/permissions"),
+    __param(0, (0, common_1.Body)("name")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], RolesController.prototype, "createPermission", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], RolesController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Put)('/:id'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)('permissionIds')),
+    (0, decorators_1.Public)(),
+    (0, common_1.Put)("/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Body)("permissionIds")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Array]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], RolesController.prototype, "updateP", null);
 RolesController = __decorate([
-    (0, common_1.Controller)('roles'),
+    (0, common_1.Controller)("roles"),
     __metadata("design:paramtypes", [roles_service_1.RolesService])
 ], RolesController);
 exports.RolesController = RolesController;

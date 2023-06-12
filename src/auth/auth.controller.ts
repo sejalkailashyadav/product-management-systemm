@@ -33,11 +33,7 @@ export class AuthController {
   @Public()
   @Post("/signup")
   @HttpCode(HttpStatus.CREATED)
-  signupLocal(
-    @Body() dto: AuthDto,
-    @Request() req,
-    @Response() res
-  ){
+  signupLocal(@Body() dto: AuthDto, @Request() req, @Response() res) {
     return this.authService.signupLocal(dto, req, res);
   }
 
@@ -77,7 +73,7 @@ export class AuthController {
 
   @Public()
   @Get("forget-password")
-  @Render("forget-password") 
+  @Render("forget-password")
   forget() {
     // Your logic to retrieve data and pass it to the template
     return { msg: "sejal" };
@@ -97,7 +93,7 @@ export class AuthController {
 
   @Public()
   @Get("/dashboard")
-  @Render("darshboard") 
+  @Render("darshboard")
   panell() {
     return { msg: "sejal" };
   }
@@ -116,11 +112,30 @@ export class AuthController {
 
   @Public()
   @Get("email-verification")
-  @Render("email-verification") 
+  @Render("email-verification")
   verification() {
     // Your logic to retrieve data and pass it to the template
     return { msg: "sejal" };
   }
+
+  // @Public()
+  // @Get("/logout")
+  // @HttpCode(HttpStatus.OK)
+  // async logoutt(
+  //   @GetCurrentUserId() userId: number,
+  //   @Req() req,
+  //   @Res() res
+  // ): Promise<boolean> {
+  //   console.log(req.cookies);
+  //   if (res.redirect("/auth/signin")) {
+  //     res.clearCookie("jwt_payload");
+  //     //console.log(req.cookies);
+  //   } else {
+  //     res.redirect("/auth/signin");
+  //     res.clearCookie("jwt_payload", { path: "/" });
+  //   }
+  //   return true;
+  // }
 
   @Public()
   @Get("/logout")
@@ -131,24 +146,22 @@ export class AuthController {
     @Res() res
   ): Promise<boolean> {
     //console.log(req.cookies);
-    if (res.redirect("/auth/signin")) {
-      res.clearCookie("jwt_payload");
-    }
-
-    // res.clearCookie("refresh_token", { path: "/" });
-    // console.log(req.cookies);
+    res.clearCookie("token");
+    res.clearCookie("jwt_payload");
+    res.redirect("/auth/signin");
+    console.log(req.cookies);
     return true;
   }
-
-  // @Public()
-  // @Get("google-signup")
-  // @UseGuards(AuthGuard("google"))
-  // async googleAuth(@Req() req) {}
-
-  // @Public()
-  // @Get("google/redirect")
-  // @UseGuards(AuthGuard("google"))
-  // googleAuthRedirect(@Req() req, @Res() res) {
-  //   return this.authService.googleLogin(req,res);
-  // }
 }
+
+// @Public()
+// @Get("google-signup")
+// @UseGuards(AuthGuard("google"))
+// async googleAuth(@Req() req) {}
+
+// @Public()
+// @Get("google/redirect")
+// @UseGuards(AuthGuard("google"))
+// googleAuthRedirect(@Req() req, @Res() res) {
+//   return this.authService.googleLogin(req,res);
+// }

@@ -18,10 +18,10 @@ const user_service_1 = require("./user.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const decorators_1 = require("../common/decorators");
 const categories_service_1 = require("../categories/categories.service");
-const roles_decorator_1 = require("src/auth/entities/roles.decorator");
-const role_enum_1 = require("src/auth/entities/role.enum");
-const permissions_decorator_1 = require("src/auth/entities/permissions.decorator");
-const permissions_enum_1 = require("src/auth/entities/permissions.enum");
+const roles_decorator_1 = require("../auth/entities/roles.decorator");
+const role_enum_1 = require("../auth/entities/role.enum");
+const permissions_decorator_1 = require("../auth/entities/permissions.decorator");
+const permissions_enum_1 = require("../auth/entities/permissions.enum");
 let UserController = class UserController {
     constructor(userService, categoriesService) {
         this.userService = userService;

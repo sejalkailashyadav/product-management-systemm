@@ -11,11 +11,11 @@ import { AdminModule } from './admin/admin.module';
 import { CartModule } from './cart/cart.module';
 import { OrdersModule } from './orders/orders.module';
 import { RolesModule } from './roles/roles.module';
-import RolesGuard from '../src/common/guards/';
-import PermissionsGuard from '../src/roles/';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import RolesGuard from './common/guards/roles.guard';
+import PermissionsGuard from './common/guards/permissions.guard';
 @Module({
   imports: [JwtModule,
     PrismaModule,

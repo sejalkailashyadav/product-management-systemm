@@ -23,7 +23,5 @@ export declare class RolesController {
     findOne(id: string): Promise<import(".prisma/client").Role & {
         permissions: import(".prisma/client").Permission[];
     }>;
-    updateP(roleId: number, permissionIds: string[]): Promise<import(".prisma/client").Role & {
-        permissions: import(".prisma/client").Permission[];
-    }>;
+    updateP(roleId: number, permissionIds: string[]): Promise<void>;
 }

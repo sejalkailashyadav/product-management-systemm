@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
-const bcrypt = require("bcrypt");
+const argon = require("argon2");
 let UserService = class UserService {
     constructor(prisma) {
         this.prisma = prisma;
@@ -20,11 +20,13 @@ let UserService = class UserService {
     async getAllUser() {
         return await this.prisma.user.findMany({
             include: { role: true },
+            where: {
+                roleId: { not: 3 }
+            }
         });
     }
     async hashPassword(password) {
-        const saltOrRounds = 10;
-        return await bcrypt.hash(password, saltOrRounds);
+        return await argon.hash(password);
     }
     async createUser(dto) {
         const { name, email, password, roleId } = dto;
@@ -32,7 +34,7 @@ let UserService = class UserService {
             where: { email },
         });
         if (findUser) {
-            throw new common_1.BadRequestException('Email already exists');
+            throw new common_1.BadRequestException("Email already exists");
         }
         const hashedPassword = await this.hashPassword(dto.password);
         await this.prisma.user.create({
@@ -40,7 +42,7 @@ let UserService = class UserService {
                 name: name,
                 email: email,
                 password: hashedPassword,
-                roleId: roleId
+                roleId: roleId,
             },
         });
     }
@@ -58,7 +60,7 @@ let UserService = class UserService {
             },
             data: {
                 name: dto.name,
-                email: dto.email
+                email: dto.email,
             },
         });
         const updatedUser = await this.prisma.user.findUnique({

@@ -17,8 +17,8 @@ const common_1 = require("@nestjs/common");
 const cart_service_1 = require("./cart.service");
 const create_cart_dto_1 = require("./dto/create-cart.dto");
 const decorators_1 = require("../common/decorators");
-const permissions_decorator_1 = require("src/auth/entities/permissions.decorator");
-const permissions_enum_1 = require("src/auth/entities/permissions.enum");
+const permissions_decorator_1 = require("../auth/entities/permissions.decorator");
+const permissions_enum_1 = require("../auth/entities/permissions.enum");
 let CartController = class CartController {
     constructor(cartService) {
         this.cartService = cartService;

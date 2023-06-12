@@ -21,7 +21,7 @@ const argon = require("argon2");
 const prisma_service_1 = require("../prisma/prisma.service");
 const crypto_1 = require("crypto");
 const nodemailer = require("nodemailer");
-const constants_1 = require("src/utils/constants");
+const constants_1 = require("../utils/constants");
 let AuthService = class AuthService {
     constructor(prisma, jwtService, config) {
         this.prisma = prisma;
@@ -122,7 +122,7 @@ let AuthService = class AuthService {
             roleId: user.roleId,
             permissions: ob,
         });
-        console.log('token', tokens);
+        console.log("token", tokens);
         res.cookie("jwt_payload", tokens);
         const products = await this.prisma.product.findMany({
             include: { catrgory: true },
@@ -134,10 +134,10 @@ let AuthService = class AuthService {
         }
         const decodet = this.jwtService.decode(tokens);
         res.cookie("token", tokens, {});
-        if (user.roleId == 2) {
+        if (user.roleId == 2 || user.roleId == 3) {
             res.render("darshboard");
         }
-        else {
+        if (user.roleId == 1) {
             res.render("user_home_page", {
                 products: products,
                 categories: categories,
@@ -159,7 +159,7 @@ let AuthService = class AuthService {
     }
     async logout(userId, req, res) {
         res.clearCookie("jwt_payload");
-        res.clearCookie("refresh_token");
+        res.clearCookie("token");
         return true;
     }
     async updateRtHash(userId, rt, res) {
@@ -175,7 +175,7 @@ let AuthService = class AuthService {
     }
     async getUserFromToken(req, res) {
         const { token } = req.cookies;
-        const user = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString('utf-8'));
+        const user = JSON.parse(Buffer.from(token.split(".")[1], "base64").toString("utf-8"));
         const uid = user.id;
         return uid;
     }
