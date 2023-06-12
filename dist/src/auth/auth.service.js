@@ -21,7 +21,7 @@ const argon = require("argon2");
 const prisma_service_1 = require("../prisma/prisma.service");
 const crypto_1 = require("crypto");
 const nodemailer = require("nodemailer");
-const constants_1 = require("../utils/constants");
+const constants_1 = require("src/utils/constants");
 let AuthService = class AuthService {
     constructor(prisma, jwtService, config) {
         this.prisma = prisma;
