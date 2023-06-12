@@ -35,7 +35,7 @@ export class CartController {
   // }
 
   @Public()
-  @Permissions(Permission.VIEW_CART)
+  // @Permissions(Permission.VIEW_CART)
   @Get('/cart_page')
   @Render('cart')
   getCartPage(@Req() req, @Res() res){

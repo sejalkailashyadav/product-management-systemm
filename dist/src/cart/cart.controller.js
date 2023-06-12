@@ -17,8 +17,6 @@ const common_1 = require("@nestjs/common");
 const cart_service_1 = require("./cart.service");
 const create_cart_dto_1 = require("./dto/create-cart.dto");
 const decorators_1 = require("../common/decorators");
-const permissions_decorator_1 = require("../auth/entities/permissions.decorator");
-const permissions_enum_1 = require("../auth/entities/permissions.enum");
 let CartController = class CartController {
     constructor(cartService) {
         this.cartService = cartService;
@@ -63,7 +61,6 @@ __decorate([
 ], CartController.prototype, "create", null);
 __decorate([
     (0, decorators_1.Public)(),
-    (0, permissions_decorator_1.Permissions)(permissions_enum_1.Permission.VIEW_CART),
     (0, common_1.Get)('/cart_page'),
     (0, common_1.Render)('cart'),
     __param(0, (0, common_1.Req)()),

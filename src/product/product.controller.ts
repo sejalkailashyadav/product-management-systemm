@@ -41,7 +41,7 @@ export class ProductController {
   ) {}
 
   @Public()
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN,Role.USER)
   @Get("/user_product")
   @Render("user_home_page")
   userProductPage(@Req() req, @Res() res) {

@@ -33,9 +33,9 @@ export class CartService {
       Buffer.from(cookie.split(".")[1], "base64").toString("utf-8")
     );
 
-    //console.log(user.sub, user.email);
+    console.log("iiiiiiiiiiiiiiiiiiiiiiiii",user.id, user.email);
 
-    const userId = user.sub;
+    const userId = user.id;
 
       // const jwt = req.cookies;
       // console.log('jwt', jwt);

@@ -23,7 +23,8 @@ let CartService = class CartService {
         try {
             const { cookie } = req.headers;
             const user = JSON.parse(Buffer.from(cookie.split(".")[1], "base64").toString("utf-8"));
-            const userId = user.sub;
+            console.log("iiiiiiiiiiiiiiiiiiiiiiiii", user.id, user.email);
+            const userId = user.id;
             const cartItem = await this.prismaService.cart.findFirst({ where: { productId: +productId, userId: +userId } });
             if (!cartItem) {
                 const carts = await this.prismaService.cart.create({

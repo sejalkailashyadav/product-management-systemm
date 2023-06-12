@@ -85,7 +85,7 @@ let ProductController = class ProductController {
 };
 __decorate([
     (0, decorators_1.Public)(),
-    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN),
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN, role_enum_1.Role.USER),
     (0, common_1.Get)("/user_product"),
     (0, common_1.Render)("user_home_page"),
     __param(0, (0, common_1.Req)()),

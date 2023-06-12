@@ -20,7 +20,7 @@ let OrdersService = class OrdersService {
         try {
             const { cookie } = req.headers;
             const user = JSON.parse(Buffer.from(cookie.split(".")[1], "base64").toString("utf-8"));
-            const userId = user.sub;
+            const userId = user.id;
             const subtotal = await this.prismaService.cart.findMany({
                 where: {
                     userId: userId,
