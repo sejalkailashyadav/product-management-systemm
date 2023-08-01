@@ -4,7 +4,7 @@
 
 FrontEnd      | BackEnd      | ORM          | Database
 ------------- | -------------| -------------| -------------
-React         | Nest Js        | Prisma      | PostgreSQL
+Express        | Nest Js        | Prisma      | MySql
 
 
 ## User Management Module
