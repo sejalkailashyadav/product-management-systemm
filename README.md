@@ -7,7 +7,7 @@ FrontEnd      | BackEnd      | ORM          | Database
 Express       | Nest Js        | Prisma      | MySql
 
 
-## User Management Module
+## User Management Modules
 
 > Admin can add/edit/delete user
 > Users can have roles (Admin or User)
