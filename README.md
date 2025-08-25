@@ -9,7 +9,7 @@ Express       | Nest Js        | Prisma      | MySql
 
 ## User Management Module
 
-> Admin can add/edit/delete users
+> Admin can add/edit/delete user
 > Users can have roles (Admin or User)
 > Roles can have permissions (e.g. manage products, manage categories, manage users)
 > Users can also have individual permissions (e.g. view products, view orders)
