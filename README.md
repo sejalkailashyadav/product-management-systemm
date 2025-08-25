@@ -19,7 +19,7 @@ Express       | Nest Js        | Prisma      | MySql
 
 # Authentication Module
 > Users can log in using email/password or through Google Sign-In
-> Users can reset their password through email if they forget it
+> Users can reset their password through email if they forget its
 
 ## Product Management Module
 > Admin can add/edit/delete products
