@@ -1,6 +1,6 @@
 # Product  Management System 
 
-***TechStack***
+***TechStack*
 
 FrontEnd      | BackEnd      | ORM          | Database
 ------------- | -------------| -------------| -------------
