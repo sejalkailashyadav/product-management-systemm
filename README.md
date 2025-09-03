@@ -1,7 +1,6 @@
 # Product  Management Systems    
 ***TechStack**
 
-
 FrontEnd**      | BackEnd      | ORM          | Database
 ------------- | -------------| -------------| -------------
 Express       | Nest Js        | Prisma      | MySql  
