@@ -5,7 +5,6 @@ FrontEnd      | BackEnd      | ORM          | Database
 ------------- | -------------| -------------| -------------
 Express        | Nest Js        | Prisma      | MySql
 
-
 ## User Management Module
 
 > Admin can add/edit/delete users
