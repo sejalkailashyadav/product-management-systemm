@@ -1,6 +1,6 @@
 # Product  Management System
 
-FrontEnd**      | BackEnd      | ORM          | Database
+FrontEnd      | BackEnd      | ORM          | Database
 ------------- | -------------| -------------| -------------
 Express       | Nest Js        | Prisma      | MySql  
 
