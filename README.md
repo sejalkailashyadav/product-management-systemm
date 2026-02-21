@@ -19,7 +19,7 @@ Express       | Nest Js        | Prisma      | MySql
 > Users can reset their password through email if they forget its
 
 ## Product Management Module
-> Admin can add/edit/delete products
+> Admin can add/edit/delete product
 > Users with appropriate permissions can add/edit/delete categories
 > Admin can assign products to one or more categories
 > Users with appropriate permissions can view products and categories
