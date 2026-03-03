@@ -11,8 +11,8 @@ Express       | Nest Js        | Prisma      | MySql
 > Users can also have individual permissions (e.g. view products, view orders)
 
 ## User Listing
-> Admin can view a list of all users and their roles/permissions
-
+> Admin can view a list of all users and their
+> 
 # Authentication Module
 > Users can log in using email/password or through Google Sign-In
 > Users can reset their password through email if they forget its
