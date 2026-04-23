@@ -4,9 +4,7 @@ FrontEnd      | BackEnd      | ORM          | Database
 ------------- | -------------| -------------| -------------
 Express       | Nest Js        | Prisma      | MySql  
 
-
 ## User Management Modules
-
 > Admin can add/edit/delete user
 > Users can have roles (Admin or User)
 > Roles can have permissions (e.g. manage products, manage categories, manage users)
@@ -14,7 +12,6 @@ Express       | Nest Js        | Prisma      | MySql
 
 ## User Listing
 > Admin can view a list of all users and their
-> 
 # Authentication Module
 > Users can log in using email/password or through Google Sign-In
 > Users can reset their password through email if they forget its
